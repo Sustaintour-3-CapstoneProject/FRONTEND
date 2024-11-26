@@ -6,6 +6,7 @@ import ExcitingSection from "../components/LandingPage/ExicitingSection";
 import WhySection from "../components/LandingPage/WhySection";
 import AboutUs from "../components/LandingPage/AboutUs";
 import CustomFooter from "../components/LandingPage/Footer";
+import Testimonials from "../components/LandingPage/Testimonials";
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,7 @@ export default function LandingPage() {
       <HeroSection />
       <ExcitingSection />
       <WhySection />
+      <Testimonials />
       <AboutUs />
       <CustomFooter />
     </div>

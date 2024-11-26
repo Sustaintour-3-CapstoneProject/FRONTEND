@@ -16,49 +16,51 @@ const ExcitingSection = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="transition-transform transform hover:scale-105 duration-300 ease-in-out">
           <Card>
-            <h3 className="text-2xl text-sky-900 font-bold leading-5">200+</h3>
-            <h3 className="text-2xl text-sky-900 font-bold leading-5">
-              Amazing Destination
+          
+            <h3 className="text-2xl text-sky-900 font-bold leading-5 ">
+              Destination
             </h3>
             <p className="text-gray-500">
-              From coastlines to mountains, vibrant cities to serene villages,
-              explore the diverse cultures and landscapes of Indonesia
+            Get personalized recommend for 
+the best travel destinations based 
+on your interests and location.
             </p>
           </Card>
         </div>
         <div className="transition-transform transform hover:scale-105 duration-300 ease-in-out">
           <Card>
-            <h3 className="text-2xl text-sky-900 font-bold leading-5">34</h3>
             <h3 className="text-2xl text-sky-900 font-bold leading-5">
-              Provinces
+              Travel Routes
             </h3>
             <p className="text-gray-500">
-              From coastlines to mountains, vibrant cities to serene villages,
-              explore the diverse cultures and landscapes of Indonesia
+            Effortlessly plan your journey with the 
+best routes, optimized for ease
+and efficiency.
             </p>
           </Card>
         </div>
         <div className="transition-transform transform hover:scale-105 duration-300 ease-in-out">
           <Card>
-            <h3 className="text-2xl text-sky-900 font-bold leading-5">300+</h3>
+
             <h3 className="text-2xl text-sky-900 font-bold leading-5">
-              Flexible Routes
+              Smart Assistant
             </h3>
             <p className="text-gray-500">
-              From coastlines to mountains, vibrant cities to serene villages,
-              explore the diverse cultures and landscapes of Indonesia
+            Got questions? Our AI Assistant 
+has answers. Get help anytime!  
+we’ve got you covered.
             </p>
           </Card>
         </div>
         <div className="transition-transform transform hover:scale-105 duration-300 ease-in-out">
           <Card>
-            <h3 className="text-2xl text-sky-900 font-bold leading-5">500+</h3>
             <h3 className="text-2xl text-sky-900 font-bold leading-5">
-              Interactive Videos
+              Travel Videos
             </h3>
             <p className="text-gray-500">
-              From coastlines to mountains, vibrant cities to serene villages,
-              explore the diverse cultures and landscapes of Indonesia
+            Access inspiring travel videos, 
+expert guides, and insider tips to 
+visualize and plan yours.
             </p>
           </Card>
         </div>
