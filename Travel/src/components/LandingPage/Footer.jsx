@@ -3,7 +3,7 @@ import { Footer } from "flowbite-react";
 const CustomFooter = () => (
   <Footer container={true} className="bg-white py-8">
     {/* Flexbox untuk menjaga jarak antar kolom */}
-    <div className="flex flex-col md:flex-row justify-around items-start gap-80">
+    <div className="flex flex-col md:flex-row justify-around items-start gap-72">
       {/* Kolom Logo dan Deskripsi */}
       <div className="flex flex-col max-w-[340px]">
         <Footer.Brand
@@ -22,7 +22,7 @@ const CustomFooter = () => (
       </div>
 
       {/* Kolom Links */}
-      <div className="flex flex-col w-[159px]">
+      <div className="flex flex-col w-[170px]">
         <Footer.Title title="Links" />
         <Footer.LinkGroup col={true} className="mt-2">
           <Footer.Link href="#">About Us</Footer.Link>
