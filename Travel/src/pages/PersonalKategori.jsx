@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "flowbite-react";
+// import useRecommendationStore from "../store/recommendationStore";
+import { Button } from "flowbite-react"; // Import button dari Flowbite
 
 const categories = [
   {
@@ -13,12 +14,18 @@ const categories = [
   },
   {
     name: "Ecotourism",
-    image: "/Category/Ecotourism.jpg",
+    image: "/Category/Ecotourism.jpg",  
   },
 ];
 
 const CategoryPage = () => {
-  const navigate = useNavigate();
+ const navigate = useNavigate();
+//   const setCategory = useRecommendationStore((state) => state.setCategory);
+
+//   const handleCategorySelect = (category) => {
+//     setCategory(category.name); // Simpan kategori di Zustand
+//     navigate("/select-city"); // Redirect ke halaman pilih kota
+//   };
 
   return (
     <div className="min-h-screen bg-white px-6 sm:px-10 flex flex-col items-center">
@@ -42,20 +49,20 @@ const CategoryPage = () => {
       </p>
 
       {/* Categories */}
-      <div className="grid grid-cols-1 gap-6 mt-8 w-full sm:grid-cols-1">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-8 w-full">
         {categories.map((category) => (
           <div
             key={category.name}
-            onClick={() => console.log(category.name)} // Anda bisa mengganti dengan navigasi
+            onClick={() => handleCategorySelect(category)}
             className="relative cursor-pointer hover:shadow-lg transition rounded-lg overflow-hidden"
           >
             <img
               src={category.image}
               alt={category.name}
-              className="w-full h-56 sm:h-72 object-cover"
+              className="w-full h-40 sm:h-56 object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-              <h2 className="text-white text-lg sm:text-2xl font-semibold">
+              <h2 className="text-white text-lg sm:text-xl font-semibold">
                 {category.name.toUpperCase()}
               </h2>
             </div>
