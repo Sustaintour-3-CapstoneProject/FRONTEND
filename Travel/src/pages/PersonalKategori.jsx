@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react"; // Import button dari Flowbite
-
+import {FaArrowLeft} from "react-icons/fa6"; // Import icon back dari react-icons/fa  
 const categories = [
   {
     name: "Nature",
@@ -41,10 +41,10 @@ const CategoryPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between w-full max-w-full mt-6">
         <button
-          className="text-black hover:text-blue-500 "
+          className="text-black hover:text-blue-500"
           onClick={() => navigate(-1)} // Kembali ke halaman sebelumnya
         >
-          <span className="w-30 h-30"> &#8592; {/* Icon back */}</span>
+         <FaArrowLeft size={30}/>
         </button>
         <h1 className="text-xl sm:text-2xl font-bold text-center">
           Choose Your Style of Adventure!
