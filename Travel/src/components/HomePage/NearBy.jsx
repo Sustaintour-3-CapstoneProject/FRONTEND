@@ -86,10 +86,10 @@ const NearByDestinations = () => {
                 imgSrc={destination.image}
             
               >
-                <h5 className="text-md font-bold tracking-tight line-clamp-1 text-gray-900 dark:text-white">
+                <h5 className="text-md font-bold leading-none tracking-tight line-clamp-1 text-gray-900 dark:text-white">
                   {destination.name}
                 </h5>
-                <p className="text-sm text-gray-700 dark:text-gray-400">
+                <p className="text-sm leading-[1px] text-gray-700 dark:text-gray-400">
                   {destination.address}
                 </p>
               </Card>
