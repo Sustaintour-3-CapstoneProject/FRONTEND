@@ -5,21 +5,24 @@ import LoginUser from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import CategoryPage from "./pages/PersonalKategori";
 import HomePage from "./pages/HomePage";
+import HomeLayout from "./layouts/HomeLayout";
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          {/* Routes untuk Landing Layout */}
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<LoginUser />} />
+          {/* Routes untuk Landing Layout */}
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<LandingPage />} />
           </Route>
           {/* Routes untuk Home Layout */}
           <Route>
-            <Route path="/home" element={<HomePage />} /> 
-            <Route path="/category" element={<CategoryPage />} />
+            <Route path="/home" element={<HomeLayout/>} >
+              <Route index element={<HomePage />} /> 
+              <Route path="category" element={<CategoryPage />} />
+              </Route >
           </Route>
         </Routes>
       </Router>

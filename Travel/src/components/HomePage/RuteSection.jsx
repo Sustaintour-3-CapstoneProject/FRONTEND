@@ -12,7 +12,7 @@ const RuteSection = () => {
           Click to explore exciting routes and destinations.
         </p>
         <button className="mt-6 flex items-center justiy-center mx-auto gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full shadow transition-all">
-          <span>Explore</span>
+          <span className="pb-1">Explore</span>
           <FaArrowRight />
         </button>
       </div>
