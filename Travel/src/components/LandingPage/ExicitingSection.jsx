@@ -1,7 +1,7 @@
 import { Card } from "flowbite-react";
 
 const ExcitingSection = () => (
-  <div className="py-12">
+  <div className=" container-sm">
     <div>
       <div className="flex items-center mt-3 mb-6 justify-between">
         <h2 className="text-3xl font-bold max-w-80">
