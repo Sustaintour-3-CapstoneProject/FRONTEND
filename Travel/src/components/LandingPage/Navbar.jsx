@@ -2,7 +2,7 @@ import { Navbar, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const NavigationBar = () => (
-  <Navbar fluid rounded className="sticky top-0 z-10">
+  <Navbar fluid rounded className="container sticky top-0 z-10">
     <Navbar.Brand href="/">
       <img
         src="/logo2.png" // Sesuaikan dengan logo Anda
