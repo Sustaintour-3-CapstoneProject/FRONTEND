@@ -2,7 +2,7 @@ import { Navbar, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const NavigationBar = () => (
-  <Navbar fluid rounded className="container sticky top-0 z-10">
+  <Navbar fluid rounded className="container sticky top-0 z-30">
     <Navbar.Brand href="/">
       <img
         src="/logo2.png" // Sesuaikan dengan logo Anda
@@ -10,9 +10,11 @@ const NavigationBar = () => (
         alt="TripWise Logo"
       />
     </Navbar.Brand>
-    <div className="flex justify-center items-center space-x-3 md:order-2">
-      <Link to="/login">Login in</Link>
-      <Button>
+    <div className="flex justify-center items-center space-x-4 md:order-2">
+      <Link to="/login" className="hover:underline">
+        Login
+      </Link>
+      <Button color="customBlue">
         <Link to="/login">Get Started</Link>
       </Button>
     </div>

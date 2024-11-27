@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import useRecommendationStore from "../store/recommendationStore";
 import { Button } from "flowbite-react"; // Import button dari Flowbite
 
 const categories = [
   {
     name: "Nature",
-    image: "https://example.com/images/nature.jpg",
+    image: "/Category/nature.jpg",
   },
   {
     name: "Culture & Historical",
-    image: "https://example.com/images/culture.jpg",
+    image: "/Category/culture.jpg",
   },
   {
     name: "Ecotourism",
@@ -20,22 +19,32 @@ const categories = [
 
 const CategoryPage = () => {
   const navigate = useNavigate();
-  //   const setCategory = useRecommendationStore((state) => state.setCategory);
+  const [selectedCategory, setSelectedCategory] = useState(null); // State untuk melacak kategori aktif
 
-  //   const handleCategorySelect = (category) => {
-  //     setCategory(category.name); // Simpan kategori di Zustand
-  //     navigate("/select-city"); // Redirect ke halaman pilih kota
-  //   };
+  // const setCategory = useRecommendationStore((state) => state.setCategory);
+
+  const handleCategorySelect = (category) => {
+    if (selectedCategory === category.name) {
+      // Jika kategori yang diklik sama dengan kategori yang dipilih, hapus seleksi
+      setSelectedCategory(null);
+    } else {
+      // Jika kategori berbeda, pilih kategori tersebut
+      setSelectedCategory(category.name);
+    }
+
+    // setCategory(category.name); // Simpan kategori di Zustand
+    // navigate("/select-city"); // Redirect ke halaman pilih kota
+  };
 
   return (
     <div className="min-h-screen bg-white px-6 sm:px-10 flex flex-col items-center">
       {/* Header */}
       <div className="flex items-center justify-between w-full max-w-full mt-6">
         <button
-          className="text-black hover:text-blue-500"
+          className="text-black hover:text-blue-500 "
           onClick={() => navigate(-1)} // Kembali ke halaman sebelumnya
         >
-          &#8592; {/* Icon back */}
+          <span className="w-30 h-30"> &#8592; {/* Icon back */}</span>
         </button>
         <h1 className="text-xl sm:text-2xl font-bold text-center">
           Choose Your Style of Adventure!
@@ -54,15 +63,25 @@ const CategoryPage = () => {
           <div
             key={category.name}
             onClick={() => handleCategorySelect(category)}
-            className="relative cursor-pointer hover:shadow-lg transition rounded-lg overflow-hidden"
+            className={`relative cursor-pointer group rounded-lg overflow-hidden transition ease-in-out duration-150 ${
+              selectedCategory === category.name
+                ? "bg-black bg-opacity-50"
+                : "hover:shadow-lg"
+            }`}
           >
             <img
               src={category.image}
               alt={category.name}
-              className="w-full h-40 sm:h-60 object-cover object-center"
+              className="w-full h-40 sm:h-96 object-cover object-center"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-              <h2 className="text-white text-lg sm:text-xl font-semibold">
+            <div
+              className={`absolute inset-0 bg-black ${
+                selectedCategory === category.name
+                  ? "bg-opacity-50"
+                  : "bg-opacity-25 group-hover:bg-opacity-50"
+              } transition-opacity flex items-center justify-center`}
+            >
+              <h2 className="text-white text-lg sm:text-2xl font-poppins font-semibold">
                 {category.name.toUpperCase()}
               </h2>
             </div>
@@ -72,9 +91,9 @@ const CategoryPage = () => {
 
       {/* Ready Button */}
       <Button
-        color="blue"
-        size="lg"
-        className="mt-10"
+        color="customBlue"
+        size="xl"
+        className="my-10 px-32 py-1"
         onClick={() => navigate("/home")}
       >
         I'm Ready to Explore!

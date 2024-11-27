@@ -1,16 +1,16 @@
 import HeroSection from "../components/LandingPage/HeroSection";
 import ExcitingSection from "../components/LandingPage/ExicitingSection";
-import WhySection from "../components/LandingPage/WhySection";
 import AboutUs from "../components/LandingPage/AboutUs";
 import CustomFooter from "../components/LandingPage/Footer";
+import Testimonials from "../components/LandingPage/Testimonials";
 
 export default function LandingPage() {
   return (
     <div className="container">
       <HeroSection />
       <ExcitingSection />
-      <WhySection />
       <AboutUs />
+      <Testimonials />
       <CustomFooter />
     </div>
   );

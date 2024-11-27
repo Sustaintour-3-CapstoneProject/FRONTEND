@@ -34,8 +34,10 @@ const Login = () => {
       remember: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string().email().required(),
-      password: Yup.string().required(),
+      email: Yup.string()
+        .email("Format email tidak valid")
+        .required("Email wajib diisi"),
+      password: Yup.string().required("Password wajib diisi"),
     }),
     onSubmit: handleLogin,
   });
@@ -71,37 +73,57 @@ const Login = () => {
             <form className="w-full" onSubmit={formik.handleSubmit}>
               {/* Email */}
               <TextInput
+                id="email"
                 type="email"
                 name="email"
                 placeholder="Email"
-                className="mb-4"
+                required
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                required
+                color={
+                  formik.touched.email && formik.errors.email
+                    ? "failure"
+                    : undefined
+                }
+                helperText={
+                  formik.touched.email && formik.errors.email ? (
+                    <>
+                      <span className="font-medium -mt-2 mb-2 block text-sm ">
+                        {formik.errors.email}
+                      </span>
+                    </>
+                  ) : undefined
+                }
+                className="mb-4"
               />
-              {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm mb-2">
-                  {formik.errors.email}
-                </p>
-              )}
 
               {/* Password */}
               <TextInput
+                id="password"
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="mb-4"
+                required
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                required
+                color={
+                  formik.touched.password && formik.errors.password
+                    ? "failure"
+                    : undefined
+                }
+                helperText={
+                  formik.touched.password && formik.errors.password ? (
+                    <>
+                      <span className="font-medium -mt-2 mb-2 block text-sm ">
+                        {formik.errors.password}
+                      </span>
+                    </>
+                  ) : undefined
+                }
+                className="mb-4"
               />
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-red-500 text-sm mb-2">
-                  {formik.errors.password}
-                </p>
-              )}
 
               {/* Remember Me & Forgot Password */}
               <div className="flex justify-between items-center mb-4">

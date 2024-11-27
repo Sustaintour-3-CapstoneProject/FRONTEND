@@ -10,10 +10,10 @@ function App() {
       <Router>
         <Routes>
           {/* Routes untuk Landing Layout */}
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/login" element={<LoginUser />} />
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<LandingPage />} />
-            <Route path="/register" element={<RegisterUser />} />
-            <Route path="/login" element={<LoginUser />} />
           </Route>
           {/* Routes untuk Home Layout */}
           <Route>

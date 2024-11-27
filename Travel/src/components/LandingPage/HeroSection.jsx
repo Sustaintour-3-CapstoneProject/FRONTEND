@@ -3,7 +3,7 @@ const HeroSection = () => (
     className="bg-cover bg-center h-[550px] flex items-center justify-center my-5 rounded-xl"
     style={{ backgroundImage: "url('/LandingPage/Hero-Section.jpg')" }}
   >
-    <div className="text-center text-white">
+    <div className="text-center text-white font-poppins">
       <h1 className="text-5xl font-bold mb-4">Discover Your Next Adventure!</h1>
       <h2 className="text-lg mb-4">
         From dream destinations to detailed plans, we’ve got you covered.
