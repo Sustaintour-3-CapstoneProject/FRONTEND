@@ -1,10 +1,10 @@
 const AboutUs = () => (
-  <div className="py-16 bg-gray-50">
-    <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
+  <div className="py-16">
+    <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 items-start gap-16">
       {/* Bagian Teks */}
-      <div>
-        <h2 className="text-blue-600 font-semibold text-lg mb-2">TripWise</h2>
-        <p className="text-gray-700 text-base leading-relaxed">
+      <div className="flex flex-col justify-start">
+        <h2 className="text-sky-900 font-bold text-3xl mt-1 mb-10">TripWise</h2>
+        <p className="text-gray-700 text-base leading-relaxed text-justify">
           TripWise empowers travelers with access to sustainable destination
           guides, personalized routes, cultural exchanges, and environmental
           education. We aim to connect you with meaningful, responsible travel
@@ -17,9 +17,9 @@ const AboutUs = () => (
       {/* Bagian Gambar */}
       <div className="flex justify-center">
         <img
-          src="/about-us.jpg" // Ganti dengan path gambar yang sesuai
+          src="/LandingPage/TripWise.jpg" // Ganti dengan path gambar yang sesuai
           alt="About TripWise"
-          className="rounded-lg shadow-md max-w-full"
+          className="rounded-lg shadow-md max-w-xl w-full h-[390px] object-cover object-center"
         />
       </div>
     </div>

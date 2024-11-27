@@ -1,9 +1,9 @@
 import { Footer } from "flowbite-react";
 
 const CustomFooter = () => (
-  <Footer className="bg-white py-8">
+  <Footer className="container bg-white py-8">
     {/* Flexbox untuk menjaga jarak antar kolom */}
-    <div className="flex flex-col md:flex-row items-start gap-52 px-6 md:px-20">
+    <div className="flex flex-col md:flex-row items-start justify-between gap-32 px-6 md:px-20">
       {/* Kolom Logo dan Deskripsi */}
       <div className="flex flex-col w-full max-w-[330px]">
         <Footer.Brand
