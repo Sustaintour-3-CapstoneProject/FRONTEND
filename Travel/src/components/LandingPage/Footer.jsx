@@ -22,7 +22,7 @@ const CustomFooter = () => (
       </div>
 
       {/* Kolom Links */}
-      <div className="flex flex-col w-full max-w-[170px]">
+      <div className="flex flex-col w-full max-w-[170px] px-5">
         <Footer.Title title="Links" />
         <Footer.LinkGroup col={true} className="mt-2">
           <Footer.Link href="#">About Us</Footer.Link>
