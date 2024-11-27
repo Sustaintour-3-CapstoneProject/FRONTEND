@@ -4,6 +4,7 @@ import RegisterUser from "./pages/Register";
 import LoginUser from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import CategoryPage from "./pages/PersonalKategori";
+import HomePage from "./pages/HomePage";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
           </Route>
           {/* Routes untuk Home Layout */}
           <Route>
+            <Route path="/home" element={<HomePage />} /> 
             <Route path="/category" element={<CategoryPage />} />
           </Route>
         </Routes>
