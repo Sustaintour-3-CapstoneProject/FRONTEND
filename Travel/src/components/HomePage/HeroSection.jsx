@@ -32,14 +32,15 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPlaceIndex((prevIndex) => (prevIndex + 1) % dummyData.length); // Loop data
-    }, 5000);
+    }, 6000);
 
     return () => clearInterval(interval); // Bersihkan interval saat komponen di-unmount
   }, []);
 
   const currentPlace = dummyData[currentPlaceIndex]; // Dapatkan destinasi saat ini berdasarkan indeks
 
-  return (
+    return (
+      <div className="my-3">
     <div
       className="relative h-[400px] md:h-[500px] w-full bg-cover bg-center rounded-lg shadow-lg"
       style={{ backgroundImage: `url(${currentPlace.image})` }}
@@ -71,7 +72,8 @@ const HeroSection = () => {
           <span className="text-sm md:text-base">{currentPlace.address}</span>
         </div>
       </div>
-    </div>
+            </div>
+            </div>
   );
 };
 
