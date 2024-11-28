@@ -19,19 +19,19 @@ const dummyDestinations = [
     id: 3,
     name: "Ayana Beach and Resort",
     address: "Gianyar, BALI",
-    image: "https://via.placeholder.com/300x200",
+    image: "/homepage/TripWise.jpg",
   },
   {
     id: 4,
     name: "Sekumpul Waterfall",
     address: "Bedugul, BALI",
-    image: "https://via.placeholder.com/300x200",
+    image: "/homepage/Ecotourism.jpg",
   },
   {
     id: 5,
     name: "Lovina Beach",
     address: "Buleleng, BALI",
-    image: "https://via.placeholder.com/300x200",
+    image: "/homepage/rajaampat.jpg",
   },
   {
     id: 6,
@@ -46,14 +46,15 @@ const NearByDestinations = () => {
   const itemsToShow = 4; // Jumlah item yang ingin ditampilkan
 
   const nextItem = () => {
-    setStartIndex((prevIndex) =>
-      (prevIndex + 1) % dummyDestinations.length // Geser 1 item ke depan
+    setStartIndex(
+      (prevIndex) => (prevIndex + 1) % dummyDestinations.length // Geser 1 item ke depan
     );
   };
 
   const prevItem = () => {
-    setStartIndex((prevIndex) =>
-      (prevIndex - 1 + dummyDestinations.length) % dummyDestinations.length // Geser 1 item ke belakang
+    setStartIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + dummyDestinations.length) % dummyDestinations.length // Geser 1 item ke belakang
     );
   };
 
@@ -64,7 +65,7 @@ const NearByDestinations = () => {
   });
 
   return (
-    <section className="py-8 ">
+    <section className="py-10">
       <h2 className="text-2xl font-bold mb-6">Near By Destinations</h2>
       <div className="relative flex items-center">
         {/* Tombol Previous */}
@@ -78,21 +79,22 @@ const NearByDestinations = () => {
         {/* Konten Carousel */}
         <div className="flex gap-4 overflow-hidden justify-center w-full">
           {carouselItems.map((destination) => (
-            <div
-              key={destination.id}
-            >
-              <Card
-                imgAlt={destination.name}
-                imgSrc={destination.image}
-            
-              >
-                <h5 className="text-md font-bold leading-none tracking-tight line-clamp-1 text-gray-900 dark:text-white">
-                  {destination.name}
-                </h5>
-                <p className="text-sm leading-[1px] text-gray-700 dark:text-gray-400">
-                  {destination.address}
-                </p>
-              </Card>
+            <div key={destination.id}>
+              <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
+                <img
+                  src={destination.image}
+                  alt={destination.name}
+                  className="w-[330px] h-[180px] rounded-md"
+                />
+                <div className="mt-2">
+                  <h5 className="text-md font-bold leading-tight line-clamp-1 text-sky-900 dark:text-white mb-1">
+                    {destination.name}
+                  </h5>
+                  <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">
+                    {destination.address}
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
