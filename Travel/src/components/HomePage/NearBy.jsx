@@ -1,45 +1,7 @@
 import React, { useState } from "react";
-import { Card } from "flowbite-react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-const dummyDestinations = [
-  {
-    id: 1,
-    name: "Diamond Beach",
-    address: "Nusa Penida, BALI",
-    image: "https://via.placeholder.com/300x200",
-  },
-  {
-    id: 2,
-    name: "Pura Tirta Empul",
-    address: "Gianyar, BALI",
-    image: "https://via.placeholder.com/300x200",
-  },
-  {
-    id: 3,
-    name: "Ayana Beach and Resort",
-    address: "Gianyar, BALI",
-    image: "/homepage/TripWise.jpg",
-  },
-  {
-    id: 4,
-    name: "Sekumpul Waterfall",
-    address: "Bedugul, BALI",
-    image: "/homepage/Ecotourism.jpg",
-  },
-  {
-    id: 5,
-    name: "Lovina Beach",
-    address: "Buleleng, BALI",
-    image: "/homepage/rajaampat.jpg",
-  },
-  {
-    id: 6,
-    name: "Ulun Danu Temple",
-    address: "Bedugul, BALI",
-    image: "https://via.placeholder.com/300x200",
-  },
-];
+import { Link } from "react-router-dom"; // Tambahkan Link untuk navigasi
+import destinations from "../../data/destinationData"; // Import data dari file
 
 const NearByDestinations = () => {
   const [startIndex, setStartIndex] = useState(0); // Index awal untuk carousel
@@ -47,21 +9,21 @@ const NearByDestinations = () => {
 
   const nextItem = () => {
     setStartIndex(
-      (prevIndex) => (prevIndex + 1) % dummyDestinations.length // Geser 1 item ke depan
+      (prevIndex) => (prevIndex + 1) % destinations.length // Geser 1 item ke depan
     );
   };
 
   const prevItem = () => {
     setStartIndex(
       (prevIndex) =>
-        (prevIndex - 1 + dummyDestinations.length) % dummyDestinations.length // Geser 1 item ke belakang
+        (prevIndex - 1 + destinations.length) % destinations.length // Geser 1 item ke belakang
     );
   };
 
   // Ambil 4 kartu berdasarkan startIndex
   const carouselItems = Array.from({ length: itemsToShow }, (_, i) => {
-    const index = (startIndex + i) % dummyDestinations.length;
-    return dummyDestinations[index];
+    const index = (startIndex + i) % destinations.length;
+    return destinations[index];
   });
 
   return (
@@ -81,14 +43,20 @@ const NearByDestinations = () => {
           {carouselItems.map((destination) => (
             <div key={destination.id}>
               <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
-                <img
-                  src={destination.image}
-                  alt={destination.name}
-                  className="w-[330px] h-[180px] rounded-md"
-                />
+                {/* Tautan pada gambar */}
+                <Link to={`/home/${destination.id}`}>
+                  <img
+                    src={destination.image}
+                    alt={destination.name}
+                    className="w-[330px] h-[180px] rounded-md hover:opacity-90 transition"
+                  />
+                </Link>
                 <div className="mt-2">
+                  {/* Tautan pada nama destinasi */}
                   <h5 className="text-md font-bold leading-tight line-clamp-1 text-sky-900 dark:text-white mb-1">
-                    {destination.name}
+                    <Link to={`/home/${destination.id}`}>
+                      {destination.name}
+                    </Link>
                   </h5>
                   <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">
                     {destination.address}

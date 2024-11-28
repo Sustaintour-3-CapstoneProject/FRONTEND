@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import CategoryPage from "./pages/user/PersonalKategori";
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/user/HomePage";
+import DestinationDetail from "./pages/user/DetailDestinasi";
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
           <Route path="/category" element={<CategoryPage />} />
           <Route path="/home" element={<HomeLayout />}>
             <Route index element={<HomePage />} />
+            <Route path=":id" element={<DestinationDetail />} />
           </Route>
         </Routes>
       </Router>
