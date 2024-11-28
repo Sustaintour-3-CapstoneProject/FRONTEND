@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://your-api-url.com/api", // Ganti dengan URL API Anda
+  baseURL: "https://www.tripwise.my.id", // URL API
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

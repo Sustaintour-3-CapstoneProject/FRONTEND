@@ -1,16 +1,22 @@
+// src/pages/RegisterUser.js
 import { TextInput, Button } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance"; // Menggunakan axiosInstance
 import { useFormik } from "formik";
+
 const RegisterUser = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Menggunakan navigate untuk redirect setelah register
 
   // Fungsi untuk mengirim data registrasi ke backend
   const handleRegister = async (values) => {
     try {
-      const response = await axios.post("/register", values);
+      const response = await axiosInstance.post("/register", values); // Menggunakan axiosInstance
+
       // Jika berhasil, arahkan ke halaman login
-      navigate("/loginuser");
+      console.log("User registered:", response.data); // Menampilkan data response
+
+      // Arahkan ke login setelah sukses registrasi
+      navigate("/login");
     } catch (error) {
       console.error(
         "Terjadi kesalahan:",
@@ -18,15 +24,19 @@ const RegisterUser = () => {
       );
     }
   };
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      username: "",
+      first_name: "",
+      last_name: "", // Perbaiki penulisan last_name
+      phone_number: "",
       email: "",
       password: "",
     },
     onSubmit: handleRegister,
   });
+
   return (
     <div className="min-h-screen relative">
       {/* Background Image */}
@@ -60,8 +70,8 @@ const RegisterUser = () => {
               <div className="flex gap-2 mb-4">
                 <TextInput
                   type="text"
-                  name="firstName"
-                  value={formik.values.firstName}
+                  name="first_name"
+                  value={formik.values.first_name}
                   onChange={formik.handleChange}
                   placeholder="Nama Depan"
                   className="w-1/2"
@@ -69,14 +79,37 @@ const RegisterUser = () => {
                 />
                 <TextInput
                   type="text"
-                  value={formik.values.lastName}
+                  value={formik.values.last_name} // Perbaiki penulisan last_name
                   onChange={formik.handleChange}
-                  name="lastName"
+                  name="last_name" // Perbaiki penulisan last_name
                   placeholder="Nama Belakang"
                   className="w-1/2"
                   required
                 />
               </div>
+
+              {/* Username */}
+              <TextInput
+                type="text"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                name="username"
+                placeholder="Username"
+                className="mb-4"
+                required
+              />
+
+              {/* Phone Number */}
+              <TextInput
+                type="text"
+                value={formik.values.phone_number}
+                onChange={formik.handleChange}
+                name="phone_number"
+                placeholder="Nomor Telepon"
+                className="mb-4"
+                required
+              />
+
               {/* Email */}
               <TextInput
                 type="email"
@@ -87,6 +120,7 @@ const RegisterUser = () => {
                 className="mb-4"
                 required
               />
+
               {/* Password */}
               <TextInput
                 type="password"
@@ -97,6 +131,8 @@ const RegisterUser = () => {
                 className="mb-4"
                 required
               />
+
+              {/* Button */}
               <Button color="customBlue" type="submit" className="w-full">
                 Register
               </Button>
@@ -106,7 +142,7 @@ const RegisterUser = () => {
             <p className="text-sm mt-4">
               Sudah punya akun?{" "}
               <Link
-                to="/loginuser"
+                to="/login"
                 className="text-blue-500 hover:underline font-semibold"
               >
                 Login
