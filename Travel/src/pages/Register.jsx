@@ -31,7 +31,6 @@ const RegisterUser = () => {
       first_name: "",
       last_name: "", // Perbaiki penulisan last_name
       phone_number: "",
-      email: "",
       password: "",
     },
     onSubmit: handleRegister,
@@ -106,17 +105,6 @@ const RegisterUser = () => {
                 onChange={formik.handleChange}
                 name="phone_number"
                 placeholder="Nomor Telepon"
-                className="mb-4"
-                required
-              />
-
-              {/* Email */}
-              <TextInput
-                type="email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                name="email"
-                placeholder="Email"
                 className="mb-4"
                 required
               />

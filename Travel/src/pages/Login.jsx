@@ -3,21 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../api/axiosInstance";
-
+import  useAuthStore  from "../store/authStore";
 const Login = () => {
   const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth); // Ambil fungsi setAuth dari store
 
-  // Fungsi untuk menangani login
   const handleLogin = async (values) => {
     try {
       const response = await axiosInstance.post("/login", values);
+      const { token, user} = response.data; // Pastikan backend mengirim token & data user
+      console.log(response.data);
+      // Simpan token dan data user ke Zustand
+      setAuth(token, user);
 
-      // Simpan token ke localStorage
-      const { authToken } = response.data;
-      localStorage.setItem("authToken", authToken);
-
-      // Arahkan ke dashboard atau halaman lain setelah login
-      navigate("/dashboard");
+      // Arahkan ke dashboard
+      navigate("/home");
     } catch (error) {
       alert(
         error.response?.data?.message ||
@@ -26,22 +26,17 @@ const Login = () => {
     }
   };
 
-  // Inisialisasi Formik
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
-      remember: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Format email tidak valid")
-        .required("Email wajib diisi"),
+      username: Yup.string().required("Username wajib diisi"),
       password: Yup.string().required("Password wajib diisi"),
     }),
     onSubmit: handleLogin,
   });
-
   return (
     <div className="min-h-screen relative">
       {/* Background Image */}
@@ -73,16 +68,16 @@ const Login = () => {
             <form className="w-full" onSubmit={formik.handleSubmit}>
               {/* Email */}
               <TextInput
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Email"
+                id="username"
+                type="text"
+                name="username"
+                placeholder="username"
                 required
-                value={formik.values.email}
+                value={formik.values.username}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 color={
-                  formik.touched.email && formik.errors.email
+                  formik.touched.usernmae && formik.errors.username
                     ? "failure"
                     : undefined
                 }

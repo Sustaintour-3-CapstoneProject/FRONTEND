@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAuthStore from "../store/authStore";
 
 const axiosInstance = axios.create({
   baseURL: "https://www.tripwise.my.id", // URL API
@@ -11,15 +12,13 @@ const axiosInstance = axios.create({
 // Interceptor untuk menambahkan token secara otomatis jika ada
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken");
+    const { token } = useAuthStore.getState(); // Ambil token dari Zustand store
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default axiosInstance;
