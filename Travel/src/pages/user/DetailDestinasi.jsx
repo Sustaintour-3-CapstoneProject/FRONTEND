@@ -119,6 +119,9 @@ const DestinationDetail = () => {
 
       {/* Video Section */}
       <div className="mt-6">
+        <h4 className="font-semibold text-lg text-gray-700 mb-4">
+          A Visual Escape
+        </h4>
         {destination.videoContent && (
           <div className="flex space-x-6 overflow-x-auto">
             {destination.videoContent.map((videoData, index) => (
