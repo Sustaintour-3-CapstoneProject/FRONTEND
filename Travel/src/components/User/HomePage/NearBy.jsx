@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom"; // Tambahkan Link untuk navigasi
-import destinations from "../../data/destinationData"; // Import data dari file
+import destinations from "../../../data/destinationData"; // Import data dari file
 
 const NearByDestinations = () => {
   const [startIndex, setStartIndex] = useState(0); // Index awal untuk carousel
@@ -15,8 +15,7 @@ const NearByDestinations = () => {
 
   const prevItem = () => {
     setStartIndex(
-      (prevIndex) =>
-        (prevIndex - 1 + destinations.length) % destinations.length // Geser 1 item ke belakang
+      (prevIndex) => (prevIndex - 1 + destinations.length) % destinations.length // Geser 1 item ke belakang
     );
   };
 
