@@ -18,6 +18,10 @@ const destinations = [
     title: "Feel the waves, the breeze, and golden sands beneath",
     video: "https://www.youtube.com/embed/oHg5SJYRHA0", // Ganti dengan video Anda
   },
+  {
+    title: "Feel the waves, the breeze, and golden sands beneath",
+    video: "https://www.youtube.com/embed/oHg5SJYRHA0", // Ganti dengan video Anda
+  },
 ];
 
 export default function PopularDestinations() {

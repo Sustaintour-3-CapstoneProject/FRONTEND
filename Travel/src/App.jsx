@@ -6,6 +6,8 @@ import LandingPage from "./pages/LandingPage";
 import CategoryPage from "./pages/user/PersonalKategori";
 import HomeLayout from "./layouts/HomeLayout";
 import HomePage from "./pages/user/HomePage";
+import DestinationDetail from "./pages/user/DetailDestinasi";
+import ProtectedRoute from "./routes/ProtectedRoute";
 function App() {
   return (
     <div className="App">
@@ -18,9 +20,12 @@ function App() {
             <Route index element={<LandingPage />} />
           </Route>
           {/* Routes untuk Home Layout */}
-          <Route path="/category" element={<CategoryPage />} />
-          <Route path="/home" element={<HomeLayout />}>
-            <Route index element={<HomePage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/category" element={<CategoryPage />} />
+            <Route path="/home" element={<HomeLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path=":id" element={<DestinationDetail />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

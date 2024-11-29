@@ -1,6 +1,6 @@
 import { Navbar, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore";
+import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
   const { user, clearAuth } = useAuthStore(); // Ambil data user dan fungsi logout
@@ -24,7 +24,7 @@ const NavigationBar = () => {
           // Jika user login, tampilkan nama pengguna dan tombol logout
           <div className="flex items-center space-x-4">
             <span className="text-sm font-medium text-gray-700">
-              Hi, {user.first_name|| "Traveler"}
+              Hi, {user.first_name || "Traveler"}
             </span>
             <Button color="failure" onClick={handleLogout}>
               Logout
