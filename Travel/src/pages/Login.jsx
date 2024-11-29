@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../api/axiosInstance";
-import  useAuthStore  from "../store/authStore";
+import useAuthStore from "../store/authStore";
 const Login = () => {
   const navigate = useNavigate();
   const setAuth = useAuthStore((state) => state.setAuth); // Ambil fungsi setAuth dari store
@@ -11,17 +11,18 @@ const Login = () => {
   const handleLogin = async (values) => {
     try {
       const response = await axiosInstance.post("/login", values);
-      const { token, user} = response.data; // Pastikan backend mengirim token & data user
+      const { data } = response.data; // Ambil data token dan user
       console.log(response.data);
+
       // Simpan token dan data user ke Zustand
-      setAuth(token, user);
+      setAuth(data);
 
       // Arahkan ke dashboard
       navigate("/home");
     } catch (error) {
       alert(
         error.response?.data?.message ||
-          "Login gagal, periksa email dan password Anda."
+          "Login gagal, periksa username dan password Anda."
       );
     }
   };
