@@ -1,4 +1,3 @@
-
 const Testimonials = () => {
   const testimonials = [
     {
