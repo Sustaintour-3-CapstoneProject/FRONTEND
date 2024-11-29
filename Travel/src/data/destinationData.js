@@ -134,6 +134,126 @@ const destinations = [
       },
     ],
   },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "Ulun Danu Temple",
+    address: "Bedugul, BALI",
+    image: "https://via.placeholder.com/300x200",
+    description: "A famous temple on the shores of Lake Bratan.",
+    openingHours: "07:00 - 19:00",
+    ticketPrice: "Rp 30,000",
+    facilities: ["Parking", "Shops", "Guides"],
+    videoContent: [
+      {
+        title: "Diamond Beach Highlight lorem ipsum dolor sit amet",
+        video: "https://example.com/video-ayana.mp4",
+      },
+      {
+        title: "Aerial View of Diamond Beach",
+        video: "https://example.com/video-ayana.mp4",
+      },
+    ],
+  },
 ];
 
 export default destinations;

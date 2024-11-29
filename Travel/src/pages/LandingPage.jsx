@@ -6,7 +6,7 @@ import Testimonials from "../components/LandingPage/Testimonials";
 
 export default function LandingPage() {
   return (
-    <div className="container">
+    <div>
       <HeroSection />
       <ExcitingSection />
       <AboutUs />
