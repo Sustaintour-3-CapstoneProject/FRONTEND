@@ -1,22 +1,21 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 const useAuthStore = create(
   persist(
     (set) => ({
-      token: null, // Token user
-      user: null, // Data user
+      auth: null, // Menyimpan data autentikasi (token dan user)
 
-      // Fungsi untuk menyimpan token, user, dan first_name
-      setAuth: (token, user) => set({ token, user }),
+      // Fungsi untuk menyimpan data autentikasi
+      setAuth: (authData) => set({ auth: authData }),
 
-      // Fungsi untuk menghapus data auth (logout)
-      clearAuth: () => set({ token: null, user: null }),
+      // Fungsi untuk logout
+      clearAuth: () => set({ auth: null }),
     }),
     {
-      name: "auth-store", // Nama key di localStorage
+      name: "auth-store", // Key untuk localStorage
       partialize: (state) => ({
-        token: state.token,
-        user: state.user,
+        auth: state.auth, // Hanya menyimpan data autentikasi
       }),
     }
   )

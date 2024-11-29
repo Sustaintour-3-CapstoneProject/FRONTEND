@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
-  const { user, clearAuth } = useAuthStore(); // Ambil data user dan fungsi logout
+  const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
 
   const handleLogout = () => {
     clearAuth(); // Hapus data autentikasi
@@ -23,11 +23,11 @@ const NavigationBar = () => {
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
-        {user ? (
+        {auth ? (
           // Jika user login, tampilkan nama pengguna dan tombol logout
           <div className="hidden md:flex items-center space-x-4">
             <span className="text-sm font-medium text-gray-700">
-              Hi, {user.first_name || "Traveler"}
+              Hi, {auth.first_name || "Traveler"}
             </span>
             <Button color="failure" onClick={handleLogout}>
               Logout
@@ -65,10 +65,10 @@ const NavigationBar = () => {
           AI Assistant
         </Navbar.Link>
         {/* Menu Logout di layar kecil */}
-        {user && (
+        {auth && (
           <div className="mt-3 md:hidden">
             <span className="block text-sm font-medium text-gray-700 mb-2">
-              Hi, {user.first_name || "Traveler"}
+              Hi, {auth?.first_name || "Traveler"}
             </span>
             <Button
               color="failure"
