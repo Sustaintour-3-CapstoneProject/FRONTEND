@@ -11,7 +11,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-30 bg-white shadow-md">
+    <Navbar fluid rounded className="container sticky top-0 z-30 ">
       <Navbar.Brand href="/">
         <img
           src="/logo2.png" // Sesuaikan dengan logo Anda
