@@ -6,7 +6,7 @@ import NavigationBar from "../components/LandingPage/Navbar";
 
 const LandingLayout = () => {
   return (
-    <div>
+    <div className="container">
       <NavigationBar />
 
       <Outlet />

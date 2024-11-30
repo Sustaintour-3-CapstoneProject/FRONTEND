@@ -1,25 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Tambahkan Link untuk navigasi
-import destinations from "../../../data/destinationData"; // Import data dari file
+import { Link } from "react-router-dom";
+import destinations from "../../../data/destinationData";
 
 const NearByDestinations = () => {
-  const [startIndex, setStartIndex] = useState(0); // Index awal untuk carousel
-  const itemsToShow = 4; // Jumlah item yang ingin ditampilkan
+  const [startIndex, setStartIndex] = useState(0);
+  const [itemsToShow, setItemsToShow] = useState(4); // Default: 4 item (desktop)
+
+  useEffect(() => {
+    // Fungsi untuk menentukan jumlah item berdasarkan ukuran layar
+    const updateItemsToShow = () => {
+      if (window.innerWidth < 640) {
+        setItemsToShow(1); // Mobile: tampilkan 1 item
+      } else {
+        setItemsToShow(4); // Desktop: tampilkan 4 item
+      }
+    };
+
+    // Panggil saat komponen pertama kali dimuat
+    updateItemsToShow();
+
+    // Update jumlah item setiap kali ukuran layar berubah
+    window.addEventListener("resize", updateItemsToShow);
+
+    // Bersihkan event listener saat komponen di-unmount
+    return () => {
+      window.removeEventListener("resize", updateItemsToShow);
+    };
+  }, []);
 
   const nextItem = () => {
-    setStartIndex(
-      (prevIndex) => (prevIndex + 1) % destinations.length // Geser 1 item ke depan
-    );
+    setStartIndex((prevIndex) => (prevIndex + 1) % destinations.length);
   };
 
   const prevItem = () => {
     setStartIndex(
-      (prevIndex) => (prevIndex - 1 + destinations.length) % destinations.length // Geser 1 item ke belakang
+      (prevIndex) => (prevIndex - 1 + destinations.length) % destinations.length
     );
   };
 
-  // Ambil 4 kartu berdasarkan startIndex
   const carouselItems = Array.from({ length: itemsToShow }, (_, i) => {
     const index = (startIndex + i) % destinations.length;
     return destinations[index];
@@ -32,26 +51,29 @@ const NearByDestinations = () => {
         {/* Tombol Previous */}
         <button
           onClick={prevItem}
-          className="mr-2 left-0 bg-gray-800 text-white p-2 rounded-full z-10"
+          className="mr-2 left-0 bg-gray-800 text-white rounded-full z-10
+            sm:p-2 sm:w-10 sm:h-10
+            p-2 w-8 h-8"
         >
-          <FaChevronLeft size={24} />
+          <FaChevronLeft size={16} className="sm:size-[24px]" />
         </button>
 
         {/* Konten Carousel */}
         <div className="flex gap-4 overflow-hidden justify-center w-full">
           {carouselItems.map((destination) => (
-            <div key={destination.id}>
+            <div
+              key={destination.id}
+              className="min-w-full sm:min-w-[265px] sm:max-w-[265px]"
+            >
               <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
-                {/* Tautan pada gambar */}
                 <Link to={`/home/${destination.id}`}>
                   <img
                     src={destination.image}
                     alt={destination.name}
-                    className="w-[330px] h-[180px] rounded-md hover:opacity-90 transition"
+                    className="w-full h-[180px] sm:w-[265px] sm:h-[180px] rounded-md hover:opacity-90 transition"
                   />
                 </Link>
                 <div className="mt-2">
-                  {/* Tautan pada nama destinasi */}
                   <h5 className="text-md font-bold leading-tight line-clamp-1 text-sky-900 dark:text-white mb-1">
                     <Link to={`/home/${destination.id}`}>
                       {destination.name}
@@ -69,9 +91,10 @@ const NearByDestinations = () => {
         {/* Tombol Next */}
         <button
           onClick={nextItem}
-          className="ml-2 right-0 bg-gray-800 text-white p-2 rounded-full z-10"
+          className="ml-2 right-0 bg-gray-800 text-white  rounded-full z-10
+            sm:p-2 sm:w-10 sm:h-10 p-2 w-8 h-8"
         >
-          <FaChevronRight size={24} />
+          <FaChevronRight size={16} className="sm:size-[24px]" />
         </button>
       </div>
     </section>
