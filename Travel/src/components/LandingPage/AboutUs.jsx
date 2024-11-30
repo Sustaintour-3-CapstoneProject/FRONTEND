@@ -34,7 +34,7 @@ const AboutUs = () => (
         <img
           src="/LandingPage/TripWise.jpg"
           alt="About TripWise"
-          className="rounded-lg shadow-md max-w-[608px] w-full h-[390px] object-cover object-center"
+          className="rounded-lg shadow-md max-w-[608px] w-full h-[390px] object-center"
         />
       </div>
     </div>
