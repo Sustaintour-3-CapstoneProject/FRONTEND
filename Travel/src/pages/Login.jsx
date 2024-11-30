@@ -11,6 +11,7 @@ const Login = () => {
     initialValues: {
       username: "",
       password: "",
+      remember: false, // Tambahkan remember sebagai nilai awal
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Username wajib diisi").min(4),
@@ -22,12 +23,12 @@ const Login = () => {
   return (
     <div className="min-h-screen relative">
       {/* Background */}
-      <div className="absolute inset-0 bg-cover bg-center bg-gray-200 sm:bg-[url('/bg-login.jpg')]"></div>
+      <div className="absolute inset-0 bg-cover bg-top sm:bg-center bg-[url('/LandingPage/Hero-Section.jpg')]"></div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-center md:justify-start">
+      <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-start">
         {/* Login Form Container */}
-        <div className="w-full rounded-lg md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-s-3xl md:px-12 dark:bg-gray-800">
+        <div className="w-full min-h-[493px] md:min-h-full rounded-t-lg  md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
           <div className="w-full max-w-sm flex flex-col items-center justify-center text-center">
             {/* Logo */}
             <div className="pb-4">
@@ -114,6 +115,7 @@ const Login = () => {
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center">
                   <Checkbox
+                    color="sky"
                     id="remember"
                     name="remember"
                     checked={formik.values.remember}

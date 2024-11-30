@@ -31,26 +31,26 @@ const RegisterUser = () => {
     <div className="min-h-screen relative">
       {/* Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/bg-login.jpg')" }}
+        className="absolute inset-0 bg-cover bg-bottom sm:bg-center"
+        style={{ backgroundImage: "url('/LandingPage/Hero-Section.jpg')" }}
       ></div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-center md:justify-end">
+      <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-end">
         {/* Register Form Container */}
-        <div className="w-full rounded-lg md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-s-3xl md:px-12 dark:bg-gray-800">
+        <div className="w-full rounded-t-lg md:rounded-tr-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-s-3xl md:px-12 dark:bg-gray-800">
           <div className="w-full max-w-sm flex flex-col items-center justify-center text-center">
             {/* Logo */}
-            <div className="pb-4">
+            <div className="pb-3 sm:pb-4">
               <img src="/logo2.png" alt="logo" className="w-32 mx-auto" />
             </div>
 
             {/* Title */}
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-5 dark:text-white">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2 sm:mb-4 leading-5 dark:text-white">
               Start Your Adventure!
             </h2>
 
-            <p className="text-gray-400 mb-6 leading-5">
+            <p className="text-gray-400 mb-3 sm:mb-6 leading-5">
               Adventure is calling—join us and explore
             </p>
 
@@ -69,7 +69,7 @@ const RegisterUser = () => {
 
             {/* Form */}
             <form className="w-full" onSubmit={formik.handleSubmit}>
-              <div className="flex flex-col md:flex-row gap-2 mb-4">
+              <div className="flex flex-col md:flex-row gap-2 mb-2 sm:mb-4">
                 {/* First Name */}
                 <div className="w-full md:w-1/2">
                   <TextInput
@@ -118,7 +118,7 @@ const RegisterUser = () => {
               </div>
 
               {/* Username */}
-              <div className="mb-4">
+              <div className="mb-2 sm:mb-4">
                 <TextInput
                   id="username"
                   type="text"
@@ -142,7 +142,7 @@ const RegisterUser = () => {
               </div>
 
               {/* Phone Number */}
-              <div className="mb-4">
+              <div className="mb-2 sm:mb-4">
                 <TextInput
                   id="phone_number"
                   type="text"
@@ -166,7 +166,7 @@ const RegisterUser = () => {
               </div>
 
               {/* Password */}
-              <div className="mb-4">
+              <div className="mb-2 sm:mb-4">
                 <TextInput
                   id="password"
                   type="password"
@@ -202,7 +202,7 @@ const RegisterUser = () => {
             </form>
 
             {/* Redirect to Login */}
-            <p className="text-sm mt-4">
+            <p className="text-sm mt-3 sm:mt-4">
               Sudah punya akun?{" "}
               <Link
                 to="/login"
