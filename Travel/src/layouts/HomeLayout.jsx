@@ -3,9 +3,11 @@ import NavigationBar from "../components/User/HomePage/Navbar";
 
 export default function HomeLayout() {
   return (
-    <div className="container">
+    <div>
       <NavigationBar />
-      <Outlet />
+      <div className="container">
+        <Outlet />
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import { Navbar, Button } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom"; // Gunakan NavLink & useLocation
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
   const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
+  const location = useLocation(); // Ambil lokasi saat ini
 
   const handleLogout = () => {
     clearAuth(); // Hapus data autentikasi
@@ -12,7 +13,7 @@ const NavigationBar = () => {
 
   return (
     <div className="sticky top-0 z-30">
-      <Navbar fluid rounded className=" ">
+      <Navbar fluid rounded className=" shadow-lg">
         <Navbar.Brand href="/">
           <img
             src="/logo2.png" // Sesuaikan dengan logo Anda
@@ -22,7 +23,6 @@ const NavigationBar = () => {
         </Navbar.Brand>
         <div className="flex md:order-2">
           {auth ? (
-            // Jika user login, tampilkan nama pengguna dan tombol logout
             <div className="hidden md:flex items-center space-x-4">
               <span className="text-sm font-medium text-gray-700">
                 Hi, {auth.first_name || "Traveler"}
@@ -32,37 +32,34 @@ const NavigationBar = () => {
               </Button>
             </div>
           ) : (
-            // Jika user belum login, tampilkan tombol login
             <Button color="customBlue">
-              <Link to="/login">Get Started</Link>
+              <NavLink to="/login" className="text-white">
+                Get Started
+              </NavLink>
             </Button>
           )}
-          {/* Tombol Toggle untuk layar kecil */}
           <Navbar.Toggle />
         </div>
         <Navbar.Collapse>
-          <Navbar.Link href="/" active={window.location.pathname === "/"}>
-            Home
-          </Navbar.Link>
-          <Navbar.Link
-            href="/features"
-            active={window.location.pathname === "/features"}
-          >
-            Destination
-          </Navbar.Link>
-          <Navbar.Link
-            href="/about"
-            active={window.location.pathname === "/about"}
-          >
-            Route
-          </Navbar.Link>
-          <Navbar.Link
-            href="/contact"
-            active={window.location.pathname === "/contact"}
-          >
-            AI Assistant
-          </Navbar.Link>
-          {/* Menu Logout di layar kecil */}
+          {/* Menu Navigasi */}
+          {[
+            { to: "/home", label: "Home" },
+            { to: "/home/destinasi", label: "Destination" },
+            { to: "/about", label: "About" },
+            { to: "/contact", label: "AI Assistant" },
+          ].map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                isActive && location.pathname === item.to
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-blue-600"
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
           {auth && (
             <div className="mt-3 md:hidden">
               <span className="block text-sm font-medium text-gray-700 mb-2">

@@ -22,10 +22,7 @@ const Login = () => {
   return (
     <div className="min-h-screen relative">
       {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/bg-login.jpg')" }}
-      ></div>
+      <div className="absolute inset-0 bg-cover bg-center bg-gray-200 sm:bg-[url('/bg-login.jpg')]"></div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-center md:justify-start">
@@ -79,9 +76,11 @@ const Login = () => {
                   }
                 />
                 {formik.touched.username && formik.errors.username && (
-                  <p className="font-medium text-sm text-red-500 mt-1">
-                    {formik.errors.username}
-                  </p>
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.username}
+                    </p>
+                  </div>
                 )}
               </div>
 
@@ -103,9 +102,11 @@ const Login = () => {
                   }
                 />
                 {formik.touched.password && formik.errors.password && (
-                  <p className="font-medium text-sm text-red-500 mt-1">
-                    {formik.errors.password}
-                  </p>
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.password}
+                    </p>
+                  </div>
                 )}
               </div>
 

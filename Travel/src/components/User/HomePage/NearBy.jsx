@@ -51,9 +51,9 @@ const NearByDestinations = () => {
         {/* Tombol Previous */}
         <button
           onClick={prevItem}
-          className="mr-2 left-0 bg-gray-800 text-white rounded-full z-10
+          className="mr-2 left-0 bg-gray-800 text-white p-2 rounded-full z-10
             sm:p-2 sm:w-10 sm:h-10
-            p-2 w-8 h-8"
+             w-8 h-8"
         >
           <FaChevronLeft size={16} className="sm:size-[24px]" />
         </button>
@@ -91,8 +91,9 @@ const NearByDestinations = () => {
         {/* Tombol Next */}
         <button
           onClick={nextItem}
-          className="ml-2 right-0 bg-gray-800 text-white  rounded-full z-10
-            sm:p-2 sm:w-10 sm:h-10 p-2 w-8 h-8"
+          className="ml-2 right-0 bg-gray-800 text-white p-2 rounded-full z-10
+            sm:p-2 sm:w-10 sm:h-10
+             w-8 h-8"
         >
           <FaChevronRight size={16} className="sm:size-[24px]" />
         </button>

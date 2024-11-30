@@ -50,26 +50,26 @@ const HeroSection = () => {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
-          <h1 className="text-xl md:text-4xl font-bold mb-4 text-center">
+          {/* Judul */}
+          <h1 className="text-lg md:text-4xl font-bold mb-4 text-center leading-tight">
             Hi Alaia! <br className="block md:hidden" /> Let's find your next
             adventure!
           </h1>
           {/* Search Bar */}
-          <div className="w-full max-w-sm flex space-x-2">
+          <div className="w-full max-w-xs md:max-w-sm flex space-x-2">
             <TextInput
-              size={50}
               id="search"
               type="text"
               icon={HiSearch}
               placeholder="Search Your Destination..."
               className="w-full text-sm md:text-base"
             />
-            <button className="bg-sky-500 py-2 px-2 md:py-3 md:px-3 rounded-md flex items-center justify-center">
+            <button className="bg-sky-500 py-2 px-3 rounded-md flex items-center justify-center">
               <FaSearch className="text-sm md:text-base" />
             </button>
           </div>
           {/* Location */}
-          <div className="flex items-center mt-4 md:mt-6">
+          <div className="flex items-center mt-3 md:mt-6">
             <FaMapMarkerAlt className="text-white mr-2 text-sm md:text-base" />
             <span className="text-xs md:text-sm lg:text-base">
               {currentPlace.address}

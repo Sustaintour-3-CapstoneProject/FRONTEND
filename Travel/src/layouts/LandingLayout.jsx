@@ -6,10 +6,11 @@ import NavigationBar from "../components/LandingPage/Navbar";
 
 const LandingLayout = () => {
   return (
-    <div className="container">
+    <div>
       <NavigationBar />
-
-      <Outlet />
+      <div className="container">
+        <Outlet />
+      </div>
     </div>
   );
 };
