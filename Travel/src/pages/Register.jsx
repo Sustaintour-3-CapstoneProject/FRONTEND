@@ -16,6 +16,7 @@ const RegisterUser = () => {
       phone_number: "",
       password: "",
     },
+
     validationSchema: Yup.object({
       username: Yup.string().required().min(4),
       first_name: Yup.string().required().min(3),

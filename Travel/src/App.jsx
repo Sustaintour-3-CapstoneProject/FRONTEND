@@ -9,6 +9,8 @@ import HomePage from "./pages/user/HomePage";
 import DestinationDetail from "./pages/user/DetailDestinasi";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Destination from "./pages/user/Destination";
+
+// import ChatAISection from "./pages/user/ChatBot";
 function App() {
   return (
     <div className="App">
@@ -27,6 +29,8 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path=":id" element={<DestinationDetail />} />
               <Route path="destinasi" element={<Destination />} />
+
+              {/* <Route path="chatbot" element={<ChatAISection />} /> */}
             </Route>
           </Route>
         </Routes>
