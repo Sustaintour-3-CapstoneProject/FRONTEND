@@ -3,21 +3,20 @@
 @tailwind utilities;
 
 .marquee {
-    display: flex;
-    animation: scroll 20s linear infinite;
-    width: max-content;
+  display: flex;
+  animation: scroll 20s linear infinite;
+  width: max-content;
+}
+
+.marquee:hover {
+  animation-play-state: paused; /* Hentikan animasi saat di-hover */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
   }
-  
-  .marquee:hover {
-    animation-play-state: paused; /* Hentikan animasi saat di-hover */
+  100% {
+    transform: translateX(-50%);
   }
-  
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-  
+}

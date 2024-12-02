@@ -46,7 +46,7 @@ const CategoryPage = () => {
         >
           <FaArrowLeft size={30} />
         </button>
-        <h1 className="text-xl sm:text-2xl font-bold text-center">
+        <h1 className="text-lg sm:text-2xl font-bold text-center">
           Choose Your Style of Adventure!
         </h1>
         <div className="w-6" /> {/* Spacer untuk keseimbangan */}
@@ -92,11 +92,11 @@ const CategoryPage = () => {
       {/* Ready Button */}
       <Button
         color="customBlue"
-        size="xl"
-        className="my-10 px-32 py-1"
+        size="lg"
+        className="my-10 px-16 sm:px-32 py-1"
         onClick={() => navigate("/home")}
       >
-        I'm Ready to Explore!
+        <span className="w-40"> I'm Ready to Explore!</span>
       </Button>
     </div>
   );

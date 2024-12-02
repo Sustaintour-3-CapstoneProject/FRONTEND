@@ -8,6 +8,7 @@ import DestinationCard from "../../components/common/DestinationCard";
 import SortButton from "../../components/User/Destination/SortButton";
 
 export default function Destination() {
+  console.log("woii", destinations);
   return (
     <div>
       {" "}

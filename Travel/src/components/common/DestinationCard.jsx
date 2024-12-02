@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom"; // Untuk navigasi ke detail destinasi
 
 const DestinationCard = ({ destination }) => {
+  console.log(destination);
   return (
     <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
       {/* Tautan pada gambar */}
       <Link to={`/home/${destination.id}`}>
         <img
-          src={destination.image}
+          src={destination.images[0]?.url}
           alt={destination.name}
           className="w-[330px] h-[180px] rounded-md hover:opacity-90 transition"
         />

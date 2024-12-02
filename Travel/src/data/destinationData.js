@@ -4,7 +4,13 @@ const Datadestinations = [
     id: 1,
     name: "Monas",
     address: "Jakarta, Jakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A stunning beach with crystal clear water and white sand.",
     openingHours: "08:00 - 18:00",
     city: "Jakarta",
@@ -26,7 +32,13 @@ const Datadestinations = [
     id: 2,
     name: "Ancol",
     address: "Tanjung Priok, Jakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A sacred temple famous for its holy spring water.",
     openingHours: "07:00 - 17:00",
     position: [-6.1275, 106.8364],
@@ -47,7 +59,13 @@ const Datadestinations = [
     id: 3,
     name: "Gedung Sate",
     address: "Dago, Bandung",
-    image: "/homepage/TripWise.jpg",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A luxurious resort offering breathtaking ocean views.",
     openingHours: "Open 24 Hours",
     position: [-6.9147, 107.6098],
@@ -83,7 +101,13 @@ const Datadestinations = [
     id: 4,
     name: "Lembang",
     address: "Lembang, Bandung",
-    image: "/homepage/Ecotourism.jpg",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A majestic waterfall located in lush greenery.",
     openingHours: "06:00 - 18:00",
     position: [-6.8133, 107.6211],
@@ -105,7 +129,13 @@ const Datadestinations = [
     id: 5,
     name: "Suramadu",
     address: "Suramadu, Surabaya",
-    image: "/homepage/rajaampat.jpg",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A tranquil beach known for its dolphin tours.",
     openingHours: "06:00 - 20:00",
     position: [-7.1907, 112.7508],
@@ -127,7 +157,13 @@ const Datadestinations = [
     id: 6,
     name: "Tugu Pahlawan",
     address: "Surabaya, Surabaya",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.2457, 112.7374],
@@ -149,8 +185,20 @@ const Datadestinations = [
     id: 7,
     name: "Malioboro",
     address: "Jl.Malioboro, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
-    description: "A famous temple on the shores of Lake Bratan.",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+      {
+        id: 59,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
+    description:
+      "A famous temple on the shores of Lake Bratan lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum",
     openingHours: "07:00 - 19:00",
     position: [-7.7956, 110.3646],
     city: "Yogyakarta",
@@ -171,7 +219,13 @@ const Datadestinations = [
     id: 8,
     name: "Candi Prambanan",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.4911],
@@ -193,7 +247,18 @@ const Datadestinations = [
     id: 9,
     name: "Candi Prambanan",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+      {
+        id: 49,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.4911],
@@ -215,7 +280,13 @@ const Datadestinations = [
     id: 10,
     name: "Candi Prambanan",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.4911],
@@ -237,7 +308,13 @@ const Datadestinations = [
     id: 11,
     name: "Candi Prambanan",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.4911],
@@ -259,7 +336,13 @@ const Datadestinations = [
     id: 12,
     name: "Candi Prambanan",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.4911],
@@ -281,7 +364,13 @@ const Datadestinations = [
     id: 13,
     name: "Candi Kocak",
     address: "Klaten, Yogyakarta",
-    image: "https://via.placeholder.com/300x200",
+    images: [
+      {
+        id: 29,
+        destination_id: 17,
+        url: "https://mediaindonesia.com/cdn-cgi/image/width=800,quality=80,format=webp/https://asset.mediaindonesia.com/news/2024/03/aff80952da9c7a27847944ad35ae0820.jpg",
+      },
+    ],
     description: "A famous temple on the shores of Lake Bratan.",
     openingHours: "07:00 - 19:00",
     position: [-7.7519, 110.49112],

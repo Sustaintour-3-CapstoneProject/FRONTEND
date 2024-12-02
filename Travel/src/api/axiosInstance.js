@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore from "../store/authStore";
 
 const axiosInstance = axios.create({
-  baseURL: "https://www.tripwise.my.id/api/v1", // URL API
+  baseURL: "https://www.tripwise.my.id", // URL API
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
