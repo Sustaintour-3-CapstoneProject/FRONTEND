@@ -78,7 +78,14 @@ const DestinationDetail = () => {
         </div>
         <div className="flex items-center mt-2 text-gray-600">
           <HiCurrencyDollar className="mr-2 text-blue-500" />
-          <p>{destination.ticketPrice}</p>
+          <p>
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(destination.cost)}
+          </p>
         </div>
       </div>
 
