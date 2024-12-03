@@ -9,7 +9,7 @@ const DestinationCard = ({ destination }) => {
         <img
           src={destination.images[0]?.url}
           alt={destination.name}
-          className="w-[330px] h-[180px] rounded-md hover:opacity-90 transition object-cover object-center"
+          className="w-[330px] h-[160px] rounded-md hover:opacity-90 transition object-cover object-center"
         />
       </Link>
       <div className="mt-2">
