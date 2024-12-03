@@ -1,5 +1,5 @@
-import { Navbar, Button } from "flowbite-react";
-import { NavLink, useLocation } from "react-router-dom"; // Gunakan NavLink & useLocation
+import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
+import { NavLink, useLocation } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
@@ -13,24 +13,41 @@ const NavigationBar = () => {
 
   return (
     <div className="sticky top-0 z-30">
-      <Navbar fluid rounded className=" shadow-lg">
+      <Navbar fluid rounded className="shadow-lg">
         <Navbar.Brand href="/">
           <img
             src="/logo2.png" // Sesuaikan dengan logo Anda
-            className="h-6 sm:h-9"
+            className="md:ml-16 h-6 sm:h-9"
             alt="TripWise Logo"
           />
         </Navbar.Brand>
-        <div className="flex md:order-2">
+        <div className="flex md:order-2 md:mr-16">
           {auth ? (
-            <div className="hidden md:flex items-center space-x-4">
-              <span className="text-sm font-medium text-gray-700">
-                Hi, {auth.first_name || "Traveler"}
-              </span>
-              <Button color="failure" onClick={handleLogout}>
-                Logout
-              </Button>
-            </div>
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <div className="flex items-center space-x-2">
+                  <Avatar
+                    img="/default-user.png" // Gambar profil default
+                    rounded
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Hi, {auth.first_name || "Traveler"}
+                  </span>
+                </div>
+              }
+            >
+              <Dropdown.Header>
+                <span className="block text-sm">
+                  {auth.first_name} {auth.last_name || ""}
+                </span>
+                <span className="block text-sm font-medium text-gray-500">
+                  {auth.email}
+                </span>
+              </Dropdown.Header>
+              <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+            </Dropdown>
           ) : (
             <Button color="customBlue">
               <NavLink to="/login" className="text-white">
@@ -60,20 +77,6 @@ const NavigationBar = () => {
               {item.label}
             </NavLink>
           ))}
-          {auth && (
-            <div className="mt-3 md:hidden">
-              <span className="block text-sm font-medium text-gray-700 mb-2">
-                Hi, {auth?.first_name || "Traveler"}
-              </span>
-              <Button
-                color="failure"
-                onClick={handleLogout}
-                className="w-full text-center"
-              >
-                Logout
-              </Button>
-            </div>
-          )}
         </Navbar.Collapse>
       </Navbar>
     </div>

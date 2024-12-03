@@ -12,9 +12,12 @@ const axiosInstance = axios.create({
 // Interceptor untuk menambahkan token secara otomatis jika ada
 axiosInstance.interceptors.request.use(
   (config) => {
-    const { token } = useAuthStore.getState(); // Ambil token dari Zustand store
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const auth = useAuthStore.getState().auth;
+    if (auth && auth.token) {
+      config.headers.Authorization = `Bearer ${auth.token}`;
+      console.log("Token yang dikirim:", config.headers.Authorization);
+    } else {
+      console.log("Tidak ada token yang tersedia");
     }
     return config;
   },
