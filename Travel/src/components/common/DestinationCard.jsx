@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom"; // Untuk navigasi ke detail destinasi
 
 const DestinationCard = ({ destination }) => {
-  console.log(destination);
   return (
     <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
       {/* Tautan pada gambar */}
