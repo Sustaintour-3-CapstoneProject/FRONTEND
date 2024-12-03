@@ -9,6 +9,7 @@ import HomePage from "./pages/user/HomePage";
 import DestinationDetail from "./pages/user/DetailDestinasi";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Destination from "./pages/user/Destination";
+import ChatBot from "./pages/user/ChatBot";
 
 // import ChatAISection from "./pages/user/ChatBot";
 function App() {
@@ -30,7 +31,7 @@ function App() {
               <Route path=":id" element={<DestinationDetail />} />
               <Route path="destinasi" element={<Destination />} />
 
-              {/* <Route path="chatbot" element={<ChatAISection />} /> */}
+              <Route path="chatbot" element={<ChatBot />} />
             </Route>
           </Route>
         </Routes>

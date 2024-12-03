@@ -10,6 +10,7 @@ function ChatBot() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Ambil data autentikasi dan fungsi logout
   const handleSubmit = (event) =>
     handleChatSubmit({
       event,
@@ -35,10 +36,8 @@ function ChatBot() {
   };
 
   return (
-    <Card className="w-full max-w-sm md:max-w-full p-6 rounded-none md:rounded-xl">
-      <h1 className="text-2xl font-bold mb-4 text-center text-green-600">
-        Eco-Ai
-      </h1>
+    <div className="w-full max-w-sm mt-5 space-y-4 md:max-w-full md:w-full  rounded-none ">
+      <h1 className="text-2xl font-bold text-center text-green-600">Eco-Ai</h1>
 
       <ChatWindow chatHistory={chatHistory} loading={loading} />
 
@@ -60,13 +59,13 @@ function ChatBot() {
         onClick={handleRefresh}
         outline
         gradientMonochrome="failure"
-        className="w-full max-w-3xl mx-auto"
+        className="w-full max-w-3xl mx-auto m"
         size="lg"
         disabled={loading}
       >
         Refresh Chat
       </Button>
-    </Card>
+    </div>
   );
 }
 
