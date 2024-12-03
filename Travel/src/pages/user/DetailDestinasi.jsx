@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import destinations from "../../data/destinationData";
 import { HiLocationMarker, HiClock, HiCurrencyDollar } from "react-icons/hi";
 import { FaRestroom, FaParking, FaHiking, FaSwimmer } from "react-icons/fa";
@@ -8,7 +8,7 @@ import {
   MdOutlineLocalGroceryStore,
   MdOutlineDirectionsBoat,
 } from "react-icons/md";
-import { Carousel, Card } from "flowbite-react";
+import { Carousel, Card, Button } from "flowbite-react";
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -28,10 +28,19 @@ const DestinationDetail = () => {
 
   if (!destination) {
     return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-red-600">
-          Destination not found!
-        </h2>
+      <div className="flex flex-col items-center justify-center h-screen bg-white text-sky-500">
+        <img
+          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/404/404-error.svg"
+          alt="404 Not Found"
+          className="w-64 h-64"
+        />
+        <h1 className="text-5xl font-bold mt-8">Page Not Found</h1>
+        <p className="text-lg mt-4 text-gray-500">
+          Oops! The page you are looking for does not exist.
+        </p>
+        <Button className="mt-6 bg-sky-500 hover:bg-sky-600 text-white">
+          <Link to="/home"> Go Back to Home</Link>
+        </Button>
       </div>
     );
   }
