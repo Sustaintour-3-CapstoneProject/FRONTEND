@@ -13,7 +13,7 @@ export const getGeminiResponse = async (apiKey, prompt, chatHistory) => {
         { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT },
       ],
       generationConfig: {
-        maxOutputTokens: 200,
+        maxOutputTokens: 250,
         temperature: 0.8,
       },
     });

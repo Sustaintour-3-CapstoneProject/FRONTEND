@@ -43,7 +43,7 @@ export const handleChatSubmit = async ({
 
     // Panggil API Gemini melalui fungsi utilitas
     const aiResponse = await getGeminiResponse(
-      `AIzaSyDKLWJINRlnTR4yLC89h7 - NpYBsBHFezf4`, // API Key
+      import.meta.env.VITE_API_KEY, // API Key
       energySpecificPrompt, // Prompt yang dihasilkan
       chatHistory // Riwayat obrolan
     );
