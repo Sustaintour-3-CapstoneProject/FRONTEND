@@ -28,8 +28,8 @@ const Login = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-start">
         {/* Login Form Container */}
-        <div className="w-full min-h-[493px] md:min-h-full rounded-t-lg  md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
-          <div className="w-full max-w-sm flex flex-col items-center justify-center text-center">
+        <div className="w-full  md:min-h-full rounded-t-lg  md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
+          <div className="w-full max-w-sm h-[650px] sm:h-full flex flex-col items-center justify-center text-center">
             {/* Logo */}
             <div className="pb-4">
               <img src="/logo2.png" alt="logo" className="w-32 mx-auto" />

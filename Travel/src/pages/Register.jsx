@@ -13,7 +13,7 @@ const RegisterUser = () => {
       username: "",
       first_name: "",
       last_name: "",
-      phone_number: "",
+      city: "",
       password: "",
     },
 
@@ -21,7 +21,8 @@ const RegisterUser = () => {
       username: Yup.string().required().min(4),
       first_name: Yup.string().required().min(3),
       last_name: Yup.string().required().min(5),
-      phone_number: Yup.string().required().min(10),
+      city: Yup.string().required().min(10),
+      email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
     }),
     onSubmit: handleRegister,
@@ -40,7 +41,7 @@ const RegisterUser = () => {
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-end">
         {/* Register Form Container */}
         <div className="w-full rounded-t-lg md:rounded-tr-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-s-3xl md:px-12 dark:bg-gray-800">
-          <div className="w-full max-w-sm flex flex-col items-center justify-center text-center">
+          <div className="w-full h-[650px] sm:h-full max-w-sm flex flex-col items-center justify-center text-center">
             {/* Logo */}
             <div className="pb-3 sm:pb-4">
               <img src="/logo2.png" alt="logo" className="w-32 mx-auto" />
@@ -88,9 +89,11 @@ const RegisterUser = () => {
                     required
                   />
                   {formik.touched.first_name && formik.errors.first_name && (
-                    <p className="font-medium text-sm text-red-500 mt-1">
-                      {formik.errors.first_name}
-                    </p>
+                    <div className="flex">
+                      <p className="font-medium text-sm text-red-500 mt-1">
+                        {formik.errors.first_name}
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -111,9 +114,11 @@ const RegisterUser = () => {
                     required
                   />
                   {formik.touched.last_name && formik.errors.last_name && (
-                    <p className="font-medium text-sm text-red-500 mt-1">
-                      {formik.errors.last_name}
-                    </p>
+                    <div className="flex">
+                      <p className="font-medium text-sm text-red-500 mt-1">
+                        {formik.errors.last_name}
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -136,33 +141,63 @@ const RegisterUser = () => {
                   }
                 />
                 {formik.touched.username && formik.errors.username && (
-                  <p className="font-medium text-sm text-red-500 mt-1">
-                    {formik.errors.username}
-                  </p>
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.username}
+                    </p>
+                  </div>
                 )}
               </div>
 
-              {/* Phone Number */}
+              {/* city */}
               <div className="mb-2 sm:mb-4">
                 <TextInput
-                  id="phone_number"
+                  id="city"
                   type="text"
-                  name="phone_number"
-                  placeholder="Nomor Telepon"
+                  name="city"
+                  placeholder="City"
                   required
-                  value={formik.values.phone_number}
+                  value={formik.values.city}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   color={
-                    formik.touched.phone_number && formik.errors.phone_number
+                    formik.touched.city && formik.errors.city
                       ? "failure"
                       : undefined
                   }
                 />
-                {formik.touched.phone_number && formik.errors.phone_number && (
-                  <p className="font-medium text-sm text-red-500 mt-1">
-                    {formik.errors.phone_number}
-                  </p>
+                {formik.touched.city && formik.errors.city && (
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.city}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* email*/}
+              <div className="mb-2 sm:mb-4">
+                <TextInput
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  color={
+                    formik.touched.email && formik.errors.email
+                      ? "failure"
+                      : undefined
+                  }
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.email}
+                    </p>
+                  </div>
                 )}
               </div>
 
@@ -184,9 +219,11 @@ const RegisterUser = () => {
                   }
                 />
                 {formik.touched.password && formik.errors.password && (
-                  <p className="font-medium text-sm text-red-500 mt-1">
-                    {formik.errors.password}
-                  </p>
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.password}
+                    </p>
+                  </div>
                 )}
               </div>
 
