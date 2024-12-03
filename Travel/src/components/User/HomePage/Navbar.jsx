@@ -1,9 +1,10 @@
-import { Navbar, Button } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
+import { NavLink, useLocation } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
   const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
+  const location = useLocation(); // Ambil lokasi saat ini
 
   const handleLogout = () => {
     clearAuth(); // Hapus data autentikasi
@@ -11,76 +12,74 @@ const NavigationBar = () => {
   };
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-30 bg-white shadow-md">
-      <Navbar.Brand href="/">
-        <img
-          src="/logo2.png" // Sesuaikan dengan logo Anda
-          className="h-6 sm:h-9"
-          alt="TripWise Logo"
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold text-gray-800">
-          TripWise
-        </span>
-      </Navbar.Brand>
-      <div className="flex md:order-2">
-        {auth ? (
-          // Jika user login, tampilkan nama pengguna dan tombol logout
-          <div className="hidden md:flex items-center space-x-4">
-            <span className="text-sm font-medium text-gray-700">
-              Hi, {auth.first_name || "Traveler"}
-            </span>
-            <Button color="failure" onClick={handleLogout}>
-              Logout
-            </Button>
-          </div>
-        ) : (
-          // Jika user belum login, tampilkan tombol login
-          <Button color="customBlue">
-            <Link to="/login">Get Started</Link>
-          </Button>
-        )}
-        {/* Tombol Toggle untuk layar kecil */}
-        <Navbar.Toggle />
-      </div>
-      <Navbar.Collapse>
-        <Navbar.Link href="/" active={window.location.pathname === "/"}>
-          Home
-        </Navbar.Link>
-        <Navbar.Link
-          href="/features"
-          active={window.location.pathname === "/features"}
-        >
-          Destination
-        </Navbar.Link>
-        <Navbar.Link
-          href="/about"
-          active={window.location.pathname === "/about"}
-        >
-          Route
-        </Navbar.Link>
-        <Navbar.Link
-          href="/contact"
-          active={window.location.pathname === "/contact"}
-        >
-          AI Assistant
-        </Navbar.Link>
-        {/* Menu Logout di layar kecil */}
-        {auth && (
-          <div className="mt-3 md:hidden">
-            <span className="block text-sm font-medium text-gray-700 mb-2">
-              Hi, {auth?.first_name || "Traveler"}
-            </span>
-            <Button
-              color="failure"
-              onClick={handleLogout}
-              className="w-full text-center"
+    <div className="sticky top-0 z-30">
+      <Navbar fluid rounded className="shadow-lg">
+        <Navbar.Brand href="/">
+          <img
+            src="/logo2.png" // Sesuaikan dengan logo Anda
+            className="md:ml-16 h-6 sm:h-9"
+            alt="TripWise Logo"
+          />
+        </Navbar.Brand>
+        <div className="flex md:order-2 md:mr-16">
+          {auth ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <div className="flex items-center space-x-2">
+                  <Avatar
+                    img="/default-user.png" // Gambar profil default
+                    rounded
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Hi, {auth.first_name || "Traveler"}
+                  </span>
+                </div>
+              }
             >
-              Logout
+              <Dropdown.Header>
+                <span className="block text-sm">
+                  {auth.first_name} {auth.last_name || ""}
+                </span>
+                <span className="block text-sm font-medium text-gray-500">
+                  {auth.email}
+                </span>
+              </Dropdown.Header>
+              <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <Button color="customBlue">
+              <NavLink to="/login" className="text-white">
+                Get Started
+              </NavLink>
             </Button>
-          </div>
-        )}
-      </Navbar.Collapse>
-    </Navbar>
+          )}
+          <Navbar.Toggle />
+        </div>
+        <Navbar.Collapse>
+          {/* Menu Navigasi */}
+          {[
+            { to: "/home", label: "Home" },
+            { to: "/home/destinasi", label: "Destination" },
+            { to: "/about", label: "About" },
+            { to: "/contact", label: "AI Assistant" },
+          ].map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                isActive && location.pathname === item.to
+                  ? "text-blue-600 font-semibold"
+                  : "text-gray-600 hover:text-blue-600"
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
   );
 };
 

@@ -8,8 +8,9 @@ const LandingLayout = () => {
   return (
     <div>
       <NavigationBar />
-
-      <Outlet />
+      <div className="container">
+        <Outlet />
+      </div>
     </div>
   );
 };

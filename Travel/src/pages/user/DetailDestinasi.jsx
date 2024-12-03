@@ -8,7 +8,7 @@ import {
   MdOutlineLocalGroceryStore,
   MdOutlineDirectionsBoat,
 } from "react-icons/md";
-import { Button, Card } from "flowbite-react";
+import { Carousel, Card } from "flowbite-react";
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -52,17 +52,17 @@ const DestinationDetail = () => {
   return (
     <section className="container max-w-[82rem] py-10 px-6 mx-auto">
       {/* Hero Image */}
-      <div className="relative">
-        <img
-          src={destination.image}
-          alt={destination.name}
-          className="rounded-lg shadow-lg w-full h-[450px] object-cover object-center"
-        />
-        <div className="absolute top-4 left-4">
-          <Button color="dark" size="sm">
-            Explore More
-          </Button>
-        </div>
+      <div className="relative w-full h-[500px]">
+        <Carousel slideInterval={5000} className="h-full">
+          {destination.images.map((image, index) => (
+            <img
+              key={index}
+              src={image.url}
+              alt={`Slide ${index + 1}`}
+              className="rounded-lg shadow-lg w-full h-full object-cover object-center "
+            />
+          ))}
+        </Carousel>
       </div>
 
       {/* Title and Info */}
@@ -78,7 +78,14 @@ const DestinationDetail = () => {
         </div>
         <div className="flex items-center mt-2 text-gray-600">
           <HiCurrencyDollar className="mr-2 text-blue-500" />
-          <p>{destination.ticketPrice}</p>
+          <p>
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            }).format(destination.cost)}
+          </p>
         </div>
       </div>
 

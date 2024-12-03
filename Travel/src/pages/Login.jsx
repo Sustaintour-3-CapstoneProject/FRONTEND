@@ -1,133 +1,123 @@
-import { TextInput, Checkbox, Button } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
+import { TextInput, Checkbox, Button, Alert } from "flowbite-react";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axiosInstance from "../api/axiosInstance";
-import useAuthStore from "../store/authStore";
+import useLogin from "../hooks/useLogin";
+
 const Login = () => {
-  const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth); // Ambil fungsi setAuth dari store
-
-  const handleLogin = async (values) => {
-    try {
-      const response = await axiosInstance.post("/login", values);
-      const { data } = response.data; // Ambil data token dan user
-      console.log(response.data);
-
-      // Simpan token dan data user ke Zustand
-      setAuth(data);
-
-      // Arahkan ke dashboard
-      navigate("/home");
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Login gagal, periksa username dan password Anda."
-      );
-    }
-  };
+  const { handleLogin, isProcessing, error, successMessage } = useLogin();
 
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
+      remember: false, // Tambahkan remember sebagai nilai awal
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Username wajib diisi"),
-      password: Yup.string().required("Password wajib diisi"),
+      username: Yup.string().required("Username wajib diisi").min(4),
+      password: Yup.string().required("Password wajib diisi").min(6),
     }),
     onSubmit: handleLogin,
   });
+
   return (
     <div className="min-h-screen relative">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-center bg-no-repeat bg-cover"
-        style={{ backgroundImage: "url('/bg-login.jpg')" }}
-      ></div>
+      {/* Background */}
+      <div className="absolute inset-0 bg-cover bg-top sm:bg-center bg-[url('/LandingPage/Hero-Section.jpg')]"></div>
 
-      {/* Form Section */}
-      <div className="relative z-10 flex min-h-screen">
-        <div className="w-1/2 bg-zinc-100 flex items-center justify-center rounded-e-xl px-12">
-          <div className="w-96 flex flex-col items-center justify-center text-center">
+      {/* Content */}
+      <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-start">
+        {/* Login Form Container */}
+        <div className="w-full  md:min-h-full rounded-t-lg  md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
+          <div className="w-full max-w-sm h-[650px] sm:h-full flex flex-col items-center justify-center text-center">
             {/* Logo */}
             <div className="pb-4">
-              <img src="/logo2.png" alt="logo" />
+              <img src="/logo2.png" alt="logo" className="w-32 mx-auto" />
             </div>
 
-            {/* Judul */}
-            <h2 className="text-3xl font-bold mb-4 leading-5">
+            {/* Title */}
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-5 dark:text-white">
               Welcome Back, Traveler!
             </h2>
 
-            {/* Sub Judul */}
             <p className="text-gray-400 mb-6 leading-5">
               Explore your next journey effortlessly.
             </p>
 
+            {/* Success & Error Messages */}
+            {successMessage && (
+              <Alert color="success" className="mb-4 w-full">
+                {successMessage} Redirecting in 3 seconds...
+              </Alert>
+            )}
+
+            {error && (
+              <Alert color="failure" className="mb-4 w-full">
+                {error}
+              </Alert>
+            )}
+
             {/* Form */}
             <form className="w-full" onSubmit={formik.handleSubmit}>
-              {/* Email */}
-              <TextInput
-                id="username"
-                type="text"
-                name="username"
-                placeholder="username"
-                required
-                value={formik.values.username}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                color={
-                  formik.touched.usernmae && formik.errors.username
-                    ? "failure"
-                    : undefined
-                }
-                helperText={
-                  formik.touched.email && formik.errors.email ? (
-                    <>
-                      <span className="font-medium -mt-2 mb-2 block text-sm ">
-                        {formik.errors.email}
-                      </span>
-                    </>
-                  ) : undefined
-                }
-                className="mb-4"
-              />
+              {/* Username */}
+              <div className="mb-4">
+                <TextInput
+                  id="username"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  color={
+                    formik.touched.username && formik.errors.username
+                      ? "failure"
+                      : undefined
+                  }
+                />
+                {formik.touched.username && formik.errors.username && (
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.username}
+                    </p>
+                  </div>
+                )}
+              </div>
 
               {/* Password */}
-              <TextInput
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                color={
-                  formik.touched.password && formik.errors.password
-                    ? "failure"
-                    : undefined
-                }
-                helperText={
-                  formik.touched.password && formik.errors.password ? (
-                    <>
-                      <span className="font-medium -mt-2 mb-2 block text-sm ">
-                        {formik.errors.password}
-                      </span>
-                    </>
-                  ) : undefined
-                }
-                className="mb-4"
-              />
+              <div className="mb-4">
+                <TextInput
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  color={
+                    formik.touched.password && formik.errors.password
+                      ? "failure"
+                      : undefined
+                  }
+                />
+                {formik.touched.password && formik.errors.password && (
+                  <div className="flex">
+                    <p className="font-medium text-sm text-red-500 mt-1">
+                      {formik.errors.password}
+                    </p>
+                  </div>
+                )}
+              </div>
 
-              {/* Remember Me & Forgot Password */}
+              {/* Remember Me */}
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center">
                   <Checkbox
+                    color="sky"
                     id="remember"
                     name="remember"
-                    color="customBlue"
                     checked={formik.values.remember}
                     onChange={formik.handleChange}
                   />
@@ -143,13 +133,19 @@ const Login = () => {
                 </a>
               </div>
 
-              {/* Button */}
-              <Button color="customBlue" type="submit" className="w-full">
+              {/* Submit Button */}
+              <Button
+                color="customBlue"
+                type="submit"
+                className="w-full"
+                isProcessing={isProcessing}
+                disabled={isProcessing}
+              >
                 Login
               </Button>
             </form>
 
-            {/* Link ke Register */}
+            {/* Redirect to Register */}
             <p className="text-sm mt-4">
               Belum punya akun?{" "}
               <Link

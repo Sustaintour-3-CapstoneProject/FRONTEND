@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Tambahkan Link untuk navigasi
-import destinations from "../../../data/destinationData"; // Import data dari file
+import destinations from "../../../data/destinationData";
+import DestinationCard from "../../common/DestinationCard"; // Pastikan path ini sesuai dengan lokasi file
 
 const NearByDestinations = () => {
-  const [startIndex, setStartIndex] = useState(0); // Index awal untuk carousel
-  const itemsToShow = 4; // Jumlah item yang ingin ditampilkan
+  const [startIndex, setStartIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Fungsi untuk menentukan mode mobile atau desktop
+    const updateScreenSize = () => {
+      setIsMobile(window.innerWidth < 640); // Mobile jika lebar layar < 640px
+    };
+
+    // Panggil saat komponen pertama kali dimuat
+    updateScreenSize();
+
+    // Update mode setiap kali ukuran layar berubah
+    window.addEventListener("resize", updateScreenSize);
+
+    // Bersihkan event listener saat komponen di-unmount
+    return () => {
+      window.removeEventListener("resize", updateScreenSize);
+    };
+  }, []);
 
   const nextItem = () => {
-    setStartIndex(
-      (prevIndex) => (prevIndex + 1) % destinations.length // Geser 1 item ke depan
-    );
+    setStartIndex((prevIndex) => (prevIndex + 1) % destinations.length);
   };
 
   const prevItem = () => {
     setStartIndex(
-      (prevIndex) => (prevIndex - 1 + destinations.length) % destinations.length // Geser 1 item ke belakang
+      (prevIndex) => (prevIndex - 1 + destinations.length) % destinations.length
     );
   };
 
-  // Ambil 4 kartu berdasarkan startIndex
-  const carouselItems = Array.from({ length: itemsToShow }, (_, i) => {
+  const carouselItems = Array.from({ length: 6 }, (_, i) => {
     const index = (startIndex + i) % destinations.length;
     return destinations[index];
   });
@@ -30,49 +45,43 @@ const NearByDestinations = () => {
       <h2 className="text-2xl font-bold mb-6">Near By Destinations</h2>
       <div className="relative flex items-center">
         {/* Tombol Previous */}
-        <button
-          onClick={prevItem}
-          className="mr-2 left-0 bg-gray-800 text-white p-2 rounded-full z-10"
-        >
-          <FaChevronLeft size={24} />
-        </button>
+        {!isMobile && (
+          <button
+            onClick={prevItem}
+            className="absolute top-1/2 -translate-y-1/2 -left-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
+            aria-label="Previous"
+          >
+            <FaChevronLeft size={20} />
+          </button>
+        )}
 
         {/* Konten Carousel */}
-        <div className="flex gap-4 overflow-hidden justify-center w-full">
-          {carouselItems.map((destination) => (
-            <div key={destination.id}>
-              <div className="border border-x-gray-100 rounded-lg shadow-lg p-4 bg-white">
-                {/* Tautan pada gambar */}
-                <Link to={`/home/${destination.id}`}>
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-[330px] h-[180px] rounded-md hover:opacity-90 transition"
-                  />
-                </Link>
-                <div className="mt-2">
-                  {/* Tautan pada nama destinasi */}
-                  <h5 className="text-md font-bold leading-tight line-clamp-1 text-sky-900 dark:text-white mb-1">
-                    <Link to={`/home/${destination.id}`}>
-                      {destination.name}
-                    </Link>
-                  </h5>
-                  <p className="text-sm leading-tight text-gray-700 dark:text-gray-400">
-                    {destination.address}
-                  </p>
-                </div>
-              </div>
+        <div className="flex overflow-x-auto md:overflow-hidden gap-3 md:gap-4 w-full scrollbar-hide">
+          {(isMobile ? destinations : carouselItems).map((destination) => (
+            <div
+              key={destination.id}
+              className={`flex-shrink-0 ${
+                isMobile
+                  ? "min-w-[43%] max-w-[40%]"
+                  : "sm:min-w-[200px] sm:max-w-[200px]"
+              }`}
+            >
+              <DestinationCard destination={destination} />{" "}
+              {/* Menggunakan komponen DestinationCard */}
             </div>
           ))}
         </div>
 
         {/* Tombol Next */}
-        <button
-          onClick={nextItem}
-          className="ml-2 right-0 bg-gray-800 text-white p-2 rounded-full z-10"
-        >
-          <FaChevronRight size={24} />
-        </button>
+        {!isMobile && (
+          <button
+            onClick={nextItem}
+            className="absolute top-1/2 -translate-y-1/2 -right-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
+            aria-label="Next"
+          >
+            <FaChevronRight size={20} />
+          </button>
+        )}
       </div>
     </section>
   );
