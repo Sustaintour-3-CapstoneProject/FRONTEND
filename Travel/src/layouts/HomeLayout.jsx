@@ -8,8 +8,8 @@ export default function HomeLayout() {
       <NavigationBar />
       <div className="container">
         <Outlet />
-        <Footers />
       </div>
+      <Footers />
     </div>
   );
 }
