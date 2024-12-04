@@ -1,0 +1,384 @@
+import React, { useState, useEffect } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Polyline,
+  Tooltip,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { Button, Select, Pagination } from "flowbite-react";
+import Datadestinations from "../../data/destinationData";
+import AlertModal from "../../components/common/AlertModal";
+import ConfirmationModal from "../../components/common/ConfirmationModal";
+import {
+  HiMap,
+  HiClock,
+  HiCurrencyDollar,
+  HiExclamationCircle,
+  HiCheckCircle,
+} from "react-icons/hi";
+// Ikon marker
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
+
+const Rutes = () => {
+  const [origin, setOrigin] = useState(""); // Kota Asal
+  const [destination, setDestination] = useState(""); // Kota Tujuan
+  const [destinations, setDestinations] = useState([]); // Daftar destinasi
+  const [selectedDestination, setSelectedDestination] = useState(null); // Destinasi dipilih
+  const [route, setRoute] = useState([]); // Rute peta
+  const [totalCost, setTotalCost] = useState(0); // Total biaya
+  const [distance, setDistance] = useState(0); // Jarak estimasi (km)
+  const [time, setTime] = useState(0); // Waktu estimasi (menit)
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Modal error
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Modal sukses
+  const [isHowToUseModalOpen, setIsHowToUseModalOpen] = useState(false); // State untuk modal tata cara
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4; // Jumlah item per halaman
+  const cityOptions = [
+    { name: "Jakarta", position: [-6.2088, 106.8456] },
+    { name: "Bandung", position: [-6.9175, 107.6191] },
+    { name: "Surabaya", position: [-7.2575, 112.7521] },
+    { name: "Yogyakarta", position: [-7.7956, 110.3695] },
+  ];
+
+  useEffect(() => {
+    if (destination) {
+      const filteredDestinations = Datadestinations.filter(
+        (dest) => dest.city === destination
+      );
+      setDestinations(filteredDestinations);
+    } else {
+      setDestinations([]);
+    }
+  }, [destination]);
+
+  const calculateDistance = async (originCoord, destCoord) => {
+    const apiKey = "5b3ce3597851110001cf62483a8056d98cdb4e0a8376166e1cc1e650"; // Ganti dengan API Key Anda
+    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${originCoord[1]},${originCoord[0]}&end=${destCoord[1]},${destCoord[0]}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const distanceInKm = data.features[0].properties.summary.distance / 1000;
+      const durationInSeconds = data.features[0].properties.summary.duration;
+
+      // Hitung jam dan menit
+      const hours = Math.floor(durationInSeconds / 3600); // Ambil jam
+      const minutes = Math.floor((durationInSeconds % 3600) / 60); // Sisa detik diubah ke menit
+
+      setDistance(distanceInKm.toFixed(2));
+      setTime(`${hours} jam ${minutes} menit`);
+    } catch (error) {
+      console.error("Error fetching distance:", error);
+      setDistance(0);
+      setTime("0 jam 0 menit");
+    }
+  };
+
+  useEffect(() => {
+    if (origin && selectedDestination) {
+      const originCoord = cityOptions.find(
+        (city) => city.name === origin
+      )?.position;
+      const destCoord = selectedDestination.position;
+
+      if (originCoord && destCoord) {
+        calculateDistance(originCoord, destCoord);
+      }
+    }
+  }, [origin, selectedDestination]);
+
+  const handleSelectDestination = (dest) => {
+    if (!origin) {
+      setIsErrorModalOpen(true);
+      return;
+    }
+    setSelectedDestination(dest);
+    setRoute([dest.position]);
+    setTotalCost(dest.cost);
+  };
+
+  const handleCancelDestination = () => {
+    setSelectedDestination(null);
+    setRoute([]);
+    setTotalCost(0);
+  };
+
+  const handleSave = () => {
+    if (!origin || !destination || !selectedDestination) {
+      setIsErrorModalOpen(true);
+      return;
+    }
+
+    setIsConfirmationOpen(true);
+  };
+
+  const handleConfirmSave = () => {
+    setIsConfirmationOpen(false);
+
+    // Simpan data
+    const savedData = {
+      origin,
+      destination,
+      selectedDestination,
+      totalCost,
+      distance,
+      time,
+    };
+    setIsSuccessModalOpen(true); // Buka modal sukses
+    console.log("Data yang disimpan:", savedData);
+  };
+  // Data untuk halaman saat ini
+  const paginatedDestinations = destinations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const handleRefresh = () => {
+    setOrigin(""); // Reset kota asal
+    setDestination(""); // Reset kota tujuan
+    setDestinations([]); // Kosongkan daftar destinasi
+    setSelectedDestination(null); // Hilangkan destinasi yang dipilih
+    setRoute([]); // Kosongkan rute peta
+    setTotalCost(0); // Reset total biaya
+    setDistance(0); // Reset jarak
+    setTime(0); // Reset waktu
+    setCurrentPage(1); // Reset pagination
+  };
+
+  const handleHowToUseClick = () => {
+    setIsHowToUseModalOpen(true); // Buka modal
+  };
+
+  const closeHowToUseModal = () => {
+    setIsHowToUseModalOpen(false); // Tutup modal
+  };
+
+  return (
+    <div className="flex flex-col my-10 rounded-lg p-3 space-y-4 bg-gray-100 min-h-screen pb-10 font-poppins">
+      <h1 className="text-2xl font-bold">Planning Route</h1>
+      <div className="flex justify-around items-center  space-x-3 py-3">
+        {/* Kota Asal */}
+        <div>
+          <select
+            value={origin}
+            onChange={(e) => setOrigin(e.target.value)}
+            className="w-full bg-sky-500 text-white border-2 border-sky-300 rounded-md"
+          >
+            <option className="bg-white text-black" value="">
+              Enter Your Location
+            </option>
+            {cityOptions.map((city, idx) => (
+              <option
+                className="bg-white text-black"
+                key={idx}
+                value={city.name}
+              >
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Kota Tujuan */}
+        <div>
+          <select
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            className="w-full bg-sky-500 text-white border-2 border-sky-300 rounded-md"
+          >
+            <option value={null}>Your Destination Location</option>
+            {cityOptions.map((city, idx) => (
+              <option key={idx} value={city.name}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Tombol Refresh */}
+        <Button onClick={handleRefresh} color="failure" className=" w-32">
+          Refresh
+        </Button>
+      </div>
+      {/* Destinasi */}
+
+      {destination && (
+        <div className="">
+          <h2 className="text-lg font-semibold">Destinasi di {destination}</h2>
+          <ul className="space-y-4">
+            {paginatedDestinations.map((dest, idx) => (
+              <li
+                key={idx}
+                className={`flex justify-between items-center bg-white p-4 rounded-lg shadow-sm transition-transform duration-200 ${
+                  selectedDestination?.name === dest.name
+                    ? "scale-103 border-2"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                <div>
+                  <h3 className="text-sm font-medium">{dest.name}</h3>
+                  <p className="text-gray-500">
+                    Biaya: Rp{dest.cost.toLocaleString()}
+                  </p>
+                </div>
+                {selectedDestination?.name === dest.name ? (
+                  <Button onClick={handleCancelDestination} color="red">
+                    Batalkan
+                  </Button>
+                ) : (
+                  <Button onClick={() => handleSelectDestination(dest)}>
+                    Pilih
+                  </Button>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Tambahkan wrapper Flexbox untuk Pagination */}
+          <div className="flex justify-center mt-4">
+            <Pagination
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+              totalPages={Math.ceil(destinations.length / itemsPerPage)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Peta */}
+
+      <div className="h-[450px]">
+        {route.length > 0 && (
+          <MapContainer
+            center={route[0]}
+            zoom={8}
+            className="h-[450px] rounded-lg shadow-md" // Perbesar tinggi peta di sini
+            style={{ zIndex: 1 }}
+          >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <Marker
+              position={
+                cityOptions.find((city) => city.name === origin)?.position
+              }
+            >
+              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
+                <span>{origin}</span>
+              </Tooltip>
+            </Marker>
+            <Marker position={route[0]}>
+              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
+                <span>{selectedDestination?.address}</span>
+              </Tooltip>
+            </Marker>
+            <Polyline
+              positions={[
+                cityOptions.find((city) => city.name === origin)?.position,
+                route[0],
+              ]}
+              color="blue"
+              weight={4}
+            />
+          </MapContainer>
+        )}
+      </div>
+      <div className="flex justify-around items-center space-x-10 ">
+        {/* Jarak */}
+        <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300">
+          <HiMap size={20} />
+          <p className="text-lg font-medium">Jarak:</p>
+          {origin && selectedDestination && (
+            <span className="text-lg font-medium">
+              {distance ? `${distance} km` : "Menghitung..."}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300">
+          <HiClock size={20} />
+          <p className="text-lg font-medium">Waktu:</p>
+          {origin && selectedDestination && (
+            <span className="text-lg font-medium">
+              {time ? time : "Menghitung..."}
+            </span>
+          )}
+        </div>
+
+        {/* Total Biaya */}
+        <span className="flex items-center gap-2 text-lg font-medium border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300">
+          <HiCurrencyDollar size={20} />
+          Total Biaya: Rp. {totalCost.toLocaleString()}
+        </span>
+        <div className="mt-5">
+          {/* Tombol Simpan */}
+          <Button className="py-1 w-52" color="customBlue" onClick={handleSave}>
+            Save Rute
+          </Button>
+          <div className="flex justify-center items-center mt-1 text-sm">
+            <span>Instruction for use?</span>
+            <p
+              className="text-blue-700  underline cursor-pointer "
+              onClick={handleHowToUseClick} // Tambahkan handler klik
+            >
+              click here
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* Modal Tata Cara */}
+
+      <AlertModal
+        isOpen={isHowToUseModalOpen}
+        title="Tata Cara Menggunakan Fitur Rute"
+        message={
+          <div className="text-left">
+            1. Pilih kota asal dari daftar yang tersedia.
+            <br />
+            2. Pilih kota tujuan yang ingin Anda kunjungi.
+            <br />
+            3. Pilih destinasi di kota tujuan dari daftar yang muncul.
+            <br />
+            4. Klik tombol 'Save Rute' untuk menyimpan rencana rute Anda.
+            <br />
+            5. Anda dapat melihat total biaya dan jarak estimasi di bagian
+            bawah.
+          </div>
+        }
+        onClose={closeHowToUseModal} // Fungsi untuk menutup modal
+      />
+
+      {/* Modal Konfirmasi */}
+      <ConfirmationModal
+        isOpen={isConfirmationOpen}
+        onCancel={() => setIsConfirmationOpen(false)}
+        onConfirm={handleConfirmSave}
+        message={`Anda akan menyimpan rute ini apkah anda yakin?`}
+      />
+      {/* Error Modal */}
+      <AlertModal
+        isOpen={isErrorModalOpen}
+        title="Validasi Gagal"
+        icon={<HiExclamationCircle className="text-red-500 w-20 h-20" />}
+        message="Harap isi semua bidang: kota asal, kota tujuan, dan destinasi."
+        onClose={() => setIsErrorModalOpen(false)}
+      />
+
+      {/* Success Modal */}
+      <AlertModal
+        isOpen={isSuccessModalOpen}
+        title="Sukses"
+        icon={<HiCheckCircle className="text-green-500 w-20 h-20" />}
+        message="Rute Anda berhasil disimpan. Silakan cek data Anda!"
+        onClose={() => setIsSuccessModalOpen(false)}
+      />
+    </div>
+  );
+};
+
+export default Rutes;
