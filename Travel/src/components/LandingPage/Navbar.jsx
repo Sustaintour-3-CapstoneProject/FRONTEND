@@ -57,14 +57,14 @@ const NavigationBar = () => {
           Features
         </Navbar.Link>
         <Navbar.Link
-          href="/about"
+          href="#about"
           className={activeMenu === "About Us" ? "text-sky-600 font-bold" : ""}
           onClick={() => handleMenuClick("About Us")}
         >
           About Us
         </Navbar.Link>
         <Navbar.Link
-          href="/contact"
+          href="#contact"
           className={activeMenu === "Contact" ? "text-sky-600 font-bold" : ""}
           onClick={() => handleMenuClick("Contact")}
         >

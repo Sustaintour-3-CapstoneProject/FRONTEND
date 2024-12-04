@@ -1,7 +1,7 @@
 import { Button } from "flowbite-react";
 
 const AboutUs = () => (
-  <div className="py-10 md:py-16 " id="about">
+  <div className="py-6 md:py-16 " id="about">
     <div className="mx-auto grid lg:grid-cols-2 items-start gap-20">
       {/* Bagian Teks */}
       <div className="flex flex-col justify-start">
