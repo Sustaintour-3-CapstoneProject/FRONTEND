@@ -29,7 +29,7 @@ const NavigationBar = () => {
               label={
                 <div className="flex items-center space-x-2">
                   <Avatar
-                    img="/default-user.png" // Gambar profil default
+                    img={auth.profileImage || "/default-user.png"} // Fallback ke gambar default jika auth.profileImage kosong
                     rounded
                   />
                   <span className="text-sm font-medium text-gray-700">
