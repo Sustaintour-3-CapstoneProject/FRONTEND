@@ -31,7 +31,7 @@ export default function Destination() {
   }, []);
 
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-100 my-10">
       {/* Header */}
       <div className="max-w-7xl mx-auto py-8">
         <header className="flex justify-center items-center mb-8 space-x-3">
