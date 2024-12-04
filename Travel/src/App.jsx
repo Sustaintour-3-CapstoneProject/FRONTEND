@@ -26,11 +26,11 @@ function App() {
           {/* Routes untuk Home Layout */}
           <Route element={<ProtectedRoute />}>
             <Route path="/category" element={<CategoryPage />} />
-            <Route path="/home" element={<HomeLayout />}>
-              <Route index element={<HomePage />} />
-              <Route path=":id" element={<DestinationDetail />} />
-              <Route path="destinasi" element={<Destination />} />
-              <Route path="rute" element={<Rutes />} />
+            <Route element={<HomeLayout />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/:id" element={<DestinationDetail />} />
+              <Route path="/destinasi" element={<Destination />} />
+              <Route path="/rute" element={<Rutes />} />
               {/* <Route path="chatbot" element={<ChatAISection />} /> */}
             </Route>
           </Route>

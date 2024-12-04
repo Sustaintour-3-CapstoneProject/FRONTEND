@@ -21,12 +21,12 @@ const ConfirmationModal = ({
         <p className="text-sm text-gray-700 text-center">{message}</p>
       </Modal.Body>
       <Modal.Footer>
-        <div className="flex justify-end gap-2 w-full">
-          <Button color="gray" onClick={onCancel}>
-            Cancel
-          </Button>
+        <div className="flex  gap-2 w-full">
           <Button color="success" onClick={onConfirm}>
             OK
+          </Button>
+          <Button color="gray" onClick={onCancel}>
+            Cancel
           </Button>
         </div>
       </Modal.Footer>
