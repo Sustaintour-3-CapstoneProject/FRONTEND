@@ -70,8 +70,8 @@ const NavigationBar = () => {
               to={item.to}
               className={({ isActive }) =>
                 isActive && location.pathname === item.to
-                  ? "text-blue-600 font-semibold"
-                  : "text-gray-600 hover:text-blue-600"
+                  ? "text-sky-600 font-semibold"
+                  : "text-gray-600 hover:text-sky-600"
               }
             >
               {item.label}

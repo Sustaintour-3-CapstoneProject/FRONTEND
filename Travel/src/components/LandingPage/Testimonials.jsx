@@ -29,8 +29,8 @@ const Testimonials = () => {
   const repeatedTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <div className="py-12 px-6 md:px-20 bg-white overflow-hidden">
-      <h2 className="text-2xl sm:text-3xl font-bold mb-10 text-center">
+    <div className="py-12  bg-white overflow-hidden">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-10 ">
         Why Travelers Love TripWise
       </h2>
       <div className="relative">
@@ -39,7 +39,7 @@ const Testimonials = () => {
           {repeatedTestimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-blue-50 mx-4 p-6 rounded-lg shadow-md flex flex-col items-center text-center  w-[340px] min-h-[300px] max-h-[350px] sm:w-[380px] sm:min-h-[250px] sm:max-h-[300px] hover:scale-105 transition-transform duration-300"
+              className="bg-sky-100 mx-4 p-6 rounded-lg shadow-md flex flex-col items-center text-center  w-[340px] min-h-[300px] max-h-[350px] sm:w-[380px] sm:min-h-[250px] sm:max-h-[300px] hover:scale-105 transition-transform duration-300"
             >
               <p className="text-gray-700 mb-4 sm:line-clamp-3 w-[300px]">
                 "{testimonial.feedback}"

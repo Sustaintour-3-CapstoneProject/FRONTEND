@@ -1,9 +1,9 @@
 import { Footer } from "flowbite-react";
 
 const CustomFooter = () => (
-  <Footer className=" bg-white py-8">
+  <Footer className=" bg-sky-100 py-8">
     {/* Flexbox untuk menjaga jarak antar kolom */}
-    <div className="flex flex-col md:flex-row items-start justify-between mx-auto gap-36 px-4 md:px-20">
+    <div className="flex flex-col md:flex-row items-start justify-between mx-auto gap-20 md:gap-36 px-4 md:px-20">
       {/* Kolom Logo dan Deskripsi */}
       <div className="flex flex-col w-full md:max-w-[330px] text-center md:text-left">
         <Footer.Brand
@@ -11,12 +11,12 @@ const CustomFooter = () => (
           src="/logo2.png" // Ganti dengan URL logo Anda
           alt="TripWise Logo"
         />
-        <p className="mt-5 text-gray-600 text-sm">
+        <p className="mt-5 text-gray-600 text-sm text-left">
           TripWise empowers travelers with access to sustainable destination
           guides, personalized routes, cultural exchanges, and environmental
           education.
         </p>
-        <p className="mt-2 text-gray-600 text-sm">
+        <p className="mt-2 text-gray-600 text-sm text-left">
           We aim to connect you with meaningful, responsible travel experiences.
         </p>
       </div>
@@ -24,7 +24,7 @@ const CustomFooter = () => (
       {/* Kolom Links */}
       <div className="flex flex-col w-full text-center md:text-left md:max-w-[170px]">
         <Footer.Title title="Links" />
-        <Footer.LinkGroup col={true} className="mt-2">
+        <Footer.LinkGroup col={true} className="ml-2 md:ml-0 mt-2">
           <Footer.Link href="#">About Us</Footer.Link>
           <Footer.Link href="#">Contact Us</Footer.Link>
           <Footer.Link href="#">FAQ</Footer.Link>
