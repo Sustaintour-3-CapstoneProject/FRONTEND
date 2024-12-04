@@ -32,10 +32,12 @@ const Footers = () => (
       </div>
 
       {/* Kolom Links */}
-      <div className="flex flex-col w-full text-center md:ml-24 md:text-left ">
+      <div className="flex flex-col w-full text-center md:ml-36 md:text-left ">
         <Footer.Title title="Features" />
         <Footer.LinkGroup col={true} className="ml-2 md:ml-0 mt-2">
-          <Footer.Link href="#">Destinations</Footer.Link>
+          <Footer.Link href="#" className="pl-[15px] md:pl-0">
+            Destinations
+          </Footer.Link>
           <Footer.Link href="#">Route</Footer.Link>
           <Footer.Link href="#">Ai Asisstent</Footer.Link>
         </Footer.LinkGroup>

@@ -15,7 +15,7 @@ const FilterButton = () => {
       {/* Filter Button */}
       <button
         onClick={togglePopup}
-        className="relative bg-sky-500 py-2 px-2 md:py-3 md:px-3 rounded-md flex items-center justify-center"
+        className="relative bg-sky-500 py-3 px-3 md:py-3 md:px-3 rounded-md flex items-center justify-center"
       >
         <FaFilter className="text-sm md:text-base text-white" />
       </button>

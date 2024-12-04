@@ -27,7 +27,7 @@ const NavigationBar = () => {
               arrowIcon={false}
               inline
               label={
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 mr-2">
                   <Avatar
                     img={auth.profileImage || "/default-user.png"} // Fallback ke gambar default jika auth.profileImage kosong
                     rounded
@@ -41,9 +41,6 @@ const NavigationBar = () => {
               <Dropdown.Header>
                 <span className="block text-sm">
                   {auth.first_name} {auth.last_name || ""}
-                </span>
-                <span className="block text-sm font-medium text-gray-500">
-                  {auth.email}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
