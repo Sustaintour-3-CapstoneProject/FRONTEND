@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
-import { TextInput } from "flowbite-react";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import SearchInput from "../../common/SearchInput";
 import { HiSearch } from "react-icons/hi";
-
 // Data Dummy
 const dummyData = [
   {
@@ -26,6 +26,8 @@ const dummyData = [
 ];
 
 const HeroSection = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState(0);
 
   // Update tempat secara otomatis setiap 6 detik
@@ -38,6 +40,11 @@ const HeroSection = () => {
   }, []);
 
   const currentPlace = dummyData[currentPlaceIndex]; // Dapatkan destinasi saat ini berdasarkan indeks
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/destinasi?name=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <div className="my-3">
@@ -55,24 +62,19 @@ const HeroSection = () => {
             Hi Alaia! <br className="block md:hidden" /> Let's find your next
             adventure!
           </h1>
-          {/* Search Bar */}
-          <div className="w-full max-w-xs md:max-w-sm flex space-x-2">
-            <TextInput
-              id="search"
-              type="text"
-              icon={HiSearch}
-              placeholder="Search Your Destination..."
-              className="w-full text-sm md:text-base"
-            />
-            <button className="bg-sky-500 py-2 px-3 rounded-md flex items-center justify-center">
-              <FaSearch className="text-sm md:text-base" />
+          <div className="flex justify-center space-x-2">
+            <SearchInput value={searchQuery} onChange={setSearchQuery} />
+            <button
+              onClick={handleSearch}
+              className="bg-sky-500 py-2 px-3 rounded-lg flex items-center justify-center"
+            >
+              <HiSearch size={20} />
             </button>
           </div>
-          {/* Location */}
           <div className="flex items-center mt-3 md:mt-6">
             <FaMapMarkerAlt className="text-white mr-2 text-sm md:text-base" />
             <span className="text-xs md:text-sm lg:text-base">
-              {currentPlace.address}
+              Example Address
             </span>
           </div>
         </div>

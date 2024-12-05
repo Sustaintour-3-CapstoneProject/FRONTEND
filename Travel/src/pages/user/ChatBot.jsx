@@ -35,7 +35,7 @@ function ChatBot() {
   };
 
   return (
-    <Card className="w-full max-w-sm md:max-w-full p-6 rounded-none md:rounded-xl">
+    <Card className="w-full max-w-sm md:max-w-full p-6 rounded-none md:rounded-xl font-poppins">
       <h1 className="text-2xl font-bold mb-4 text-center text-green-600">
         Eco-Ai
       </h1>

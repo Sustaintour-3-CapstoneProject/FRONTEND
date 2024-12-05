@@ -58,7 +58,7 @@ const NavigationBar = () => {
           {/* Menu Navigasi */}
           {[
             { to: "/home", label: "Home" },
-            { to: "/home/destinasi", label: "Destination" },
+            { to: "/destinasi", label: "Destination" },
             { to: "/about", label: "About" },
             { to: "/contact", label: "AI Assistant" },
           ].map((item) => (

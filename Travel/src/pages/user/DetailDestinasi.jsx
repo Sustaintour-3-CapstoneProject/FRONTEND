@@ -19,7 +19,6 @@ const DestinationDetail = () => {
 
   // Buat state untuk menyimpan status ekspansi setiap video
   const [expandedVideos, setExpandedVideos] = useState({});
-  console.log(destination);
   const toggleDescription = (index) => {
     setExpandedVideos((prevState) => ({
       ...prevState,
@@ -77,7 +76,7 @@ const DestinationDetail = () => {
   };
 
   return (
-    <section className="container max-w-[82rem] py-10 px-6 mx-auto">
+    <section className="container max-w-[82rem] py-10 px-6 mx-auto font-poppins">
       {/* Hero Image */}
       <div className="relative w-full h-[500px]">
         <Carousel slideInterval={5000} className="h-full">
@@ -93,17 +92,17 @@ const DestinationDetail = () => {
       </div>
       {/* Title and Info */}
       <div className="mt-6">
-        <h1 className="text-3xl font-bold text-gray-800">{destination.name}</h1>
-        <div className="flex items-center text-gray-600 mt-2">
-          <HiLocationMarker className="mr-2 text-blue-500" />
+        <h1 className="text-3xl font-bold text-sky-800">{destination.name}</h1>
+        <div className="flex items-center text-gray-800 mt-2">
+          <HiLocationMarker size={24} className="mr-2 " />
           <p>{destination.address}</p>
         </div>
-        <div className="flex items-center mt-2 text-gray-600">
-          <HiClock className="mr-2 text-blue-500" />
+        <div className="flex items-center mt-2 text-gray-800">
+          <HiClock size={24} className="mr-2 " />
           <p>{destination.operational_hours}</p>
         </div>
-        <div className="flex items-center mt-2 text-gray-600">
-          <HiCurrencyDollar className="mr-2 text-blue-500" />
+        <div className="flex items-center mt-2 text-gray-800">
+          <HiCurrencyDollar size={24} className="mr-2 " />
           <p>
             {new Intl.NumberFormat("id-ID", {
               style: "currency",
@@ -163,14 +162,14 @@ const DestinationDetail = () => {
               return (
                 <div
                   key={videoData.id}
-                  className="flex-none w-[300px] bg-transparent rounded-lg shadow-lg relative group my-4"
+                  className="flex-none w-[300px] overflow-hidden rounded-lg shadow-lg relative group my-4"
                 >
                   {/* Video Player */}
                   <div className="relative overflow-hidden rounded-lg">
                     {/* Thumbnail Placeholder */}
-                    {!isVideoPlaying[index] ? (
+                    {!isVideoPlaying[index] && (
                       <div
-                        className="bg-gray-300 w-full h-[600px] flex items-center justify-center cursor-pointer rounded-lg relative"
+                        className="bg-gray-900 w-full h-[610px] flex items-center justify-center cursor-pointer rounded-lg relative"
                         onClick={() =>
                           setIsVideoPlaying({
                             ...isVideoPlaying,
@@ -178,42 +177,21 @@ const DestinationDetail = () => {
                           })
                         }
                       >
-                        <span className="text-gray-600 text-sm font-medium">
-                          Klik untuk memutar video
-                        </span>
-                        {/* Ikon Play */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-12 w-12 text-white bg-black bg-opacity-50 rounded-full p-2"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M14.752 11.168l-6.016-3.428A1 1 0 007 8.528v6.944a1 1 0 001.736.832l6.016-3.428a1 1 0 000-1.664z"
-                            />
-                          </svg>
-                        </div>
+                        <iframe
+                          src={embedUrl}
+                          width="100%"
+                          height="575"
+                          frameBorder="0"
+                          allow="encrypted-media; autoplay; fullscreen"
+                          allowFullScreen
+                          title={`TikTok Video ${index}`}
+                          className="rounded-lg mb-14  "
+                        ></iframe>
                       </div>
-                    ) : (
-                      <iframe
-                        src={embedUrl}
-                        width="100%"
-                        height="200"
-                        frameBorder="0"
-                        allow="encrypted-media; fullscreen"
-                        allowFullScreen
-                        title={`TikTok Video ${index}`}
-                        className="rounded-lg"
-                      ></iframe>
                     )}
                   </div>
                   {/* Overlay for Text */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent px-4 py-2">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent px-4 py-2 rounded-lg">
                     <p
                       className={`text-sm text-white font-semibold transition-all duration-300 ${
                         expandedVideos[index]
@@ -225,7 +203,7 @@ const DestinationDetail = () => {
                     </p>
                     <button
                       onClick={() => toggleDescription(index)}
-                      className="text-xs text-blue-400 mt-2 hover:underline focus:outline-none"
+                      className="text-xs text-blue-400 mt-1 hover:underline focus:outline-none"
                     >
                       {expandedVideos[index]
                         ? "Tampilkan lebih sedikit"
