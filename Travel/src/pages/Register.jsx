@@ -9,6 +9,13 @@ import * as Yup from "yup";
 const RegisterUser = () => {
   const { handleRegister, isProcessing, errorMessage, successMessage } =
     useRegister();
+  // State untuk menyimpan data kota (contoh data kota)
+  const cityOptions = [
+    { id: 1, name: "Jakarta" },
+    { id: 2, name: "Surabaya" },
+    { id: 3, name: "Bandung" },
+    { id: 4, name: "Yogyakarta" },
+  ];
   // State untuk password visibility
   const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
@@ -24,14 +31,13 @@ const RegisterUser = () => {
       username: Yup.string().required().min(4),
       first_name: Yup.string().required().min(3),
       last_name: Yup.string().required().min(5),
-      city: Yup.string().required().min(10),
+      city: Yup.string().required(),
       email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
     }),
     onSubmit: handleRegister,
   });
-  console.log(formik.errors);
-  console.log(formik);
+
   return (
     <div className="min-h-screen relative">
       {/* Background */}
@@ -151,24 +157,27 @@ const RegisterUser = () => {
                   </div>
                 )}
               </div>
-
-              {/* city */}
               <div className="mb-2 sm:mb-4">
-                <TextInput
-                  id="city"
-                  type="text"
+                <select
                   name="city"
-                  placeholder="City"
-                  required
                   value={formik.values.city}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  color={
+                  className={`w-full border rounded-lg px-4 py-2 ${
                     formik.touched.city && formik.errors.city
-                      ? "failure"
-                      : undefined
-                  }
-                />
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <option value="" disabled>
+                    Pilih Kota
+                  </option>
+                  {cityOptions.map((city) => (
+                    <option key={city.id} value={city.id}>
+                      {city.name}
+                    </option>
+                  ))}
+                </select>
                 {formik.touched.city && formik.errors.city && (
                   <div className="flex">
                     <p className="font-medium text-sm text-red-500 mt-1">
