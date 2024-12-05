@@ -76,7 +76,7 @@ const DestinationDetail = () => {
   };
 
   return (
-    <section className="container max-w-[82rem] py-10 px-6 mx-auto font-poppins">
+    <section className="  py-10 px-6 mx-auto font-poppins">
       {/* Hero Image */}
       <div className="relative w-full h-[500px]">
         <Carousel slideInterval={5000} className="h-full">

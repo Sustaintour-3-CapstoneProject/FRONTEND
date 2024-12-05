@@ -36,11 +36,10 @@ function ChatBot() {
   };
 
   return (
-    <div className="w-full  max-w-sm mt-12 space-y-4 md:max-w-full md:w-full  rounded-none ">
-      <h1 className="text-2xl font-bold text-center text-sky-600">
+    <div className="w-full  max-w-sm my-6 space-y-4 md:max-w-full md:w-full  rounded-none font-poppins">
+      <h1 className="text-2xl leading-5 font-bold text-center text-sky-600">
         Travel Wise
-
-
+      </h1>
       <ChatWindow chatHistory={chatHistory} loading={loading} />
 
       {error && (

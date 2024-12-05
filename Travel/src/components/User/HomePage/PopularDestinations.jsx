@@ -3,7 +3,7 @@ import destinations from "../../../data/destinationData";
 
 export default function PopularDestinations() {
   return (
-    <section className="px-4 py-12 bg-white">
+    <section className="px-4  bg-white">
       <h2 className="text-3xl font-semibold text-center mb-8">
         Popular Destinations
       </h2>

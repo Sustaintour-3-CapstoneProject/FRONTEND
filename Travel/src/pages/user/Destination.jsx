@@ -74,7 +74,7 @@ export default function Destination() {
   };
 
   return (
-    <div className=" my-10 font-poppins">
+    <div className="  my-10 font-poppins">
       {/* Header */}
       <div className="max-w-full sm:max-w-md md:max-w-7xl mx-auto py-8 px-4 sm:px-6">
         <header className="flex flex-col justify-center md:flex-row md:justify-center md:items-center mb-8 space-y-3 md:space-y-0 md:space-x-3">

@@ -35,7 +35,7 @@ const NearByDestinations = () => {
     );
   };
 
-  const carouselItems = Array.from({ length: 6 }, (_, i) => {
+  const carouselItems = Array.from({ length: 5 }, (_, i) => {
     const index = (startIndex + i) % destinations.length;
     return destinations[index];
   });
@@ -56,14 +56,14 @@ const NearByDestinations = () => {
         )}
 
         {/* Konten Carousel */}
-        <div className="flex overflow-x-auto md:overflow-hidden gap-3 md:gap-4 w-full scrollbar-hide">
+        <div className="flex overflow-x-auto md:overflow-hidden gap-2 md:gap-4 w-full scrollbar-hide">
           {(isMobile ? destinations : carouselItems).map((destination) => (
             <div
               key={destination.id}
               className={`flex-shrink-0 ${
                 isMobile
-                  ? "min-w-[43%] max-w-[40%]"
-                  : "sm:min-w-[200px] sm:max-w-[200px]"
+                  ? "min-w-[45%] max-w-[45%]"
+                  : "sm:min-w-[260px] sm:max-w-[260px]"
               }`}
             >
               <DestinationCard destination={destination} />{" "}

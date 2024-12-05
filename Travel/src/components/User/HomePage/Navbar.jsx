@@ -17,11 +17,11 @@ const NavigationBar = () => {
         <Navbar.Brand href="/">
           <img
             src="/logo2.png" // Sesuaikan dengan logo Anda
-            className="md:ml-16 h-6 sm:h-9"
+            className="md:ml-12 h-6 sm:h-9"
             alt="TripWise Logo"
           />
         </Navbar.Brand>
-        <div className="flex md:order-2 md:mr-16">
+        <div className="flex md:order-2 md:mr-12">
           {auth ? (
             <Dropdown
               arrowIcon={false}
@@ -60,7 +60,7 @@ const NavigationBar = () => {
             { to: "/home", label: "Home" },
             { to: "/destinasi", label: "Destination" },
             { to: "/about", label: "About" },
-            { to: "/contact", label: "AI Assistant" },
+            { to: "/chatbot", label: "AI Assistant" },
           ].map((item) => (
             <NavLink
               key={item.to}

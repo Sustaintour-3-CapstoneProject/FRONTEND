@@ -4,7 +4,7 @@ import WelcomeChat from "./WelcomeChat";
 
 const ChatWindow = ({ chatHistory, loading }) => {
   return (
-    <div className="flex flex-col space-y-4 h-[600px] md:h-[450px] overflow-y-auto rounded-lg pt-0 p-4 mb-4 bg-white">
+    <div className="flex flex-col space-y-4 h-[560px] md:h-[500px] overflow-y-auto rounded-lg pt-0 p-4 mb-4 bg-white">
       {chatHistory.length === 0 && !loading ? (
         <WelcomeChat />
       ) : (

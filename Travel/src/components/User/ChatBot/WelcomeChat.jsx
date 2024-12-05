@@ -13,7 +13,7 @@ const WelcomeChat = () => {
           Silahkan kirim pertanyaan tentang destinasi!
         </p>
       </div>
-      <div className="flex justify-start items-start space-x-3  p-4 rounded-lg ">
+      <div className="flex justify-start items-start space-x-3  p-6 rounded-lg ">
         {/* Avatar Bot */}
         <img
           src="/Chat/chatbot.jpg" // Ganti dengan path gambar bot Anda
