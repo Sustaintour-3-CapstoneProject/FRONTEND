@@ -17,7 +17,7 @@ export default function Destination() {
   const [sortOption, setSortOption] = useState(""); // Sort option
   const [currentPage, setCurrentPage] = useState(1); // Halaman aktif
   const itemsPerPage = 12; // Jumlah item per halaman
-
+  console.log(destinations);
   // Fetch data dari API
   useEffect(() => {
     const fetchDestinations = async () => {
@@ -63,7 +63,7 @@ export default function Destination() {
   };
 
   return (
-    <div className=" my-10">
+    <div className=" overflow-x-hidden my-10">
       {/* Header */}
       <div className="max-w-full sm:max-w-md md:max-w-7xl mx-auto py-8 px-4 sm:px-6">
         <header className="flex flex-col justify-center md:flex-row md:justify-center md:items-center mb-8 space-y-3 md:space-y-0 md:space-x-3">

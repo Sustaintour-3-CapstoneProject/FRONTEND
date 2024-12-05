@@ -4,7 +4,7 @@ import Footers from "../pages/user/Footer";
 
 export default function HomeLayout() {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <NavigationBar />
       <div className="container">
         <Outlet />

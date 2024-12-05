@@ -1,17 +1,22 @@
 import { TextInput, Checkbox, Button, Alert } from "flowbite-react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useState } from "react";
 import useLogin from "../hooks/useLogin";
 
 const Login = () => {
   const { handleLogin, isProcessing, error, successMessage } = useLogin();
 
+  // State untuk password visibility
+  const [showPassword, setShowPassword] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
-      remember: false, // Tambahkan remember sebagai nilai awal
+      remember: false,
     },
     validationSchema: Yup.object({
       username: Yup.string().required("Username wajib diisi").min(4),
@@ -22,20 +27,15 @@ const Login = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Background */}
       <div className="absolute inset-0 bg-cover bg-top sm:bg-center bg-[url('/LandingPage/Hero-Section.jpg')]"></div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-start">
-        {/* Login Form Container */}
-        <div className="w-full  md:min-h-full rounded-t-lg  md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
+        <div className="w-full md:min-h-full rounded-t-lg md:rounded-tl-none md:w-1/2 bg-zinc-100 flex items-center justify-center px-6 py-8 md:rounded-e-3xl md:px-12 dark:bg-gray-800">
           <div className="w-full max-w-sm h-[650px] sm:h-full flex flex-col items-center justify-center text-center">
-            {/* Logo */}
             <div className="pb-4">
               <img src="/logo2.png" alt="logo" className="w-32 mx-auto" />
             </div>
 
-            {/* Title */}
             <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-5 dark:text-white">
               Welcome Back, Traveler!
             </h2>
@@ -44,7 +44,6 @@ const Login = () => {
               Explore your next journey effortlessly.
             </p>
 
-            {/* Success & Error Messages */}
             {successMessage && (
               <Alert color="success" className="mb-4 w-full">
                 {successMessage} Redirecting in 3 seconds...
@@ -57,9 +56,7 @@ const Login = () => {
               </Alert>
             )}
 
-            {/* Form */}
             <form className="w-full" onSubmit={formik.handleSubmit}>
-              {/* Username */}
               <div className="mb-4">
                 <TextInput
                   id="username"
@@ -85,11 +82,10 @@ const Login = () => {
                 )}
               </div>
 
-              {/* Password */}
-              <div className="mb-4">
+              <div className="mb-8 relative">
                 <TextInput
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"} // Toggle input type
                   name="password"
                   placeholder="Password"
                   required
@@ -102,8 +98,21 @@ const Login = () => {
                       : undefined
                   }
                 />
+                <div
+                  className="absolute inset-y-0 right-2 flex items-center cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle visibility
+                >
+                  {showPassword ? (
+                    <AiOutlineEye size={20} className="text-gray-500" />
+                  ) : (
+                    <AiOutlineEyeInvisible
+                      size={20}
+                      className="text-gray-500"
+                    />
+                  )}
+                </div>
                 {formik.touched.password && formik.errors.password && (
-                  <div className="flex">
+                  <div className="flex absolute">
                     <p className="font-medium text-sm text-red-500 mt-1">
                       {formik.errors.password}
                     </p>
@@ -111,7 +120,6 @@ const Login = () => {
                 )}
               </div>
 
-              {/* Remember Me */}
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center">
                   <Checkbox
@@ -133,7 +141,6 @@ const Login = () => {
                 </a>
               </div>
 
-              {/* Submit Button */}
               <Button
                 color="customBlue"
                 type="submit"
@@ -145,7 +152,6 @@ const Login = () => {
               </Button>
             </form>
 
-            {/* Redirect to Register */}
             <p className="text-sm mt-4">
               Belum punya akun?{" "}
               <Link

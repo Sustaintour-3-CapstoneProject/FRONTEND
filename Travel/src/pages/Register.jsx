@@ -1,5 +1,7 @@
 import { TextInput, Button, Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
+import { useState } from "react";
 import { useFormik } from "formik";
 import useRegister from "../hooks/useRegister";
 import * as Yup from "yup";
@@ -7,7 +9,8 @@ import * as Yup from "yup";
 const RegisterUser = () => {
   const { handleRegister, isProcessing, errorMessage, successMessage } =
     useRegister();
-
+  // State untuk password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -202,7 +205,7 @@ const RegisterUser = () => {
               </div>
 
               {/* Password */}
-              <div className="mb-2 sm:mb-4">
+              <div className="relative mb-4 sm:mb-8">
                 <TextInput
                   id="password"
                   type="password"
@@ -218,8 +221,21 @@ const RegisterUser = () => {
                       : undefined
                   }
                 />
+                <div
+                  className="absolute inset-y-0 right-2 flex items-center cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)} // Toggle visibility
+                >
+                  {showPassword ? (
+                    <AiOutlineEye size={20} className="text-gray-500" />
+                  ) : (
+                    <AiOutlineEyeInvisible
+                      size={20}
+                      className="text-gray-500"
+                    />
+                  )}
+                </div>
                 {formik.touched.password && formik.errors.password && (
-                  <div className="flex">
+                  <div className="flex absolute">
                     <p className="font-medium text-sm text-red-500 mt-1">
                       {formik.errors.password}
                     </p>
