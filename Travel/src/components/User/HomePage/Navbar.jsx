@@ -27,9 +27,9 @@ const NavigationBar = () => {
               arrowIcon={false}
               inline
               label={
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 mr-2">
                   <Avatar
-                    img="/default-user.png" // Gambar profil default
+                    img={auth.profileImage || "/default-user.png"} // Fallback ke gambar default jika auth.profileImage kosong
                     rounded
                   />
                   <span className="text-sm font-medium text-gray-700">
@@ -41,9 +41,6 @@ const NavigationBar = () => {
               <Dropdown.Header>
                 <span className="block text-sm">
                   {auth.first_name} {auth.last_name || ""}
-                </span>
-                <span className="block text-sm font-medium text-gray-500">
-                  {auth.email}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
@@ -70,8 +67,8 @@ const NavigationBar = () => {
               to={item.to}
               className={({ isActive }) =>
                 isActive && location.pathname === item.to
-                  ? "text-blue-600 font-semibold"
-                  : "text-gray-600 hover:text-blue-600"
+                  ? "text-sky-600 font-semibold"
+                  : "text-gray-600 hover:text-sky-600"
               }
             >
               {item.label}

@@ -4,10 +4,10 @@ import { FaSearch } from "react-icons/fa";
 import { TextInput } from "flowbite-react";
 export default function SearchInput() {
   return (
-    <div>
+    <div className="flex justify-center">
       {" "}
       {/* Search Bar */}
-      <div className="w-full max-w-sm flex space-x-2">
+      <div className="w-full max-w-80 md:max-w-sm flex space-x-2">
         <TextInput
           size={50}
           id="search"
