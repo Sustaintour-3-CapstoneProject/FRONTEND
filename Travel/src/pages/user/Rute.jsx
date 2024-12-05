@@ -19,6 +19,8 @@ import {
   HiExclamationCircle,
   HiCheckCircle,
 } from "react-icons/hi";
+import useCalculateDistance from "../../hooks/useCalculateDistance";
+import CityDropdown from "../../components/User/Rute/CityDropdown";
 // Ikon marker
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -27,14 +29,14 @@ L.Icon.Default.mergeOptions({
 });
 
 const Rutes = () => {
+  const { distance, time, calculateDistance, setDistance, setTime } =
+    useCalculateDistance();
   const [origin, setOrigin] = useState(""); // Kota Asal
   const [destination, setDestination] = useState(""); // Kota Tujuan
   const [destinations, setDestinations] = useState([]); // Daftar destinasi
   const [selectedDestination, setSelectedDestination] = useState(null); // Destinasi dipilih
   const [route, setRoute] = useState([]); // Rute peta
   const [totalCost, setTotalCost] = useState(0); // Total biaya
-  const [distance, setDistance] = useState(0); // Jarak estimasi (km)
-  const [time, setTime] = useState(0); // Waktu estimasi (menit)
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Modal error
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Modal sukses
   const [isHowToUseModalOpen, setIsHowToUseModalOpen] = useState(false); // State untuk modal tata cara
@@ -59,30 +61,6 @@ const Rutes = () => {
       setDestinations([]);
     }
   }, [destination]);
-
-  const calculateDistance = async (originCoord, destCoord) => {
-    const apiKey = "5b3ce3597851110001cf62483a8056d98cdb4e0a8376166e1cc1e650"; // Ganti dengan API Key Anda
-    const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${originCoord[1]},${originCoord[0]}&end=${destCoord[1]},${destCoord[0]}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      const distanceInKm = data.features[0].properties.summary.distance / 1000;
-      const durationInSeconds = data.features[0].properties.summary.duration;
-
-      // Hitung jam dan menit
-      const hours = Math.floor(durationInSeconds / 3600); // Ambil jam
-      const minutes = Math.floor((durationInSeconds % 3600) / 60); // Sisa detik diubah ke menit
-
-      setDistance(distanceInKm.toFixed(2));
-      setTime(`${hours} jam ${minutes} menit`);
-    } catch (error) {
-      console.error("Error fetching distance:", error);
-      setDistance(0);
-      setTime("0 jam 0 menit");
-    }
-  };
 
   useEffect(() => {
     if (origin && selectedDestination) {
@@ -167,42 +145,19 @@ const Rutes = () => {
       <h1 className="text-2xl font-bold">Planning Route</h1>
       <div className="flex justify-around items-center  space-x-3 py-3">
         {/* Kota Asal */}
-        <div>
-          <select
-            value={origin}
-            onChange={(e) => setOrigin(e.target.value)}
-            className="w-full bg-sky-500 text-white border-2 border-sky-300 rounded-md"
-          >
-            <option className="bg-white text-black" value="">
-              Enter Your Location
-            </option>
-            {cityOptions.map((city, idx) => (
-              <option
-                className="bg-white text-black"
-                key={idx}
-                value={city.name}
-              >
-                {city.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
+        <CityDropdown
+          label="Origin"
+          options={cityOptions}
+          value={origin}
+          onChange={setOrigin}
+        />
         {/* Kota Tujuan */}
-        <div>
-          <select
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
-            className="w-full bg-sky-500 text-white border-2 border-sky-300 rounded-md"
-          >
-            <option value={null}>Your Destination Location</option>
-            {cityOptions.map((city, idx) => (
-              <option key={idx} value={city.name}>
-                {city.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <CityDropdown
+          label="Destination"
+          options={cityOptions}
+          value={destination}
+          onChange={setDestination}
+        />
         {/* Tombol Refresh */}
         <Button onClick={handleRefresh} color="failure" className=" w-32">
           Refresh
