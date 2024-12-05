@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import destinations from "../../data/destinationData";
+import axiosInstance from "../../api/axiosInstance"; // Sesuaikan dengan lokasi file axiosInstance
 import { HiLocationMarker, HiClock, HiCurrencyDollar } from "react-icons/hi";
 import { FaRestroom, FaParking, FaHiking, FaSwimmer } from "react-icons/fa";
 import {
@@ -12,13 +12,14 @@ import { Carousel, Card } from "flowbite-react";
 
 const DestinationDetail = () => {
   const { id } = useParams();
-
-  // Cari data destinasi berdasarkan ID
-  const destination = destinations.find((dest) => dest.id === parseInt(id));
+  const [destination, setDestination] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState({});
 
   // Buat state untuk menyimpan status ekspansi setiap video
   const [expandedVideos, setExpandedVideos] = useState({});
-
+  console.log(destination);
   const toggleDescription = (index) => {
     setExpandedVideos((prevState) => ({
       ...prevState,
@@ -26,12 +27,38 @@ const DestinationDetail = () => {
     }));
   };
 
-  if (!destination) {
+  useEffect(() => {
+    const fetchDestination = async () => {
+      try {
+        const response = await axiosInstance.get(`/destination/${id}`);
+
+        setDestination(response.data.destination);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching destination data:", err);
+        setError("Failed to fetch destination data.");
+        setLoading(false);
+      }
+    };
+
+    fetchDestination();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-bold text-blue-600">Loading...</h2>
+      </div>
+    );
+  }
+
+  if (error || !destination) {
     return (
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold text-red-600">
           Destination not found!
         </h2>
+        {error && <p className="text-gray-600 mt-2">{error}</p>}
       </div>
     );
   }
@@ -40,10 +67,10 @@ const DestinationDetail = () => {
   const facilityIcons = {
     Parking: FaParking,
     Toilets: FaRestroom,
-    Shops: MdOutlineLocalGroceryStore,
+    "Souvenir Shops": MdOutlineLocalGroceryStore,
     Guides: HiLocationMarker,
     "Swimming Pool": FaSwimmer,
-    Restaurants: MdRestaurantMenu,
+    "Food Stalls": MdRestaurantMenu,
     Bars: MdRestaurantMenu, // Menggunakan ikon yang sama untuk bar dan restoran
     "Hiking Trails": FaHiking,
     Boats: MdOutlineDirectionsBoat,
@@ -56,15 +83,14 @@ const DestinationDetail = () => {
         <Carousel slideInterval={5000} className="h-full">
           {destination.images.map((image, index) => (
             <img
-              key={index}
+              key={image.id}
               src={image.url}
               alt={`Slide ${index + 1}`}
-              className="rounded-lg shadow-lg w-full h-full object-cover object-center "
+              className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"
             />
           ))}
         </Carousel>
       </div>
-
       {/* Title and Info */}
       <div className="mt-6">
         <h1 className="text-3xl font-bold text-gray-800">{destination.name}</h1>
@@ -74,7 +100,7 @@ const DestinationDetail = () => {
         </div>
         <div className="flex items-center mt-2 text-gray-600">
           <HiClock className="mr-2 text-blue-500" />
-          <p>{destination.openingHours}</p>
+          <p>{destination.operational_hours}</p>
         </div>
         <div className="flex items-center mt-2 text-gray-600">
           <HiCurrencyDollar className="mr-2 text-blue-500" />
@@ -84,11 +110,10 @@ const DestinationDetail = () => {
               currency: "IDR",
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            }).format(destination.cost)}
+            }).format(destination.ticket_price)}
           </p>
         </div>
       </div>
-
       {/* Description */}
       <div className="mt-6">
         <h4 className="font-semibold text-lg text-gray-700">
@@ -98,8 +123,7 @@ const DestinationDetail = () => {
           {destination.description}
         </p>
       </div>
-
-      {/* Facilities Section */}
+      {/* Facilities Section
       <div className="mt-6">
         <h4 className="font-semibold text-lg text-gray-700 mb-4">Facility</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -108,11 +132,11 @@ const DestinationDetail = () => {
             return (
               <Card
                 key={index}
-                className="flex flex-col  items-center bg-blue-50 p-4 rounded-lg shadow-md"
+                className="flex flex-col items-center bg-blue-50 p-4 rounded-lg shadow-md"
               >
                 {IconComponent && (
                   <div className="flex justify-center">
-                    <IconComponent size={70} className="text-blue-700 " />
+                    <IconComponent size={70} className="text-blue-700" />
                   </div>
                 )}
                 <p className="text-[13px] font-semibold text-blue-700 text-center">
@@ -122,30 +146,72 @@ const DestinationDetail = () => {
             );
           })}
         </div>
-      </div>
-
+      </div> */}
       {/* Video Section */}
       <div className="mt-6">
         <h4 className="font-semibold text-lg text-gray-700 mb-4">
           A Visual Escape
         </h4>
-        {destination.videoContent && (
+        {destination.video_contents && (
           <div className="flex space-x-6 overflow-x-auto">
-            {destination.videoContent.map((videoData, index) => (
-              <div
-                key={index}
-                className="flex-none w-[300px] bg-gray-100 rounded-lg shadow-lg relative group my-4"
-              >
-                {/* Video Container */}
-                <div className="relative overflow-hidden rounded-lg">
-                  <iframe
-                    src={`${videoData.video}?mute=0&controls=0&showinfo=0&modestbranding=1&rel=0`}
-                    width="100%"
-                    height="600" // Sesuaikan tinggi
-                    className="rounded-lg"
-                    allow="autoplay; encrypted-media"
-                    title={`video-${index}`}
-                  />
+            {destination.video_contents.map((videoData, index) => {
+              // Membentuk URL embed dari video TikTok
+              const embedUrl = `https://www.tiktok.com/embed/${
+                videoData.url.split("/").pop().split("?")[0]
+              }?autoplay=1`;
+
+              return (
+                <div
+                  key={videoData.id}
+                  className="flex-none w-[300px] bg-transparent rounded-lg shadow-lg relative group my-4"
+                >
+                  {/* Video Player */}
+                  <div className="relative overflow-hidden rounded-lg">
+                    {/* Thumbnail Placeholder */}
+                    {!isVideoPlaying[index] ? (
+                      <div
+                        className="bg-gray-300 w-full h-[600px] flex items-center justify-center cursor-pointer rounded-lg relative"
+                        onClick={() =>
+                          setIsVideoPlaying({
+                            ...isVideoPlaying,
+                            [index]: true,
+                          })
+                        }
+                      >
+                        <span className="text-gray-600 text-sm font-medium">
+                          Klik untuk memutar video
+                        </span>
+                        {/* Ikon Play */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-12 w-12 text-white bg-black bg-opacity-50 rounded-full p-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M14.752 11.168l-6.016-3.428A1 1 0 007 8.528v6.944a1 1 0 001.736.832l6.016-3.428a1 1 0 000-1.664z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    ) : (
+                      <iframe
+                        src={embedUrl}
+                        width="100%"
+                        height="200"
+                        frameBorder="0"
+                        allow="encrypted-media; fullscreen"
+                        allowFullScreen
+                        title={`TikTok Video ${index}`}
+                        className="rounded-lg"
+                      ></iframe>
+                    )}
+                  </div>
                   {/* Overlay for Text */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent px-4 py-2">
                     <p
@@ -167,8 +233,8 @@ const DestinationDetail = () => {
                     </button>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

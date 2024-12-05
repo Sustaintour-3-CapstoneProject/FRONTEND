@@ -104,7 +104,7 @@ const Footers = () => (
           </div>
         </div>
         <FooterDivider />
-        <div className="flex flex-col justify-start w-full mx-20 text-gray-500 ">
+        <div className="flex flex-col text-center mx-auto md:text-left md:justify-start w-full md:mx-20 text-gray-500 ">
           &copy; {new Date().getFullYear()} TripWise. All rights reserved.
         </div>
       </div>
