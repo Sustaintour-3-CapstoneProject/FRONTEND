@@ -4,7 +4,7 @@ import WelcomeChat from "./WelcomeChat";
 
 const ChatWindow = ({ chatHistory, loading }) => {
   return (
-    <div className="flex flex-col space-y-4 h-[450px] overflow-y-auto rounded-lg p-4 mb-4 bg-white">
+    <div className="flex flex-col space-y-4 h-[600px] md:h-[450px] overflow-y-auto rounded-lg pt-0 p-4 mb-4 bg-white">
       {chatHistory.length === 0 && !loading ? (
         <WelcomeChat />
       ) : (
@@ -12,7 +12,7 @@ const ChatWindow = ({ chatHistory, loading }) => {
           <div key={index} className="flex items-start">
             {chat.role === "user" ? (
               <div className="flex justify-end w-full">
-                <p className="bg-blue-500 text-white p-3 rounded-xl rounded-tr-none max-w-xl text-md break-words">
+                <p className="bg-sky-600 text-white p-3 rounded-xl rounded-tr-none max-w-xl text-md break-words">
                   {chat.parts[0].text}
                 </p>
               </div>
