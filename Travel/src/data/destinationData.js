@@ -245,7 +245,7 @@ const Datadestinations = [
   },
   {
     id: 9,
-    name: "Candi Prambanan",
+    name: "Candi Pramdasdn",
     address: "Klaten, Yogyakarta",
     images: [
       {
@@ -278,7 +278,7 @@ const Datadestinations = [
   },
   {
     id: 10,
-    name: "Candi Prambanan",
+    name: "Candi Prambsan",
     address: "Klaten, Yogyakarta",
     images: [
       {
@@ -306,7 +306,7 @@ const Datadestinations = [
   },
   {
     id: 11,
-    name: "Candi Prambanan",
+    name: "Candi sadas",
     address: "Klaten, Yogyakarta",
     images: [
       {
@@ -334,7 +334,7 @@ const Datadestinations = [
   },
   {
     id: 12,
-    name: "Candi Prambanan",
+    name: "Candi apaanbvae",
     address: "Klaten, Yogyakarta",
     images: [
       {

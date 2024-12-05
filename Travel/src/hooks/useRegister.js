@@ -15,7 +15,7 @@ const useRegister = () => {
 
     try {
       const response = await registerUser(values);
-
+      console.log(response);
       if (response.success) {
         setSuccessMessage(response.message); // Simpan pesan sukses
         setTimeout(() => {

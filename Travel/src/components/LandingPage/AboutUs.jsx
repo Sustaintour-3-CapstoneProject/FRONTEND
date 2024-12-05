@@ -1,11 +1,11 @@
 import { Button } from "flowbite-react";
 
 const AboutUs = () => (
-  <div className="py-16">
+  <div className="py-6 md:py-16 " id="about">
     <div className="mx-auto grid lg:grid-cols-2 items-start gap-20">
       {/* Bagian Teks */}
       <div className="flex flex-col justify-start">
-        <h2 className="text-sky-900 font-bold text-3xl mt-1 mb-10">TripWise</h2>
+        <h2 className="text-sky-600 font-bold text-3xl mt-1 mb-10">TripWise</h2>
 
         {/* Gambar hanya muncul di bawah judul untuk mobile */}
         <div className="block lg:hidden mb-6">
