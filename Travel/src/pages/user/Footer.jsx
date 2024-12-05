@@ -6,9 +6,9 @@ const Footers = () => (
     <Footer className=" bg-sky-100 py-8 flex flex-col " id="contact">
       {/* Flexbox untuk menjaga jarak antar kolom */}
       <div className="flex flex-col ">
-        <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-20 md:gap-20 px-4 md:px-20">
+        <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-20  px-4 ">
           {/* Kolom Logo dan Deskripsi */}
-          <div className="flex flex-col w-full text-center  md:text-left">
+          <div className="flex flex-col w-full text-center  md:ml-20 md:text-left">
             <Footer.Brand
               href="#"
               src="/logo2.png" // Ganti dengan URL logo Anda
