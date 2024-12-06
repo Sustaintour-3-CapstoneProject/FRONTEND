@@ -85,7 +85,7 @@ const LoginForm = ({ handleLogin, isProcessing, error, successMessage }) => {
           )}
         </div>
         {formik.touched.password && formik.errors.password && (
-          <p className="font-medium text-sm text-red-500 mt-1">
+          <p className="absolute font-medium text-sm text-red-500 mt-1">
             {formik.errors.password}
           </p>
         )}

@@ -30,7 +30,7 @@ const DestinationDetail = () => {
     const fetchDestination = async () => {
       try {
         const response = await axiosInstance.get(`/destination/${id}`);
-
+        console.log(response);
         setDestination(response.data.destination);
         setLoading(false);
       } catch (err) {
@@ -80,14 +80,27 @@ const DestinationDetail = () => {
       {/* Hero Image */}
       <div className="relative w-full h-[500px]">
         <Carousel slideInterval={5000} className="h-full">
-          {destination.images.map((image, index) => (
+          {destination.images && destination.images.length > 0 ? (
+            destination.images.map((image, index) => (
+              <img
+                key={image.id}
+                src={image.url}
+                alt={`Slide ${index + 1}`}
+                className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"
+                onError={(e) => {
+                  e.target.src =
+                    "https://placehold.co/650x500/gray/FefcFFc/png"; // Ganti dengan path placeholder
+                  e.target.alt = "Placeholder Image"; // Alternatif teks untuk placeholder
+                }}
+              />
+            ))
+          ) : (
             <img
-              key={image.id}
-              src={image.url}
-              alt={`Slide ${index + 1}`}
+              src="https://placehold.co/650x500/gray/FefcFFc/png" // Ganti dengan path atau URL gambar placeholder
+              alt="Placeholder"
               className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"
             />
-          ))}
+          )}
         </Carousel>
       </div>
       {/* Title and Info */}

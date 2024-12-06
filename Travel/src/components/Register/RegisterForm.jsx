@@ -1,9 +1,10 @@
 import { TextInput, Button, Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; // Import icons
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axiosInstance from "../../api/axiosInstance";
 
 const RegisterForm = ({
   handleRegister,
@@ -11,14 +12,17 @@ const RegisterForm = ({
   successMessage,
   errorMessage,
 }) => {
-  const cityOptions = [
-    { id: 1, name: "Jakarta" },
-    { id: 2, name: "Surabaya" },
-    { id: 3, name: "Bandung" },
-    { id: 4, name: "Yogyakarta" },
-  ];
-
   const [showPassword, setShowPassword] = useState(false);
+  const [city, setCity] = useState([]);
+
+  const fetchCity = async () => {
+    const response = await axiosInstance.get("/city");
+    console.log("City response:", response.data);
+    setCity(response.data.cities);
+  };
+  useEffect(() => {
+    fetchCity();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -138,7 +142,7 @@ const RegisterForm = ({
         <option value="" disabled>
           Pilih Kota
         </option>
-        {cityOptions.map((city) => (
+        {city.map((city) => (
           <option key={city.id} value={city.id}>
             {city.name}
           </option>

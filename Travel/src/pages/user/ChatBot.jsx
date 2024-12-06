@@ -4,12 +4,13 @@ import ChatWindow from "../../components/User/ChatBot/ChatWindow";
 import InputForm from "../../components/User/ChatBot/InputForm";
 import { handleChatSubmit } from "../../services/servicesgemini/chatUtilsGemini";
 import { HiRefresh } from "react-icons/hi";
+import useAuthStore from "../../store/authStore";
 function ChatBot() {
   const [prompt, setPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
   // Ambil data autentikasi dan fungsi logout
   const handleSubmit = (event) =>
     handleChatSubmit({
