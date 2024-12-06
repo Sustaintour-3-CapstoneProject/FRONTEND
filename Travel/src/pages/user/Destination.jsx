@@ -53,6 +53,7 @@ export default function Destination() {
       if (searchQuery.trim().length >= 3 || searchQuery.trim().length === 0) {
         fetchDestinations(searchQuery);
       }
+      setCurrentPage(1); // Reset halaman ke awal saat search
     }, 500); // Waktu debounce 500ms
 
     return () => clearTimeout(debounceSearch); // Bersihkan timeout saat searchQuery berubah
