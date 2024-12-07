@@ -9,28 +9,30 @@ import HomePage from "./pages/user/HomePage";
 import DestinationDetail from "./pages/user/DetailDestinasi";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Destination from "./pages/user/Destination";
-import NotFoundPage from "./pages/NotFound";
+import ChatBot from "./pages/user/ChatBot";
+
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/register" element={<RegisterUser />} />
-        <Route path="/login" element={<LoginUser />} />
-        <Route path="/" element={<LandingLayout />}>
-          <Route index element={<LandingPage />} />
-        </Route>
-
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/category" element={<CategoryPage />} />
-          <Route path="/home" element={<HomeLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path=":id" element={<DestinationDetail />} />
-            <Route path="destinasi" element={<Destination />} />
+    <div className="App">
+      <Router>
+        <Routes>
+          {/* Routes untuk Landing Layout */}
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/login" element={<LoginUser />} />
+          <Route path="/" element={<LandingLayout />}>
+            <Route index element={<LandingPage />} />
           </Route>
-        </Route>
+          {/* Routes untuk Home Layout */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/category" element={<CategoryPage />} />
+            <Route element={<HomeLayout />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/:id" element={<DestinationDetail />} />
+              <Route path="/destinasi" element={<Destination />} />
+              <Route path="chatbot" element={<ChatBot />} />
+            </Route>
+ 
 
         {/* Global fallback */}
         <Route path="*" element={<NotFoundPage />} />
