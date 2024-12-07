@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance"; // Sesuaikan dengan lokasi file axiosInstance
@@ -12,6 +13,7 @@ import DescriptionSkeleton from "../../components/User/DetailDestinasi/Descripti
 import FacilitiesSkeleton from "../../components/User/DetailDestinasi/FacilitiesSkeleton";
 import VideoSectionSkeleton from "../../components/User/DetailDestinasi/VideoSectionSkeleton";
 import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file destinationUtils
+
 const DestinationDetail = () => {
   const { id } = useParams();
   const [destination, setDestination] = useState(null);
@@ -52,6 +54,7 @@ const DestinationDetail = () => {
 
   if (error || !destination) {
     return (
+
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold text-red-600">
           Destination not found!
