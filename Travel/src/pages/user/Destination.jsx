@@ -20,7 +20,7 @@ export default function Destination() {
   const itemsPerPage = 12; // Jumlah item per halaman
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("name") || ""; // Mendapatkan nilai dari query string
-
+  console.log(destinations);
   useEffect(() => {
     const debounceSearch = setTimeout(async () => {
       if (searchQuery.trim().length >= 3 || searchQuery.trim().length === 0) {
