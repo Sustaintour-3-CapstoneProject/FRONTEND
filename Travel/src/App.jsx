@@ -10,8 +10,9 @@ import DestinationDetail from "./pages/user/DetailDestinasi";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Destination from "./pages/user/Destination";
 import ChatBot from "./pages/user/ChatBot";
-
-
+import NotFoundPageUser from "./pages/user/NotFoundUser";
+import NotFoundPage from "./pages/NotFound";
+// import ChatAISection from "./pages/user/ChatBot";
 function App() {
   return (
     <div className="App">
@@ -30,14 +31,14 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/:id" element={<DestinationDetail />} />
               <Route path="/destinasi" element={<Destination />} />
-              <Route path="chatbot" element={<ChatBot />} />
+              <Route path="/chatbot" element={<ChatBot />} />
+              <Route path="*" element={<NotFoundPageUser />} />
             </Route>
- 
-
-        {/* Global fallback */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+          </Route>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

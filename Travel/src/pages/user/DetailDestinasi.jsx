@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance"; // Sesuaikan dengan lokasi file axiosInstance
@@ -54,7 +53,6 @@ const DestinationDetail = () => {
 
   if (error || !destination) {
     return (
-
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold text-red-600">
           Destination not found!
