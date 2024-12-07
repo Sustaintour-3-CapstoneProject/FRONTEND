@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import axiosInstance from "../../../api/axiosInstance"; // Pastikan path sesuai
 import DestinationCard from "../../common/DestinationCard"; // Pastikan path ini sesuai dengan lokasi file
 import useAuthStore from "../../../store/authStore"; // Untuk mendapatkan data user
 import SkeletonCard from "../../common/SkeletonCard";
-
+import { fetchNearbyDestinations } from "../../../utils/apiUtils"; // Path disesuaikan
 const NearByDestinations = () => {
   const [destinations, setDestinations] = useState([]); // Data dari API
   const [startIndex, setStartIndex] = useState(0);
@@ -13,30 +12,21 @@ const NearByDestinations = () => {
   const [error, setError] = useState(null); // Untuk menangani error
 
   const userCityId = useAuthStore((state) => state.auth.city); // Ambil ID city user
-
   useEffect(() => {
-    // Fungsi untuk fetch data nearby destinations dari API berdasarkan city ID
-    const fetchDestinations = async () => {
-      if (!userCityId) {
-        setError("User city ID not available");
-        setLoading(false);
-        return;
-      }
-
+    const loadDestinations = async () => {
+      setLoading(true);
       try {
-        const response = await axiosInstance.get(
-          `/destination?city=${userCityId}`
-        );
-        setDestinations(response.data.destinations || []);
-        setLoading(false);
+        const data = await fetchNearbyDestinations(userCityId);
+        setDestinations(data);
+        setError(null);
       } catch (err) {
-        console.error("Error fetching nearby destinations:", err);
-        setError("Failed to load destinations.");
+        setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchDestinations();
+    loadDestinations();
   }, [userCityId]);
 
   useEffect(() => {

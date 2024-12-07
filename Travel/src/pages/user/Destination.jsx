@@ -8,6 +8,7 @@ import FilterButton from "../../components/User/Destination/FilterButton";
 import DestinationCard from "../../components/common/DestinationCard";
 import SortButton from "../../components/User/Destination/SortButton";
 import { useSearchParams } from "react-router-dom";
+import { fetchDestinations } from "../../utils/apiUtils"; // Path disesuaikan
 
 export default function Destination() {
   const [destinations, setDestinations] = useState([]); // State untuk menyimpan data
@@ -20,44 +21,24 @@ export default function Destination() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("name") || ""; // Mendapatkan nilai dari query string
 
-  // Fetch data dari API
-  const fetchDestinations = async (query) => {
-    console.log("Fetching destinations with query:", query); // Log query
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await axiosInstance.get("/destination", {
-        params: {
-          name: query,
-          sort: sortOption,
-        },
-      });
-      console.log("API response:", response.data); // Log hasil API
-      setDestinations(response.data.destinations || []);
-    } catch (err) {
-      setError(err.message || "Failed to fetch destinations.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Debounce untuk search query
   useEffect(() => {
-    console.log(
-      "Triggering fetch for searchQuery:",
-      searchQuery,
-      "sortOption:",
-      sortOption
-    );
-    const debounceSearch = setTimeout(() => {
+    const debounceSearch = setTimeout(async () => {
       if (searchQuery.trim().length >= 3 || searchQuery.trim().length === 0) {
-        fetchDestinations(searchQuery);
+        try {
+          setLoading(true);
+          const data = await fetchDestinations(searchQuery, sortOption); // Gunakan utils
+          setDestinations(data);
+          setCurrentPage(1); // Reset halaman
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
       }
-      setCurrentPage(1); // Reset halaman ke awal saat search
-    }, 500); // Waktu debounce 500ms
+    }, 500);
 
-    return () => clearTimeout(debounceSearch); // Bersihkan timeout saat searchQuery berubah
-  }, [searchQuery, sortOption]); // Refetch saat search atau sort berubah
+    return () => clearTimeout(debounceSearch);
+  }, [searchQuery, sortOption]);
 
   // Filter data berdasarkan halaman saat ini
   useEffect(() => {
@@ -98,14 +79,14 @@ export default function Destination() {
 
         {/* Loading State */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {Array.from({ length: itemsPerPage }).map((_, index) => (
               <SkeletonCard key={index} />
             ))}
           </div>
         ) : (
           // Destinations Grid
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {filteredDestinations.length > 0 ? (
               filteredDestinations.map((destination) => (
                 <DestinationCard

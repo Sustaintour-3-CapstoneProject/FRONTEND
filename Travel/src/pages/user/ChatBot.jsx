@@ -10,7 +10,7 @@ function ChatBot() {
   const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
+  const { auth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
   // Ambil data autentikasi dan fungsi logout
   const handleSubmit = (event) =>
     handleChatSubmit({
@@ -21,6 +21,7 @@ function ChatBot() {
       setChatHistory,
       chatHistory,
       setPrompt,
+      auth,
     });
 
   const handleRefresh = () => {

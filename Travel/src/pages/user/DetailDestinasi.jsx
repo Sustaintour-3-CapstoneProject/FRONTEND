@@ -11,7 +11,7 @@ import TitleAndInfoSkeleton from "../../components/User/DetailDestinasi/TitleAnd
 import DescriptionSkeleton from "../../components/User/DetailDestinasi/DescriptionSkeleton";
 import FacilitiesSkeleton from "../../components/User/DetailDestinasi/FacilitiesSkeleton";
 import VideoSectionSkeleton from "../../components/User/DetailDestinasi/VideoSectionSkeleton";
-
+import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file destinationUtils
 const DestinationDetail = () => {
   const { id } = useParams();
   const [destination, setDestination] = useState(null);
@@ -21,13 +21,11 @@ const DestinationDetail = () => {
   useEffect(() => {
     const fetchDestination = async () => {
       try {
-        const response = await axiosInstance.get(`/destination/${id}`);
-        console.log(response);
-        setDestination(response.data.destination);
-        setLoading(false);
+        const data = await fetchDestinationById(id); // Gunakan fungsi dari utils
+        setDestination(data);
       } catch (err) {
-        console.error("Error fetching destination data:", err);
-        setError("Failed to fetch destination data.");
+        setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
