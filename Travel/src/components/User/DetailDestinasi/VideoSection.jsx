@@ -12,7 +12,7 @@ const VideoSection = ({ videos }) => {
   };
 
   if (!videos || videos.length === 0) {
-    return <p className="text-gray-500">No videos available.</p>;
+    return <p className="text-gray-500 mt-4">No videos available.</p>;
   }
 
   return (

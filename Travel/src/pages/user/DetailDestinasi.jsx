@@ -23,6 +23,7 @@ const DestinationDetail = () => {
     const fetchDestination = async () => {
       try {
         const data = await fetchDestinationById(id); // Gunakan fungsi dari utils
+        console.log(data);
         setDestination(data);
       } catch (err) {
         setError(err.message);

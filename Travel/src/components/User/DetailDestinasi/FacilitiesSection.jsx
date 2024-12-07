@@ -1,5 +1,11 @@
 import React from "react";
-import { FaRestroom, FaParking, FaHiking, FaSwimmer } from "react-icons/fa";
+import {
+  FaRestroom,
+  FaParking,
+  FaHiking,
+  FaSwimmer,
+  FaToilet,
+} from "react-icons/fa";
 import {
   MdRestaurantMenu,
   MdOutlineLocalGroceryStore,
@@ -8,7 +14,8 @@ import {
 
 const facilityIcons = {
   Parking: FaParking,
-  Toilets: FaRestroom,
+  Toilets: FaToilet,
+  Restroom: FaRestroom,
   "Souvenir Shops": MdOutlineLocalGroceryStore,
   Guides: FaHiking,
   "Swimming Pool": FaSwimmer,
