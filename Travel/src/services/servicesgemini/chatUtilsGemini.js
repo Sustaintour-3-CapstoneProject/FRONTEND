@@ -106,7 +106,7 @@ Deskripsi: ${description}\n`;
 
     // Kirim prompt ke AI
     const aiResponse = await getGeminiResponse(
-      import.meta.env.VITE_API_KEY,
+      import.meta.env.VITE_API_KEY_GEMINI,
       destinationSpecificPrompt,
       chatHistory
     );
