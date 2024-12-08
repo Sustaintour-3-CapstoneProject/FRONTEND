@@ -63,17 +63,19 @@ const Rutes = () => {
   }, [destination]);
 
   useEffect(() => {
-    if (origin && selectedDestination) {
+    if (origin && destination) {
       const originCoord = cityOptions.find(
         (city) => city.name === origin
       )?.position;
-      const destCoord = selectedDestination.position;
+      const destCoord = cityOptions.find(
+        (city) => city.name === destination
+      )?.position;
 
       if (originCoord && destCoord) {
         calculateDistance(originCoord, destCoord);
       }
     }
-  }, [origin, selectedDestination]);
+  }, [origin, destination]);
 
   const handleSelectDestination = (dest) => {
     if (!origin) {
@@ -211,14 +213,19 @@ const Rutes = () => {
       {/* Peta */}
 
       <div className="h-[450px]">
-        {route.length > 0 && (
+        {origin && destination && (
           <MapContainer
-            center={route[0]}
+            center={
+              cityOptions.find((city) => city.name === destination)?.position
+            }
             zoom={8}
-            className="h-[450px] rounded-lg shadow-md" // Perbesar tinggi peta di sini
+            className="h-[450px] rounded-lg shadow-md"
             style={{ zIndex: 1 }}
           >
+            {/* Tile Layer */}
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+            {/* Marker Kota Asal */}
             <Marker
               position={
                 cityOptions.find((city) => city.name === origin)?.position
@@ -228,15 +235,23 @@ const Rutes = () => {
                 <span>{origin}</span>
               </Tooltip>
             </Marker>
-            <Marker position={route[0]}>
+
+            {/* Marker Kota Tujuan */}
+            <Marker
+              position={
+                cityOptions.find((city) => city.name === destination)?.position
+              }
+            >
               <Tooltip direction="top" offset={[0, -20]} opacity={1}>
-                <span>{selectedDestination?.address}</span>
+                <span>{destination}</span>
               </Tooltip>
             </Marker>
+
+            {/* Polyline Menghubungkan Kota Asal ke Tujuan */}
             <Polyline
               positions={[
                 cityOptions.find((city) => city.name === origin)?.position,
-                route[0],
+                cityOptions.find((city) => city.name === destination)?.position,
               ]}
               color="blue"
               weight={4}
@@ -244,12 +259,13 @@ const Rutes = () => {
           </MapContainer>
         )}
       </div>
+
       <div className="flex justify-around items-center space-x-10 ">
         {/* Jarak */}
         <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300">
           <HiMap size={20} />
           <p className="text-lg font-medium">Jarak:</p>
-          {origin && selectedDestination && (
+          {origin && destination && (
             <span className="text-lg font-medium">
               {distance ? `${distance} km` : "Menghitung..."}
             </span>
@@ -258,7 +274,7 @@ const Rutes = () => {
         <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300">
           <HiClock size={20} />
           <p className="text-lg font-medium">Waktu:</p>
-          {origin && selectedDestination && (
+          {origin && destination && (
             <span className="text-lg font-medium">
               {time ? time : "Menghitung..."}
             </span>
