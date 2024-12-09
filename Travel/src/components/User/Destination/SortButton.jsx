@@ -13,11 +13,8 @@ const SortButton = ({ onSort }) => {
       <select
         onChange={handleSortChange}
         className="block w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-        defaultValue=""
       >
-        <option value="" disabled>
-          Sort By
-        </option>
+        <option value="">Sort By</option>
         <option value="oldest">Oldest</option> {/* Menambahkan opsi Oldest */}
       </select>
     </div>
