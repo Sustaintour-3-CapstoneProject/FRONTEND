@@ -31,6 +31,7 @@ L.Icon.Default.mergeOptions({
 const Rutes = () => {
   const { distance, time, calculateDistance, setDistance, setTime } =
     useCalculateDistance();
+  const [cities, setCities] = useState([]); // Data kota dari API
   const [origin, setOrigin] = useState(""); // Kota Asal
   const [destination, setDestination] = useState(""); // Kota Tujuan
   const [destinations, setDestinations] = useState([]); // Daftar destinasi
@@ -44,13 +45,30 @@ const Rutes = () => {
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4; // Jumlah item per halaman
-  const cityOptions = [
-    { name: "Jakarta", position: [-6.2088, 106.8456] },
-    { name: "Bandung", position: [-6.9175, 107.6191] },
-    { name: "Surabaya", position: [-7.2575, 112.7521] },
-    { name: "Yogyakarta", position: [-7.7956, 110.3695] },
-  ];
 
+  // Ambil data kota dari Backend
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch("https://www.tripwise.my.id/city");
+        const data = await response.json();
+
+        // Map data sesuai kebutuhan komponen
+        const formattedCities = data.cities.map((city) => ({
+          name: city.name,
+          position: [parseFloat(city.lat), parseFloat(city.long)],
+        }));
+
+        setCities(formattedCities); // Simpan data yang diformat ke state
+      } catch (error) {
+        console.error("Gagal mengambil data kota:", error);
+      }
+    };
+
+    fetchCities();
+  }, []);
+
+  // Filter destinasi berdasarkan kota tujuan
   useEffect(() => {
     if (destination) {
       const filteredDestinations = Datadestinations.filter(
@@ -64,10 +82,8 @@ const Rutes = () => {
 
   useEffect(() => {
     if (origin && destination) {
-      const originCoord = cityOptions.find(
-        (city) => city.name === origin
-      )?.position;
-      const destCoord = cityOptions.find(
+      const originCoord = cities.find((city) => city.name === origin)?.position;
+      const destCoord = cities.find(
         (city) => city.name === destination
       )?.position;
 
@@ -149,14 +165,14 @@ const Rutes = () => {
         {/* Kota Asal */}
         <CityDropdown
           label="Origin"
-          options={cityOptions}
+          options={cities}
           value={origin}
           onChange={setOrigin}
         />
         {/* Kota Tujuan */}
         <CityDropdown
           label="Destination"
-          options={cityOptions}
+          options={cities}
           value={destination}
           onChange={setDestination}
         />
@@ -215,9 +231,7 @@ const Rutes = () => {
       <div className="h-[450px]">
         {origin && destination && (
           <MapContainer
-            center={
-              cityOptions.find((city) => city.name === destination)?.position
-            }
+            center={cities.find((city) => city.name === destination)?.position}
             zoom={8}
             className="h-[450px] rounded-lg shadow-md"
             style={{ zIndex: 1 }}
@@ -227,9 +241,7 @@ const Rutes = () => {
 
             {/* Marker Kota Asal */}
             <Marker
-              position={
-                cityOptions.find((city) => city.name === origin)?.position
-              }
+              position={cities.find((city) => city.name === origin)?.position}
             >
               <Tooltip direction="top" offset={[0, -20]} opacity={1}>
                 <span>{origin}</span>
@@ -239,7 +251,7 @@ const Rutes = () => {
             {/* Marker Kota Tujuan */}
             <Marker
               position={
-                cityOptions.find((city) => city.name === destination)?.position
+                cities.find((city) => city.name === destination)?.position
               }
             >
               <Tooltip direction="top" offset={[0, -20]} opacity={1}>
@@ -250,8 +262,8 @@ const Rutes = () => {
             {/* Polyline Menghubungkan Kota Asal ke Tujuan */}
             <Polyline
               positions={[
-                cityOptions.find((city) => city.name === origin)?.position,
-                cityOptions.find((city) => city.name === destination)?.position,
+                cities.find((city) => city.name === origin)?.position,
+                cities.find((city) => city.name === destination)?.position,
               ]}
               color="blue"
               weight={4}
