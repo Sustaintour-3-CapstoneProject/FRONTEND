@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
@@ -55,9 +55,9 @@ const NavigationBar = () => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">
-                  {auth.first_name} {auth.last_name || ""}
-                </span>
+                <Link to="/profile" className="block text-sm">
+                  Pofile
+                </Link>
               </Dropdown.Header>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown>

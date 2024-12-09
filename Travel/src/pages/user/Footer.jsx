@@ -1,6 +1,6 @@
 import { Footer, FooterDivider } from "flowbite-react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const Footers = () => (
   <>
     <Footer className=" bg-sky-100 py-8 flex flex-col " id="contact">
@@ -8,7 +8,7 @@ const Footers = () => (
       <div className="flex flex-col ">
         <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-10 md:gap-20 px-4 ">
           {/* Kolom Logo dan Deskripsi */}
-          <div className="flex flex-col w-full text-center  md:ml-20 md:text-left">
+          <div className="flex flex-col w-full text-center   md:ml-20 md:text-left">
             <Footer.Brand
               href="#"
               src="/logo2.png" // Ganti dengan URL logo Anda
@@ -38,11 +38,11 @@ const Footers = () => (
           <div className="flex flex-col w-full text-center md:text-left md:ml-20">
             <Footer.Title title="Features" />
             <Footer.LinkGroup col={true} className="ml-2 md:ml-0 mt-2">
-              <Footer.Link href="#" className="pl-[15px] md:pl-0">
+              <Link to="/destinasi" className="pl-[15px] md:pl-0">
                 Destinations
-              </Footer.Link>
-              <Footer.Link href="#">Route</Footer.Link>
-              <Footer.Link href="#">Ai Asisstent</Footer.Link>
+              </Link>
+              <Link to="/rute">Route</Link>
+              <Link to="/chatbot">Ai Asisstent</Link>
             </Footer.LinkGroup>
           </div>
 
@@ -50,9 +50,9 @@ const Footers = () => (
           <div className="flex flex-col w-full text-center  md:justify-center md:text-left ">
             <Footer.Title title="Category" />
             <Footer.LinkGroup col={true} className="ml-2 md:ml-0 mt-2">
-              <Footer.Link href="#">Nature</Footer.Link>
-              <Footer.Link href="#">Culture & Historical</Footer.Link>
-              <Footer.Link href="#">EcoTourism</Footer.Link>
+              <Link>Nature</Link>
+              <Link>Culture & Historical</Link>
+              <Link>EcoTourism</Link>
             </Footer.LinkGroup>
           </div>
 

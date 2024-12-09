@@ -67,7 +67,7 @@ const VideoSection = ({ videos }) => {
                   onClick={() => toggleDescription(index)}
                   style={{ wordBreak: "break-word", whiteSpace: "normal" }} // Gaya tambahan
                 >
-                  {videoData.title}
+                  {videoData.description}
                 </p>
               </div>
             </div>
