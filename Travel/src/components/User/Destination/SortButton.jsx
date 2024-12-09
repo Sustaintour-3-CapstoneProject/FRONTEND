@@ -12,7 +12,7 @@ const SortButton = ({ onSort }) => {
       {/* Select Option */}
       <select
         onChange={handleSortChange}
-        className="block w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
+        className="block w-full bg-sky-500 border border-sky-500 text-white py-2 px-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
       >
         <option value="">Sort By</option>
         <option value="oldest">Oldest</option> {/* Menambahkan opsi Oldest */}

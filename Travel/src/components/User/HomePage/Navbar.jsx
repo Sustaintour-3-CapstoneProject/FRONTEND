@@ -70,7 +70,7 @@ const NavigationBar = () => {
           )}
           <Navbar.Toggle />
         </div>
-        <Navbar.Collapse>
+        <Navbar.Collapse className=" space-y-2 shadow-md mt-2 md:shadow-none md:bg-white md:mt-0">
           {/* Menu Navigasi */}
           {[
             { to: "/home", label: "Home" },
