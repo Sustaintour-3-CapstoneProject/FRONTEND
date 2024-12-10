@@ -2,13 +2,14 @@ import React from "react";
 import { Carousel } from "flowbite-react";
 
 const HeroImageSection = ({ images }) => {
+  console.log({ images });
   return (
     <div className="relative w-full h-[500px]">
       <Carousel slideInterval={5000} className="h-full">
         {images && images.length > 0 ? (
           images.map((image, index) => (
             <img
-              key={image.id}
+              key={index}
               src={image.url}
               alt={`Slide ${index + 1}`}
               className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"

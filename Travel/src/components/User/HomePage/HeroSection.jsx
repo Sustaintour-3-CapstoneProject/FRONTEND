@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../common/SearchInput";
 import { HiSearch } from "react-icons/hi";
 import useAuthStore from "../../../store/authStore";
@@ -80,9 +80,17 @@ const HeroSection = () => {
           </div>
           <div className="flex items-center mt-3 md:mt-6">
             <FaMapMarkerAlt className="text-white mr-2 text-sm md:text-base" />
-            <span className="text-xs md:text-sm lg:text-base">
-              {currentPlace?.address || "Address not available"}
-            </span>
+            {currentPlace ? (
+              <Link to={`/${currentPlace.id || ""}`}>
+                <span className="text-xs md:text-sm lg:text-base">
+                  {currentPlace?.address || "Address not available"}
+                </span>
+              </Link>
+            ) : (
+              <span className="text-xs md:text-sm lg:text-base">
+                Loading address...
+              </span>
+            )}
           </div>
         </div>
       </div>
