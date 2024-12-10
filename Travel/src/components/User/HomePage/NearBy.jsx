@@ -4,6 +4,7 @@ import DestinationCard from "../../common/DestinationCard"; // Pastikan path ini
 import useAuthStore from "../../../store/authStore"; // Untuk mendapatkan data user
 import SkeletonCard from "../../common/SkeletonCard";
 import { fetchNearbyDestinations } from "../../../utils/apiUtils"; // Path disesuaikan
+
 const NearByDestinations = () => {
   const [destinations, setDestinations] = useState([]); // Data dari API
   const [startIndex, setStartIndex] = useState(0);
@@ -73,7 +74,7 @@ const NearByDestinations = () => {
               className={`flex-shrink-0 ${
                 isMobile
                   ? "min-w-[45%] max-w-[45%]"
-                  : "sm:min-w-[260px] sm:max-w-[260px]"
+                  : "sm:min-w-[250px] sm:max-w-[250px]"
               }`}
             >
               <SkeletonCard /> {/* Komponen skeleton card */}
