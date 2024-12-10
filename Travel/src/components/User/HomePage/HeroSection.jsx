@@ -3,6 +3,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../../common/SearchInput";
 import { HiSearch } from "react-icons/hi";
+import useAuthStore from "../../../store/authStore";
 // Data Dummy
 const dummyData = [
   {
@@ -28,6 +29,7 @@ const dummyData = [
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { auth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState(0);
 
   // Update tempat secara otomatis setiap 6 detik
@@ -59,8 +61,8 @@ const HeroSection = () => {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
           {/* Judul */}
           <h1 className="text-lg md:text-4xl font-bold mb-4 text-center leading-tight">
-            Hi Alaia! <br className="block md:hidden" /> Let's find your next
-            adventure!
+            Hi {auth.username}
+            <br className="block " /> Let's find your next adventure!
           </h1>
           <div className="flex justify-center space-x-2">
             <SearchInput value={searchQuery} onChange={setSearchQuery} />

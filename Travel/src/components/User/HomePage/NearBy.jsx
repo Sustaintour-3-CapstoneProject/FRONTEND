@@ -106,7 +106,7 @@ const NearByDestinations = () => {
                 className={`flex-shrink-0 ${
                   isMobile
                     ? "min-w-[45%] max-w-[45%]"
-                    : "sm:min-w-[260px] sm:max-w-[260px]"
+                    : "sm:min-w-[250px] sm:max-w-[250px]"
                 }`}
               >
                 <DestinationCard destination={destination} />
