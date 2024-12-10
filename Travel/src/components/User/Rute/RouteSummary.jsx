@@ -11,14 +11,6 @@ const RouteSummary = ({
   handleSave,
   handleHowToUseClick,
 }) => {
-  console.log("Props diterima RouteSummary:", {
-    origin,
-    destination,
-    distance,
-    time,
-    totalCost,
-  });
-
   return (
     <div className="flex justify-around items-center space-x-10 ">
       {/* Jarak */}

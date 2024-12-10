@@ -8,17 +8,11 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { Button, Select, Pagination } from "flowbite-react";
+import { Button } from "flowbite-react";
 
 import AlertModal from "../../components/common/AlertModal";
 import ConfirmationModal from "../../components/common/ConfirmationModal";
-import {
-  HiMap,
-  HiClock,
-  HiCurrencyDollar,
-  HiExclamationCircle,
-  HiCheckCircle,
-} from "react-icons/hi";
+import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
 import useCalculateDistance from "../../hooks/useCalculateDistance";
 import CityDropdown from "../../components/User/Rute/CityDropdown";
 // Ikon marker
@@ -30,9 +24,14 @@ L.Icon.Default.mergeOptions({
 import { fetchDestinationsAPI } from "../../services/FetchDestinationRute";
 import DestinationList from "../../components/User/Rute/DestinationList";
 import RouteSummary from "../../components/User/Rute/RouteSummary";
+import useAuthStore from "../../store/authStore";
+import axiosInstance from "../../api/axiosInstance";
+
 const Rutes = () => {
   const { distance, time, calculateDistance, setDistance, setTime } =
     useCalculateDistance();
+  const { auth } = useAuthStore();
+
   const [cities, setCities] = useState([]); // Data kota dari API
   const [origin, setOrigin] = useState(null); // Kota Asal
   const [destination, setDestination] = useState(null); // Kota Tujuan
@@ -44,7 +43,7 @@ const Rutes = () => {
   const [isHowToUseModalOpen, setIsHowToUseModalOpen] = useState(false); // State untuk modal tata cara
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(totalCost);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4; // Jumlah item per halaman
@@ -125,20 +124,29 @@ const Rutes = () => {
     setIsConfirmationOpen(true);
   };
 
-  const handleConfirmSave = () => {
+  const handleConfirmSave = async () => {
     setIsConfirmationOpen(false);
 
-    // Simpan data
+    // Ubah nama properti sesuai kebutuhan backend
     const savedData = {
-      origin,
-      destination,
-      selectedDestination,
-      totalCost,
-      distance,
-      time,
+      userID: auth.id_user,
+      originCityName: origin.name,
+      destinationCityName: destination.name,
+      destinations: selectedDestination, // Asumsikan selectedDestination memiliki properti `name`
+      // cost: totalCost,
+      // distance_km: distance,
+      // duration_minutes: time,
     };
-    setIsSuccessModalOpen(true); // Buka modal sukses
-    console.log("Data yang disimpan:", savedData);
+    console.log("Data yang akan disimpan:", savedData);
+    try {
+      const response = await axiosInstance.post("/route", savedData);
+      console.log("Respon dari backend:", response.data);
+
+      setIsSuccessModalOpen(true); // Buka modal sukses
+    } catch (error) {
+      console.error("Gagal menyimpan data ke backend:", error);
+      alert("Terjadi kesalahan saat menyimpan data. Coba lagi.");
+    }
   };
 
   const handleRefresh = () => {
