@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react"; // Import button dari Flowbite
 import { FaArrowLeft } from "react-icons/fa";
+import axiosInstance from "../../api/axiosInstance"; // Pastikan path benar
+
 const categories = [
   {
     name: "Nature",
     image: "/Category/nature.jpg",
   },
   {
-    name: "Culture & Historical",
+    name: "Culture",
     image: "/Category/culture.jpg",
   },
   {
@@ -21,19 +23,39 @@ const CategoryPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null); // State untuk melacak kategori aktif
 
-  // const setCategory = useRecommendationStore((state) => state.setCategory);
+  const postCategoryToBackend = async (categoryName) => {
+    try {
+      const response = await axiosInstance.post("/register", {
+        category: categoryName,
+      });
+
+      console.log("Category posted successfully:", response.data);
+      // Setelah berhasil, navigasi ke halaman login
+      navigate("/login");
+    } catch (error) {
+      console.error("Error posting category:", error);
+      alert("Failed to save category. Please try again.");
+    }
+  };
 
   const handleCategorySelect = (category) => {
     if (selectedCategory === category.name) {
       // Jika kategori yang diklik sama dengan kategori yang dipilih, hapus seleksi
       setSelectedCategory(null);
     } else {
-      // Jika kategori berbeda, pilih kategori tersebut
+      // Pilih kategori yang berbeda
       setSelectedCategory(category.name);
     }
+  };
 
-    // setCategory(category.name); // Simpan kategori di Zustand
-    // navigate("/select-city"); // Redirect ke halaman pilih kota
+  const handleReadyClick = () => {
+    if (!selectedCategory) {
+      alert("Please select a category first!");
+      return;
+    }
+
+    // Post data ke backend
+    postCategoryToBackend(selectedCategory);
   };
 
   return (
@@ -94,7 +116,7 @@ const CategoryPage = () => {
         color="customBlue"
         size="lg"
         className="my-10 px-16 sm:px-32 py-1"
-        onClick={() => navigate("/home")}
+        onClick={handleReadyClick} // Kirim data saat tombol ditekan
       >
         <span className="w-40"> I'm Ready to Explore!</span>
       </Button>
