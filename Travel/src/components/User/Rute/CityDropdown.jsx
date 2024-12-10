@@ -1,21 +1,23 @@
-// src/components/CityDropdown.jsx
-import React from "react";
-
 const CityDropdown = ({ options, value, onChange }) => {
   return (
-    <div className="mb-4">
+    <div className="flex flex-col">
       <select
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          const selectedCity = options.find(
+            (city) => city.id == e.target.value
+          );
+          onChange(selectedCity); // Kirim objek kota
+        }}
         className="mt-1 block w-80 rounded-md bg-sky-500 text-center text-white border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
       >
         <option value="" className="bg-sky-500 text-left text-white">
           Select a city
         </option>
-        {options.map((city, idx) => (
+        {options.map((city) => (
           <option
-            key={idx}
-            value={city.name}
+            key={city.id}
+            value={city.id} // Tetap menggunakan `id` sebagai value
             className="bg-sky-500 text-white text-left"
           >
             {city.name}
@@ -25,5 +27,4 @@ const CityDropdown = ({ options, value, onChange }) => {
     </div>
   );
 };
-
 export default CityDropdown;
