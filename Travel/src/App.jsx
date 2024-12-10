@@ -23,10 +23,10 @@ function App() {
           <Route path="/login" element={<LoginUser />} />
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<LandingPage />} />
+            <Route path="/category" element={<CategoryPage />} />
           </Route>
           {/* Routes untuk Home Layout */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/category" element={<CategoryPage />} />
             <Route element={<HomeLayout />}>
               <Route path="/home" element={<HomePage />} />
               <Route path="/:id" element={<DestinationDetail />} />
