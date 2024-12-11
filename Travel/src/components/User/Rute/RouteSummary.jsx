@@ -16,6 +16,7 @@ const RouteSummary = ({
       {/* Jarak */}
       <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
         <HiMap size={20} />
+        <p className="text-lg font-medium">Distance : </p>
         {origin && destination && (
           <span className="text-lg font-medium">
             {distance ? `${distance} KM` : "Menghitung..."}
@@ -24,8 +25,9 @@ const RouteSummary = ({
       </div>
 
       {/* Waktu */}
-      <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
+      <div className="flex items-center space-x-1 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
         <HiClock size={20} />
+        <p className="text-lg font-medium">Time: </p>
         {origin && destination && (
           <span className="text-lg font-medium">
             {time ? time : "Menghitung..."}
@@ -42,24 +44,23 @@ const RouteSummary = ({
       </div>
 
       {/* Tombol Simpan */}
-      <div className="flex flex-col items-center w-full space-y-3 pt-8">
+      <div className="flex flex-col items-center w-full space-y-3 pt-8 ">
         <Button
-          className="w-full max-w-xs md:w-52"
+          className="py-1 w-full max-w-xs md:w-52"
           color="customBlue"
           onClick={handleSave}
         >
           Save Rute
         </Button>
-        <div className="flex flex-col items-center text-sm">
-          <div className="flex">
-            <span>Instruction for use?</span>
-            <p
-              className="text-blue-700 underline cursor-pointer"
-              onClick={handleHowToUseClick}
-            >
-              Click here
-            </p>
-          </div>
+
+        <div className="flex items-center text-sm">
+          <span>Instruction for use?</span>
+          <p
+            className="text-blue-700 underline cursor-pointer"
+            onClick={handleHowToUseClick}
+          >
+            Click here
+          </p>
         </div>
       </div>
     </div>
