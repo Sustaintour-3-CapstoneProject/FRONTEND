@@ -1,11 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Polyline,
-  Tooltip,
-} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { Button } from "flowbite-react";
@@ -26,6 +19,7 @@ import DestinationList from "../../components/User/Rute/DestinationList";
 import RouteSummary from "../../components/User/Rute/RouteSummary";
 import useAuthStore from "../../store/authStore";
 import axiosInstance from "../../api/axiosInstance";
+import MapComponent from "../../components/User/Rute/Map";
 
 const Rutes = () => {
   const { distance, time, calculateDistance, setDistance, setTime } =
@@ -133,9 +127,6 @@ const Rutes = () => {
       originCityName: origin.name,
       destinationCityName: destination.name,
       destinations: selectedDestination, // Asumsikan selectedDestination memiliki properti `name`
-      // cost: totalCost,
-      // distance_km: distance,
-      // duration_minutes: time,
     };
     console.log("Data yang akan disimpan:", savedData);
     try {
@@ -169,97 +160,73 @@ const Rutes = () => {
   };
 
   return (
-    <div className="flex flex-col my-10 rounded-lg p-3 space-y-4 bg-gray-100 min-h-screen pb-10 font-poppins">
-      <h1 className="text-2xl font-bold">Planning Route</h1>
-      <div className="flex justify-around items-center  space-x-3 py-3">
-        {/* Dropdown Kota asal */}
+    <div className="flex flex-col items-center my-10 rounded-lg space-y-4 bg-gray-100 min-h-screen pb-10 font-poppins">
+      <h1 className="text-lg md:text-2xl font-bold text-center">
+        Planning Route
+      </h1>
+
+      {/* Dropdown dan tombol Refresh */}
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-3 py-3 w-full px-5">
         <CityDropdown
-          label="Origin"
+          label="Enter Your Location"
           options={cities}
-          value={origin?.id || ""} // Tetap gunakan `id` sebagai nilai yang dipilih
-          onChange={setOrigin} // Simpan objek kota
+          value={origin?.id || ""}
+          onChange={setOrigin}
+          className="w-full md:w-[45%]" /* Responsive width */
         />
-        {/* Dropdown Kota tujuan */}
         <CityDropdown
-          label="Destination"
+          label="Your Destination Location"
           options={cities}
-          value={destination?.id || ""} // Tetap gunakan `id` sebagai nilai yang dipilih
-          onChange={setDestination} // Simpan objek kota
+          value={destination?.id || ""}
+          onChange={setDestination}
+          className="w-full md:w-[45%]" /* Responsive width */
         />
-        {/* Tombol Refresh */}
-        <Button onClick={handleRefresh} color="failure" className=" w-32">
+        <Button
+          onClick={handleRefresh}
+          color="failure"
+          className="w-32 md:w-32"
+        >
           Refresh
         </Button>
       </div>
-      {/* Destinasi */}
 
-      <DestinationList
-        destinations={destinations}
-        currentPage={currentPage}
-        itemsPerPage={itemsPerPage}
-        setCurrentPage={setCurrentPage}
-        handleSelectDestination={handleSelectDestination}
-      />
-      {/* Peta */}
-
-      <div className="h-[450px]">
-        {origin && destination && (
-          <MapContainer
-            center={cities.find((city) => city.id == destination.id)?.position}
-            zoom={8}
-            className="h-[450px] rounded-lg shadow-md"
-            style={{ zIndex: 1 }}
-          >
-            {/* Tile Layer */}
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-            {/* Marker Kota Asal */}
-            <Marker
-              position={cities.find((city) => city.id == origin.id)?.position}
-            >
-              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
-                <span>{origin.name}</span>
-              </Tooltip>
-            </Marker>
-
-            {/* Marker Kota Tujuan */}
-            <Marker
-              position={
-                cities.find((city) => city.id == destination.id)?.position
-              }
-            >
-              <Tooltip direction="top" offset={[0, -20]} opacity={1}>
-                <span>{destination.name}</span>
-              </Tooltip>
-            </Marker>
-
-            {/* Polyline Menghubungkan Kota Asal ke Tujuan */}
-            <Polyline
-              positions={[
-                cities.find((city) => city.id == origin.id)?.position,
-                cities.find((city) => city.id == destination.id)?.position,
-              ]}
-              color="blue"
-              weight={4}
-            />
-          </MapContainer>
-        )}
+      {/* Daftar destinasi */}
+      <div className="w-full px-5">
+        <DestinationList
+          destinations={destinations}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          setCurrentPage={setCurrentPage}
+          handleSelectDestination={handleSelectDestination}
+        />
       </div>
 
-      <RouteSummary
-        origin={origin}
-        destination={destination}
-        distance={distance}
-        time={time}
-        totalCost={totalCost}
-        handleSave={handleSave}
-        handleHowToUseClick={handleHowToUseClick}
-      />
+      {/* Peta */}
+      <div className="w-full px-5">
+        <div className="h-[250px] md:h-[350px] lg:h-[450px] w-full overflow-hidden rounded-lg shadow-md">
+          <MapComponent origin={origin} destination={destination} />
+        </div>
+      </div>
+
+      {/* Ringkasan Rute */}
+      <div className="w-full flex flex-col px-5">
+        <RouteSummary
+          origin={origin}
+          destination={destination}
+          distance={distance}
+          time={time}
+          totalCost={totalCost}
+          handleSave={handleSave}
+          handleHowToUseClick={handleHowToUseClick}
+        />
+      </div>
+
+      {/* Modals */}
       <AlertModal
         isOpen={isHowToUseModalOpen}
         title="Tata Cara Menggunakan Fitur Rute"
         message={
-          <div className="text-left">
+          <div className="text-left text-sm md:text-base">
             1. Pilih kota asal dari daftar yang tersedia.
             <br />
             2. Pilih kota tujuan yang ingin Anda kunjungi.
@@ -272,30 +239,32 @@ const Rutes = () => {
             bawah.
           </div>
         }
-        onClose={closeHowToUseModal} // Fungsi untuk menutup modal
+        onClose={closeHowToUseModal}
       />
 
-      {/* Modal Konfirmasi */}
       <ConfirmationModal
         isOpen={isConfirmationOpen}
         onCancel={() => setIsConfirmationOpen(false)}
         onConfirm={handleConfirmSave}
-        message={`Anda akan menyimpan rute ini apkah anda yakin?`}
+        message="Anda akan menyimpan rute ini, apakah Anda yakin?"
       />
-      {/* Error Modal */}
+
       <AlertModal
         isOpen={isErrorModalOpen}
         title="Validasi Gagal"
-        icon={<HiExclamationCircle className="text-red-500 w-20 h-20" />}
+        icon={
+          <HiExclamationCircle className="text-red-500 w-12 h-12 md:w-20 md:h-20" />
+        }
         message="Harap isi semua bidang: kota asal, kota tujuan, dan destinasi."
         onClose={() => setIsErrorModalOpen(false)}
       />
 
-      {/* Success Modal */}
       <AlertModal
         isOpen={isSuccessModalOpen}
         title="Sukses"
-        icon={<HiCheckCircle className="text-green-500 w-20 h-20" />}
+        icon={
+          <HiCheckCircle className="text-green-500 w-12 h-12 md:w-20 md:h-20" />
+        }
         message="Rute Anda berhasil disimpan. Silakan cek data Anda!"
         onClose={() => setIsSuccessModalOpen(false)}
       />
