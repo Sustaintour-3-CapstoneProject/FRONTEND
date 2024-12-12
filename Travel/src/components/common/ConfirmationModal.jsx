@@ -1,9 +1,16 @@
 import React from "react";
 import { Modal, Button } from "flowbite-react";
 
-const AlertModal = ({ isOpen, title, message, onClose, icon }) => {
+const ConfirmationModal = ({
+  icon,
+  isOpen,
+  title,
+  message,
+  onConfirm,
+  onCancel,
+}) => {
   return (
-    <Modal show={isOpen} onClose={onClose}>
+    <Modal show={isOpen} onClose={onCancel}>
       <Modal.Header>{title}</Modal.Header>
       <Modal.Body>
         {icon && (
@@ -14,12 +21,17 @@ const AlertModal = ({ isOpen, title, message, onClose, icon }) => {
         <p className="text-sm text-gray-700 text-center">{message}</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button color="customBlue" onClick={onClose}>
-          OK
-        </Button>
+        <div className="flex  gap-2 w-full">
+          <Button color="success" onClick={onConfirm}>
+            OK
+          </Button>
+          <Button color="gray" onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default AlertModal;
+export default ConfirmationModal;
