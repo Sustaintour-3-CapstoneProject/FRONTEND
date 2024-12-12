@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance"; // Path disesuaikan
+import { useSearchParams } from "react-router-dom";
 import { Pagination } from "flowbite-react";
 
 import SkeletonCard from "../../components/common/SkeletonCard";
@@ -7,7 +7,6 @@ import SearchInput from "../../components/common/SearchInput";
 import FilterButton from "../../components/User/Destination/FilterButton";
 import DestinationCard from "../../components/common/DestinationCard";
 import SortButton from "../../components/User/Destination/SortButton";
-import { useSearchParams } from "react-router-dom";
 import { fetchDestinations } from "../../utils/apiUtils"; // Path disesuaikan
 
 export default function Destination() {
@@ -15,20 +14,26 @@ export default function Destination() {
   const [filteredDestinations, setFilteredDestinations] = useState([]); // Data untuk pagination
   const [loading, setLoading] = useState(true); // State untuk status loading
   const [error, setError] = useState(null); // State untuk menangkap error
-  const [sortOption, setSortOption] = useState(""); // Sort option
   const [currentPage, setCurrentPage] = useState(1); // Halaman aktif
   const itemsPerPage = 12; // Jumlah item per halaman
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("name") || ""; // Mendapatkan nilai dari query string
-  console.log(destinations);
+  const filterCategory = searchParams.get("category") || ""; // Ambil kategori dari query string
+  const sortOption = searchParams.get("sort") || ""; // Ambil sort option dari query string
+
+  // Update data ketika parameter pencarian, filter, atau sort berubah
   useEffect(() => {
     const debounceSearch = setTimeout(async () => {
       if (searchQuery.trim().length >= 3 || searchQuery.trim().length === 0) {
         try {
           setLoading(true);
-          const data = await fetchDestinations(searchQuery, sortOption); // Gunakan utils
+          const data = await fetchDestinations(
+            searchQuery,
+            sortOption,
+            filterCategory
+          );
           setDestinations(data);
-          setCurrentPage(1); // Reset halaman
+          setCurrentPage(1); // Reset halaman ke 1 setelah parameter berubah
         } catch (err) {
           setError(err.message);
         } finally {
@@ -38,7 +43,7 @@ export default function Destination() {
     }, 500);
 
     return () => clearTimeout(debounceSearch);
-  }, [searchQuery, sortOption]);
+  }, [searchQuery, sortOption, filterCategory]);
 
   // Filter data berdasarkan halaman saat ini
   useEffect(() => {
@@ -51,21 +56,35 @@ export default function Destination() {
 
   // Handle sort option
   const handleSort = (option) => {
-    setSortOption(option);
-    setCurrentPage(1); // Reset halaman ke awal saat sort
+    setSearchParams({
+      sort: option,
+      category: filterCategory,
+      name: searchQuery,
+    }); // Update URL dengan parameter sort
+  };
+
+  // Handle filter option
+  const handleFilter = (category) => {
+    setSearchParams({ category, name: searchQuery, sort: sortOption }); // Update URL dengan kategori
   };
 
   return (
-    <div className="  my-10 font-poppins">
+    <div className="my-10 font-poppins">
       {/* Header */}
       <div className="max-w-full sm:max-w-md md:max-w-7xl mx-auto py-8 px-4 sm:px-6">
         <header className="flex flex-col justify-center md:flex-row md:justify-center md:items-center mb-8 space-y-3 md:space-y-0 md:space-x-3">
           <SearchInput
             value={searchQuery}
-            onChange={(value) => setSearchParams({ name: value })}
+            onChange={(value) =>
+              setSearchParams({
+                name: value,
+                category: filterCategory,
+                sort: sortOption,
+              })
+            }
           />
           <div className="flex justify-center items-center space-x-3">
-            <FilterButton />
+            <FilterButton onFilter={handleFilter} />
             <SortButton onSort={handleSort} />
           </div>
         </header>

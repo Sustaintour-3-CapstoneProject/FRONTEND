@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react"; // Import button dari Flowbite
 import { FaArrowLeft } from "react-icons/fa";
+import axiosInstance from "../../api/axiosInstance"; // Pastikan path benar
+import useAuthStore from "../../store/authStore";
 const categories = [
   {
     name: "Nature",
     image: "/Category/nature.jpg",
   },
   {
-    name: "Culture & Historical",
+    name: "Culture",
     image: "/Category/culture.jpg",
   },
   {
@@ -20,20 +22,44 @@ const categories = [
 const CategoryPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null); // State untuk melacak kategori aktif
+  const { userId } = useAuthStore(); // Ambil userId dari store
 
-  // const setCategory = useRecommendationStore((state) => state.setCategory);
+  const postCategoryToBackend = async (categoryName) => {
+    if (!userId) {
+      alert("User ID is missing. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.post("/user/category", {
+        UserID: userId, // Gunakan userId dari store
+        category: [categoryName],
+      });
+
+      console.log("Category posted successfully:", response.data);
+      // Setelah berhasil, navigasi ke halaman login
+      navigate("/login");
+    } catch (error) {
+      console.error("Error posting category:", error);
+      alert("Failed to save category. Please try again.");
+    }
+  };
 
   const handleCategorySelect = (category) => {
     if (selectedCategory === category.name) {
-      // Jika kategori yang diklik sama dengan kategori yang dipilih, hapus seleksi
       setSelectedCategory(null);
     } else {
-      // Jika kategori berbeda, pilih kategori tersebut
       setSelectedCategory(category.name);
     }
+  };
 
-    // setCategory(category.name); // Simpan kategori di Zustand
-    // navigate("/select-city"); // Redirect ke halaman pilih kota
+  const handleReadyClick = () => {
+    if (!selectedCategory) {
+      alert("Please select a category first!");
+      return;
+    }
+
+    postCategoryToBackend(selectedCategory);
   };
 
   return (
@@ -41,15 +67,15 @@ const CategoryPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between w-full max-w-full mt-6">
         <button
-          className="text-black hover:text-blue-500 w"
-          onClick={() => navigate(-1)} // Kembali ke halaman sebelumnya
+          className="text-black hover:text-blue-500"
+          onClick={() => navigate(-1)}
         >
           <FaArrowLeft size={30} />
         </button>
         <h1 className="text-lg sm:text-2xl font-bold text-center">
           Choose Your Style of Adventure!
         </h1>
-        <div className="w-6" /> {/* Spacer untuk keseimbangan */}
+        <div className="w-6" /> {/* Spacer */}
       </div>
 
       <p className="text-gray-600 text-center mt-2 max-w-lg">
@@ -94,7 +120,7 @@ const CategoryPage = () => {
         color="customBlue"
         size="lg"
         className="my-10 px-16 sm:px-32 py-1"
-        onClick={() => navigate("/home")}
+        onClick={handleReadyClick}
       >
         <span className="w-40"> I'm Ready to Explore!</span>
       </Button>

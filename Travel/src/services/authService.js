@@ -16,18 +16,19 @@ export const loginUser = async (credentials) => {
     );
   }
 };
-
 export const registerUser = async (values) => {
   try {
     const response = await axiosInstance.post("/register", values);
+    console.log("Full Response:", response); // Log seluruh response
 
     // Tangkap data dari objek meta
-    const { meta } = response.data;
+    const { meta, data } = response.data; // Mengambil meta dan data
 
     if (meta.code === 200) {
       return {
         success: true,
         message: meta.message || "Registrasi berhasil!",
+        data: data, // Mengembalikan data dari response
       };
     }
 

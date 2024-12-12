@@ -1,11 +1,16 @@
 import axiosInstance from "../api/axiosInstance";
 
-export const fetchDestinations = async (query = "", sort = "") => {
+export const fetchDestinations = async (
+  query = "",
+  sort = "",
+  category = ""
+) => {
   try {
     const response = await axiosInstance.get("/destination", {
       params: {
         name: query,
         sort: sort,
+        category: category,
       },
     });
     return response.data.destinations || [];
