@@ -1,54 +1,22 @@
-import React, { useState } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import React from "react";
 
-const SortButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Fungsi untuk membuka/menutup pop-up
-  const togglePopup = () => setIsOpen(!isOpen);
-
-  // Fungsi untuk menutup pop-up jika overlay diklik
-  const closePopup = () => setIsOpen(false);
+const SortButton = ({ onSort }) => {
+  // Fungsi untuk menangani perubahan opsi
+  const handleSortChange = (event) => {
+    const selectedOption = event.target.value;
+    onSort(selectedOption); // Panggil onSort yang diberikan sebagai prop
+  };
 
   return (
     <div className="relative">
-      {/* Filter Button */}
-      <button
-        onClick={togglePopup}
-        className="relative bg-sky-500 py-2 px-2 md:py-[10px] md:px-3 rounded-md flex items-center justify-center"
+      {/* Select Option */}
+      <select
+        onChange={handleSortChange}
+        className="block w-full bg-sky-500 border border-sky-500 text-white py-2 px-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
       >
-        <div className="flex justify center items-center">
-          <span className="text-sm font-semibold md:text-md text-white">
-            Sort By
-          </span>
-          <FaChevronDown className="mt-[3px] ml-2 text-white" />
-        </div>
-      </button>
-
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-50 z-40"
-          onClick={closePopup}
-        ></div>
-      )}
-
-      {/* Pop-up Menu */}
-      {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md z-50">
-          <ul className="py-2">
-            <li className="px-4 py-2 hover:bg-sky-100 cursor-pointer">
-              Nature
-            </li>
-            <li className="px-4 py-2 hover:bg-sky-100 cursor-pointer">
-              Culture and Historical
-            </li>
-            <li className="px-4 py-2 hover:bg-sky-100 cursor-pointer">
-              Ecotourism
-            </li>
-          </ul>
-        </div>
-      )}
+        <option value="">Sort By</option>
+        <option value="oldest">Oldest</option> {/* Menambahkan opsi Oldest */}
+      </select>
     </div>
   );
 };

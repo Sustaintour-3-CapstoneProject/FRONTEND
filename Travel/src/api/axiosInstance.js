@@ -3,7 +3,6 @@ import useAuthStore from "../store/authStore";
 
 const axiosInstance = axios.create({
   baseURL: "https://www.tripwise.my.id", // URL API
-  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,7 +14,6 @@ axiosInstance.interceptors.request.use(
     const auth = useAuthStore.getState().auth;
     if (auth && auth.token) {
       config.headers.Authorization = `Bearer ${auth.token}`;
-      console.log("Token yang dikirim:", config.headers.Authorization);
     } else {
       console.log("Tidak ada token yang tersedia");
     }

@@ -19,7 +19,7 @@ const useRegister = () => {
       if (response.success) {
         setSuccessMessage(response.message); // Simpan pesan sukses
         setTimeout(() => {
-          navigate("/login"); // Redirect setelah 3 detik
+          navigate("/category"); // Redirect setelah 3 detik
         }, 3000);
       } else {
         setErrorMessage(response.message); // Simpan pesan error

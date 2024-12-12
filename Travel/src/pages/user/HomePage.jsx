@@ -6,7 +6,7 @@ import PopularDestinations from "../../components/User/HomePage/PopularDestinati
 
 export default function HomePage() {
   return (
-    <div className="container">
+    <div className="mx-auto my-10 font-poppins">
       <HeroSection />
       <NearByDestinations />
       <RuteSection />

@@ -1,18 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Button } from "flowbite-react";
 import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
-  // State untuk melacak menu aktif
   const [activeMenu, setActiveMenu] = useState("Home");
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Fungsi untuk menangani klik menu
+  // Deteksi scroll untuk menambahkan shadow
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleMenuClick = (menu) => {
     setActiveMenu(menu);
   };
 
   return (
-    <Navbar fluid rounded className="sticky top-0 z-30 bg-white">
+    <Navbar
+      fluid
+      rounded
+      className={`sticky top-0 z-30 bg-white transition-shadow ${
+        isScrolled ? "shadow-lg border-b border-gray-200" : ""
+      }`}
+    >
       {/* Logo */}
       <Navbar.Brand href="/">
         <img
@@ -23,7 +42,7 @@ const NavigationBar = () => {
       </Navbar.Brand>
 
       {/* Login dan Button Get Started */}
-      <div className="flex items-center space-x-2 md:order-2 md:mr-16 ">
+      <div className="flex items-center space-x-2 md:order-2 md:mr-16">
         <Link
           to="/login"
           className="text-sm text-gray-600 hover:underline hidden sm:block"

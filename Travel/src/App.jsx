@@ -9,7 +9,9 @@ import HomePage from "./pages/user/HomePage";
 import DestinationDetail from "./pages/user/DetailDestinasi";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Destination from "./pages/user/Destination";
-import Rutes from "./pages/user/Rute";
+import ChatBot from "./pages/user/ChatBot";
+import NotFoundPageUser from "./pages/user/NotFoundUser";
+import NotFoundPage from "./pages/NotFound";
 
 // import ChatAISection from "./pages/user/ChatBot";
 function App() {
@@ -22,18 +24,20 @@ function App() {
           <Route path="/login" element={<LoginUser />} />
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<LandingPage />} />
+            <Route path="/category" element={<CategoryPage />} />
           </Route>
           {/* Routes untuk Home Layout */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/category" element={<CategoryPage />} />
             <Route element={<HomeLayout />}>
               <Route path="/home" element={<HomePage />} />
               <Route path="/:id" element={<DestinationDetail />} />
-              <Route path="/destinasi" element={<Destination />} />
-              <Route path="/rute" element={<Rutes />} />
-              {/* <Route path="chatbot" element={<ChatAISection />} /> */}
+              <Route path="/destinasi" element={<Destination />} /> 
+              <Route path="/chatbot" element={<ChatBot />} />
+              <Route path="*" element={<NotFoundPageUser />} />
+
             </Route>
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </div>

@@ -1,10 +1,22 @@
+import { useState, useEffect } from "react";
 import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
   const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
   const location = useLocation(); // Ambil lokasi saat ini
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Pantau scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0); // Jika scroll lebih dari 0, ubah state
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll); // Bersihkan listener
+  }, []);
 
   const handleLogout = () => {
     clearAuth(); // Hapus data autentikasi
@@ -12,24 +24,28 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-30">
-      <Navbar fluid rounded className="shadow-lg">
+    <div
+      className={`sticky top-0 z-30 transition-all duration-300 ${
+        isScrolled ? "shadow-lg border-b border-gray-200" : ""
+      }`}
+    >
+      <Navbar fluid rounded className="bg-white">
         <Navbar.Brand href="/">
           <img
             src="/logo2.png" // Sesuaikan dengan logo Anda
-            className="md:ml-16 h-6 sm:h-9"
+            className="md:ml-12 h-6 sm:h-9"
             alt="TripWise Logo"
           />
         </Navbar.Brand>
-        <div className="flex md:order-2 md:mr-16">
+        <div className="flex md:order-2 md:mr-12">
           {auth ? (
             <Dropdown
               arrowIcon={false}
               inline
               label={
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 mr-2">
                   <Avatar
-                    img="/default-user.png" // Gambar profil default
+                    img={auth.profileImage || "/default-user.png"} // Fallback ke gambar default jika auth.profileImage kosong
                     rounded
                   />
                   <span className="text-sm font-medium text-gray-700">
@@ -39,12 +55,9 @@ const NavigationBar = () => {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">
-                  {auth.first_name} {auth.last_name || ""}
-                </span>
-                <span className="block text-sm font-medium text-gray-500">
-                  {auth.email}
-                </span>
+                <Link to="/profile" className="block text-sm">
+                  Pofile
+                </Link>
               </Dropdown.Header>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown>
@@ -57,13 +70,13 @@ const NavigationBar = () => {
           )}
           <Navbar.Toggle />
         </div>
-        <Navbar.Collapse>
+        <Navbar.Collapse className=" space-y-2 shadow-md mt-2 md:shadow-none md:bg-white md:mt-0">
           {/* Menu Navigasi */}
           {[
             { to: "/home", label: "Home" },
-            { to: "/home/destinasi", label: "Destination" },
+            { to: "/destinasi", label: "Destination" },
             { to: "/about", label: "About" },
-            { to: "/contact", label: "AI Assistant" },
+            { to: "/chatbot", label: "AI Assistant" },
           ].map((item) => (
             <NavLink
               key={item.to}

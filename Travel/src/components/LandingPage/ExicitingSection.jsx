@@ -21,9 +21,9 @@ const ExcitingSection = () => (
           <h3 className="text-xl sm:text-2xl text-sky-600 font-bold leading-6">
             Destination
           </h3>
-          <p className="text-gray-500 text-sm line-clamp-4 sm:text-base">
-            Get personalized recommendations for the best travel destinations
-            based on your interests and location.
+          <p className="text-gray-500 text-sm line-clamp-3 sm:text-base">
+            Get personalized recommend for the best travel destinations based on
+            your interests and location.
           </p>
         </Card>
       </div>

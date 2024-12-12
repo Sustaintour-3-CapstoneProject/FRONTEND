@@ -1,66 +1,129 @@
-// import { getGeminiResponse } from "./geminiApi";
-// import { getEnergyData } from "../ServiceApi/energyApi";
+import { getGeminiResponse } from "./geminiApi";
+import {
+  fetchDestinations,
+  fetchNearbyDestinations,
+} from "../../utils/apiUtils";
 
-// // Fungsi untuk mengelola pengiriman prompt dan respons AI
-// export const handleChatSubmit = async ({
-//   event,
-//   prompt,
-//   setLoading,
-//   setError,
-//   setChatHistory,
-//   chatHistory,
-//   setPrompt,
-// }) => {
-//   event.preventDefault(); // Mencegah refresh halaman
-//   if (!prompt.trim()) return; // Jika input kosong, keluar dari fungsi
+export const handleChatSubmit = async ({
+  event,
+  prompt,
+  setLoading,
+  setError,
+  setChatHistory,
+  chatHistory,
+  setPrompt,
+  auth,
+}) => {
+  event.preventDefault();
+  if (!prompt.trim()) return;
 
-//   setLoading(true); // Mengaktifkan indikator loading
-//   setError(""); // Menghapus error sebelumnya
-//   setChatHistory((prevChatHistory) => [
-//     ...prevChatHistory,
-//     { role: "user", parts: [{ text: prompt }] }, // Tambahkan prompt pengguna ke riwayat
-//   ]);
+  setLoading(true);
+  setError("");
+  setChatHistory((prevChatHistory) => [
+    ...prevChatHistory,
+    { role: "user", parts: [{ text: prompt }] },
+  ]);
 
-//   try {
-//     // Ambil data energi untuk dijadikan referensi dalam jawaban AI
-//     const EnergyData = await getEnergyData();
-//     const EnergyDataInfo = EnergyData.data
-//       .map(
-//         (energy) =>
-//           `Nama Device: ${energy.device}, Daya Watt: ${energy.watt}, Tanggal Pemakaian: ${energy.date}, Durasi Pemakaian: ${energy.usageHours}`
-//       )
-//       .join("\n");
-//     const energySpecificPrompt = `
-//       Kamu adalah asisten virtual yang cerdas yang siap membantu pengguna dengan pertanyaan mereka tentang perangkat dan konsumsi energi.
-//       Data perangkat pengguna yang ada adalah sebagai berikut:
+  try {
+    const userCityId = auth.city;
+    // const userCategory = auth.category || "";
+    const username = auth.first_name;
+    console.log("City ID:", userCityId, "username", username);
+    // Fetch destinasi relevan berdasarkan cityId
+    const relevantDestinations = userCityId
+      ? await fetchNearbyDestinations(userCityId)
+      : []; // Jika cityId tidak ada, hasilkan array kosong
+    console.log("Relevant Destinations:", relevantDestinations);
+    // Filter destinasi berdasarkan kategori pengguna
+    // const categoryDestinations = userCategory
+    //   ? relevantDestinations.filter(
+    //       (destination) =>
+    //         destination.category?.toLowerCase() === userCategory.toLowerCase()
+    //     )
+    //   : [];
 
-//       ${EnergyDataInfo}
+    // Ambil semua destinasi untuk data di luar kota atau kategori
+    const allDestinations = await fetchDestinations();
+    const otherDestinations = allDestinations.filter(
+      (destination) => destination.city?.id !== userCityId
+    );
 
-//       Pengguna akan bertanya mengenai perangkat dan penggunaannya. Cobalah memberikan jawaban yang relevan dan interaktif berdasarkan pertanyaan mereka. Pastikan setiap jawaban mengarah pada percakapan lebih lanjut jika perlu.
+    // Gabungkan hasil rekomendasi
+    const recommendations = [
+      ...relevantDestinations, // Berdasarkan kategori preferensi
+      ...otherDestinations, // Di luar kota dan kategori
+    ];
+    console.log("Recommendations:", recommendations);
+    // Format data untuk prompt
+    const recommendationsInfo = recommendations
+      .map((destination) => {
+        const facilities = destination.facilities || "Tidak tersedia";
+        const city = destination.city?.name || "Tidak diketahui";
+        const address = destination.address || "Alamat tidak tersedia";
+        const ticketPrice = destination.ticket_price
+          ? `Rp ${destination.ticket_price}`
+          : "Gratis";
+        const operationalHours =
+          destination.operational_hours || "Jam operasional tidak tersedia";
+        const description =
+          destination.description || "Deskripsi tidak tersedia";
 
-//       Pertanyaan Pengguna: "${prompt}"
-//     `;
+        return `Nama Destinasi: ${destination.name}
+Lokasi: ${city}, ${address}
+Fasilitas: ${facilities}
+Harga Tiket: ${ticketPrice}
+Jam Operasional: ${operationalHours}
+Deskripsi: ${description}\n`;
+      })
+      .join("\n");
 
-//     // Panggil API Gemini melalui fungsi utilitas
-//     const aiResponse = await getGeminiResponse(
-//       import.meta.env.VITE_API_KEY, // API Key
-//       energySpecificPrompt, // Prompt yang dihasilkan
-//       chatHistory // Riwayat obrolan
-//     );
+    console.log("Recommendations Info:", recommendationsInfo);
 
-//     // Tambahkan respons AI ke riwayat obrolan
-//     if (aiResponse) {
-//       setChatHistory((prevChatHistory) => [
-//         ...prevChatHistory,
-//         { role: "model", parts: [{ text: aiResponse }] },
-//       ]);
-//     }
+    const destinationSpecificPrompt = `
+  Kamu adalah asisten virtual yang ramah dan cerdas yang siap membantu pengguna merencanakan perjalanan atau menemukan destinasi wisata.
 
-//     setPrompt(""); // Kosongkan input pengguna
-//   } catch (err) {
-//     console.error(err);
-//     setError("An error occurred while generating content."); // Tampilkan error jika ada
-//   } finally {
-//     setLoading(false); // Nonaktifkan indikator loading
-//   }
-// };
+  Nama Pengguna: ${username}
+
+  ${
+    relevantDestinations.length > 0
+      ? `Berikut adalah destinasi yang relevan dengan preferensi pengguna berdasarkan lokasi atau kategori:
+        ${recommendationsInfo}`
+      : "Tidak ada destinasi relevan yang ditemukan."
+  }
+
+  Jika destinasi relevan tidak ditemukan atau pengguna ingin lebih banyak opsi, berikut adalah beberapa destinasi lain yang bisa dipertimbangkan:
+  ${
+    otherDestinations.length > 0
+      ? `Destinasi lain yang juga bisa dipertimbangkan:
+        ${recommendationsInfo}`
+      : "Tidak ada destinasi lain yang dapat direkomendasikan."
+  }
+
+  Pertanyaan Pengguna: "${prompt}"
+
+  Harap prioritaskan rekomendasi berdasarkan destinasi relevan yang disebutkan di atas. Jika tidak ada yang sesuai, saran lain yang relevan bisa diberikan.
+`;
+
+    // Kirim prompt ke AI
+    const aiResponse = await getGeminiResponse(
+      import.meta.env.VITE_API_KEY,
+      destinationSpecificPrompt,
+      chatHistory
+    );
+
+    // Tambahkan respons AI ke riwayat obrolan
+    if (aiResponse) {
+      setChatHistory((prevChatHistory) => [
+        ...prevChatHistory,
+        { role: "model", parts: [{ text: aiResponse }] },
+      ]);
+    }
+
+    setPrompt("");
+  } catch (err) {
+    console.error("Error:", err);
+    setError("Terjadi kesalahan saat menghasilkan konten.");
+  } finally {
+    setLoading(false);
+  }
+};

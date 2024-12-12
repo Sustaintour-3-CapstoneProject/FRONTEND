@@ -1,11 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import destinations from "../../../data/destinationData";
 import DestinationCard from "../../common/DestinationCard"; // Pastikan path ini sesuai dengan lokasi file
+import useAuthStore from "../../../store/authStore"; // Untuk mendapatkan data user
+import SkeletonCard from "../../common/SkeletonCard";
+import { fetchNearbyDestinations } from "../../../utils/apiUtils"; // Path disesuaikan
 
 const NearByDestinations = () => {
+  const [destinations, setDestinations] = useState([]); // Data dari API
   const [startIndex, setStartIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [loading, setLoading] = useState(true); // Untuk menampilkan loader
+  const [error, setError] = useState(null); // Untuk menangani error
+
+  const userCityId = useAuthStore((state) => state.auth.city); // Ambil ID city user
+  useEffect(() => {
+    const loadDestinations = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchNearbyDestinations(userCityId);
+        setDestinations(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDestinations();
+  }, [userCityId]);
 
   useEffect(() => {
     // Fungsi untuk menentukan mode mobile atau desktop
@@ -35,7 +58,7 @@ const NearByDestinations = () => {
     );
   };
 
-  const carouselItems = Array.from({ length: 6 }, (_, i) => {
+  const carouselItems = Array.from({ length: 5 }, (_, i) => {
     const index = (startIndex + i) % destinations.length;
     return destinations[index];
   });
@@ -43,46 +66,66 @@ const NearByDestinations = () => {
   return (
     <section className="py-10">
       <h2 className="text-2xl font-bold mb-6">Near By Destinations</h2>
-      <div className="relative flex items-center">
-        {/* Tombol Previous */}
-        {!isMobile && (
-          <button
-            onClick={prevItem}
-            className="absolute top-1/2 -translate-y-1/2 -left-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
-            aria-label="Previous"
-          >
-            <FaChevronLeft size={20} />
-          </button>
-        )}
-
-        {/* Konten Carousel */}
-        <div className="flex overflow-x-auto md:overflow-hidden gap-3 md:gap-4 w-full scrollbar-hide">
-          {(isMobile ? destinations : carouselItems).map((destination) => (
+      {loading ? (
+        <div className="flex gap-2 md:gap-4">
+          {Array.from({ length: 6 }).map((_, index) => (
             <div
-              key={destination.id}
+              key={index}
               className={`flex-shrink-0 ${
                 isMobile
-                  ? "min-w-[43%] max-w-[40%]"
-                  : "sm:min-w-[200px] sm:max-w-[200px]"
+                  ? "min-w-[45%] max-w-[45%]"
+                  : "sm:min-w-[250px] sm:max-w-[250px]"
               }`}
             >
-              <DestinationCard destination={destination} />{" "}
-              {/* Menggunakan komponen DestinationCard */}
+              <SkeletonCard /> {/* Komponen skeleton card */}
             </div>
           ))}
         </div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div> // Pesan error jika gagal memuat data
+      ) : destinations.length === 0 ? (
+        <div className="text-center">No destinations found.</div> // Jika data kosong
+      ) : (
+        <div className="relative flex items-center">
+          {/* Tombol Previous */}
+          {!isMobile && (
+            <button
+              onClick={prevItem}
+              className="absolute top-1/2 -translate-y-1/2 -left-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
+              aria-label="Previous"
+            >
+              <FaChevronLeft size={20} />
+            </button>
+          )}
 
-        {/* Tombol Next */}
-        {!isMobile && (
-          <button
-            onClick={nextItem}
-            className="absolute top-1/2 -translate-y-1/2 -right-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
-            aria-label="Next"
-          >
-            <FaChevronRight size={20} />
-          </button>
-        )}
-      </div>
+          {/* Konten Carousel */}
+          <div className="flex overflow-x-auto md:overflow-hidden gap-2 md:gap-4 w-full scrollbar-hide">
+            {(isMobile ? destinations : carouselItems).map((destination) => (
+              <div
+                key={destination.id}
+                className={`flex-shrink-0 ${
+                  isMobile
+                    ? "min-w-[45%] max-w-[45%]"
+                    : "sm:min-w-[250px] sm:max-w-[250px]"
+                }`}
+              >
+                <DestinationCard destination={destination} />
+              </div>
+            ))}
+          </div>
+
+          {/* Tombol Next */}
+          {!isMobile && (
+            <button
+              onClick={nextItem}
+              className="absolute top-1/2 -translate-y-1/2 -right-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
+              aria-label="Next"
+            >
+              <FaChevronRight size={20} />
+            </button>
+          )}
+        </div>
+      )}
     </section>
   );
 };
