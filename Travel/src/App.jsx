@@ -13,6 +13,9 @@ import ChatBot from "./pages/user/ChatBot";
 import NotFoundPageUser from "./pages/user/NotFoundUser";
 import NotFoundPage from "./pages/NotFound";
 import Rutes from "./pages/user/Rute";
+import ProfileLayout from "./layouts/ProfileLayout";
+import InsertUserDetail from "./pages/user/InsertUserDetail";
+import DynamicProfilePage from "./components/User/UserDetail/DynamicProfilePage";
 
 // import ChatAISection from "./pages/user/ChatBot";
 function App() {
@@ -37,6 +40,10 @@ function App() {
               <Route path="*" element={<NotFoundPageUser />} />
               <Route path="/rute" element={<Rutes />} />
             </Route>
+            <Route  element={<ProfileLayout/>}>
+            <Route path="/profile" element={<InsertUserDetail/>} />
+            <Route path="/Profile/:section" element={<DynamicProfilePage/>} />
+          </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
