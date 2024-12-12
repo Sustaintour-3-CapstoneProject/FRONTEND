@@ -12,6 +12,8 @@ import DescriptionSkeleton from "../../components/User/DetailDestinasi/Descripti
 import FacilitiesSkeleton from "../../components/User/DetailDestinasi/FacilitiesSkeleton";
 import VideoSectionSkeleton from "../../components/User/DetailDestinasi/VideoSectionSkeleton";
 import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file destinationUtils
+import NearbyCarousel from "../../components/User/DetailDestinasi/NearByCarousel";
+import SkeletonCard from "../../components/common/SkeletonCard";
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -75,6 +77,8 @@ const DestinationDetail = () => {
       <FacilitiesSection facilities={destination.facilities} />
       {/* Video Section */}
       <VideoSection videos={destination.video_contents} />
+      {/* More like This */}
+      <NearbyCarousel />
     </section>
   );
 };
