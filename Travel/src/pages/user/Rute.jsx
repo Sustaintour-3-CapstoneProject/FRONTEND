@@ -125,8 +125,11 @@ const Rutes = () => {
     const savedData = {
       userID: auth.id_user,
       originCityName: origin.name,
+      destinations: [selectedDestination.id], // Asumsikan selectedDestination memiliki properti `name`
       destinationCityName: destination.name,
-      destinations: selectedDestination, // Asumsikan selectedDestination memiliki properti `name`
+      distance: Number(distance), // Konversi distance ke integer
+      time,
+      cost: totalCost,
     };
     console.log("Data yang akan disimpan:", savedData);
     try {
