@@ -8,7 +8,7 @@ const ProfileLayout = () => {
       <HeaderProfile />
       <div className="flex flex-1 overflow-hidden">
         <SideBar className="hidden lg:block" />
-        <main 
+        <main
           className="flex-1 p-4 lg:p-8 
           overflow-y-auto 
           bg-[#F0F9FF] 
