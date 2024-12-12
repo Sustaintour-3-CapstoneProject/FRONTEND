@@ -20,7 +20,7 @@ const RouteSummary = ({
         <p className="text-lg font-medium">Distance : </p>
         {origin && destination && (
           <span className="text-lg font-medium">
-            {distance ? `${distance} KM` : "Menghitung..."}
+            {distance ? `${Math.round(Number(distance))} KM` : "Menghitung..."}
           </span>
         )}
       </div>

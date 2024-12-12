@@ -134,7 +134,7 @@ const Rutes = () => {
       originCityName: origin.name,
       destinations: [selectedDestination.id],
       destinationCityName: destination.name,
-      distance: Number(distance),
+      distance: Math.round(Number(distance)), // Membulatkan jarak ke bilangan bulat
       time,
       cost: totalCost,
     };
