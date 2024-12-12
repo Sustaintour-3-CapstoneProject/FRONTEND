@@ -12,6 +12,7 @@ import Destination from "./pages/user/Destination";
 import ChatBot from "./pages/user/ChatBot";
 import NotFoundPageUser from "./pages/user/NotFoundUser";
 import NotFoundPage from "./pages/NotFound";
+import Rutes from "./pages/user/Rute";
 
 // import ChatAISection from "./pages/user/ChatBot";
 function App() {
@@ -31,10 +32,10 @@ function App() {
             <Route element={<HomeLayout />}>
               <Route path="/home" element={<HomePage />} />
               <Route path="/:id" element={<DestinationDetail />} />
-              <Route path="/destinasi" element={<Destination />} /> 
+              <Route path="/destinasi" element={<Destination />} />
               <Route path="/chatbot" element={<ChatBot />} />
               <Route path="*" element={<NotFoundPageUser />} />
-
+              <Route path="/rute" element={<Rutes />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

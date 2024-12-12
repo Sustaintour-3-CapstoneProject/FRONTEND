@@ -10,6 +10,7 @@ const RouteSummary = ({
   totalCost = 0,
   handleSave,
   handleHowToUseClick,
+  isProcessing,
 }) => {
   return (
     <div className="flex flex-col items-center w-full px-4 space-y-4 md:space-y-0 md:flex-row md:justify-around md:space-x-10 py-5">
@@ -49,6 +50,8 @@ const RouteSummary = ({
           className="py-1 w-full max-w-xs md:w-52"
           color="customBlue"
           onClick={handleSave}
+          isProcessing={isProcessing}
+          disabled={isProcessing}
         >
           Save Rute
         </Button>
