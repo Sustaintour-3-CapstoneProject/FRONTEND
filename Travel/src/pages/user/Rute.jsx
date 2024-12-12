@@ -36,7 +36,7 @@ const Rutes = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Modal sukses
   const [isHowToUseModalOpen, setIsHowToUseModalOpen] = useState(false); // State untuk modal tata cara
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,14 +72,14 @@ const Rutes = () => {
         setDestinations([]);
         return;
       }
-      setIsLoading(true);
+      setIsProcessing(true);
       try {
         const destinationsData = await fetchDestinationsAPI(destination.id);
         setDestinations(destinationsData);
       } catch (error) {
         console.error("Error fetching destinations:", error);
       } finally {
-        setIsLoading(false);
+        setIsProcessing(false);
       }
     };
 
@@ -105,6 +105,13 @@ const Rutes = () => {
     setSelectedDestination(dest);
     setTotalCost(dest.ticket_price);
   };
+  // Reset selected destination and related states when destination changes
+  useEffect(() => {
+    if (destination) {
+      setSelectedDestination(null); // Reset destinasi terpilih
+      setTotalCost(0); // Reset total biaya
+    }
+  }, [destination]);
 
   const handleSave = () => {
     if (!origin || !destination || !selectedDestination) {
@@ -119,27 +126,29 @@ const Rutes = () => {
   };
 
   const handleConfirmSave = async () => {
+    setIsProcessing(true); // Set ke true sebelum memulai
     setIsConfirmationOpen(false);
 
-    // Ubah nama properti sesuai kebutuhan backend
     const savedData = {
       userID: auth.id_user,
       originCityName: origin.name,
-      destinations: [selectedDestination.id], // Asumsikan selectedDestination memiliki properti `name`
+      destinations: [selectedDestination.id],
       destinationCityName: destination.name,
-      distance: Number(distance), // Konversi distance ke integer
+      distance: Number(distance),
       time,
       cost: totalCost,
     };
-    console.log("Data yang akan disimpan:", savedData);
+
     try {
       const response = await axiosInstance.post("/route", savedData);
       console.log("Respon dari backend:", response.data);
 
-      setIsSuccessModalOpen(true); // Buka modal sukses
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error("Gagal menyimpan data ke backend:", error);
       alert("Terjadi kesalahan saat menyimpan data. Coba lagi.");
+    } finally {
+      setIsProcessing(false); // Set ke false setelah selesai
     }
   };
 
@@ -221,6 +230,7 @@ const Rutes = () => {
           totalCost={totalCost}
           handleSave={handleSave}
           handleHowToUseClick={handleHowToUseClick}
+          isProcessing={isProcessing}
         />
       </div>
 
