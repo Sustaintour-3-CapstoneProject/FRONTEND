@@ -9,16 +9,16 @@ const SavedRoute = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // State untuk loading
-
-  const userId = useAuthStore((state) => state.auth?.userId); // Ambil userId dari authStore
-  console.log(userId)
+  console.log(routes);
+  const userId = useAuthStore((state) => state.auth?.id_user); // Ambil userId dari authStore
+  console.log(userId);
   // Fungsi untuk mengambil data dari API
   const fetchRoutes = async () => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(`/route?user_id=${userId}`);
-      console.log(response)
-      setRoutes(response.data); // Asumsikan data dari API sesuai dengan format yang diperlukan
+      console.log(response);
+      setRoutes(response.data.data); // Asumsikan data dari API sesuai dengan format yang diperlukan
     } catch (error) {
       console.error("Error fetching routes:", error);
     } finally {
@@ -42,7 +42,9 @@ const SavedRoute = () => {
       if (selectedRoute) {
         await axiosInstance.delete(`/route/${selectedRoute.id}`); // Endpoint untuk menghapus route
         console.log(`Route deleted: ${selectedRoute.name}`);
-        setRoutes((prevRoutes) => prevRoutes.filter((route) => route.id !== selectedRoute.id));
+        setRoutes((prevRoutes) =>
+          prevRoutes.filter((route) => route.id !== selectedRoute.id)
+        );
       }
     } catch (error) {
       console.error("Error deleting route:", error);
@@ -67,8 +69,12 @@ const SavedRoute = () => {
               className="flex items-center justify-between px-4 py-3 bg-white border border-gray-300 shadow-md rounded-lg w-full"
             >
               <div className="flex-1 text-start">
-                <h5 className="text-md font-bold">{route.name}</h5>
-                <p className="text-sm text-gray-500">Estimated costs: {route.cost}</p>
+                <h5 className="text-md font-bold">
+                  {route.destinations[0].name || "Unnamed Route"}
+                </h5>
+                <p className="text-sm text-gray-500">
+                  Estimated costs: {route.cost}
+                </p>
               </div>
 
               <button
