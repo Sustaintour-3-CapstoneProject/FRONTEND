@@ -15,7 +15,7 @@ const ExcitingSection = () => (
     </div>
 
     {/* Cards Section */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div className="transition-transform transform hover:scale-105 duration-300 ease-in-out">
         <Card>
           <h3 className="text-xl sm:text-2xl text-sky-600 font-bold leading-6">
@@ -44,8 +44,8 @@ const ExcitingSection = () => (
             Smart Assistant
           </h3>
           <p className="text-gray-500 text-sm sm:text-base">
-            Got questions? Our AI Assistant has answers. Get help anytime! We’ve
-            got you covered.
+            Got questions? AI Assistant has answers. Get help anytime! We’ve got
+            you covered.
           </p>
         </Card>
       </div>
