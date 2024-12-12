@@ -75,7 +75,7 @@ const NavigationBar = () => {
           {[
             { to: "/home", label: "Home" },
             { to: "/destinasi", label: "Destination" },
-            { to: "/about", label: "About" },
+            { to: "/rute", label: "Route" },
             { to: "/chatbot", label: "AI Assistant" },
           ].map((item) => (
             <NavLink

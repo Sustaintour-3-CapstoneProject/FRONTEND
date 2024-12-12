@@ -3,7 +3,7 @@ import { HiPlay } from "react-icons/hi";
 export default function PopularSkeleton() {
   return (
     <div>
-      <div className="space-y-4">
+      <div className="space-y-4 overflow-x-auto">
         {/* Title Placeholder */}
         <div className="w-1/4 h-6 bg-gray-300 rounded-lg animate-pulse"></div>
 

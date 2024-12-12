@@ -17,7 +17,7 @@ const HeroSection = () => {
   const fetchPlaces = async () => {
     try {
       const response = await axiosInstance.get(
-        `/destination/personalized?user_id=84`
+        `/destination/personalized?user_id=${auth.id_user}`
       );
       setPlaces(response.data.data || []); // Simpan data dari API ke state
     } catch (error) {
@@ -27,9 +27,10 @@ const HeroSection = () => {
 
   // Panggil fetchPlaces saat komponen mount
   useEffect(() => {
-    fetchPlaces();
-  }, []);
-
+    if (auth.id_user) {
+      fetchPlaces();
+    }
+  }, [auth.id_user]);
   // Update tempat secara otomatis setiap 6 detik
   useEffect(() => {
     if (places.length > 0) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 const RuteSection = () => {
   return (
     <section className="relative flex flex-col lg:flex-row justify-between items-center bg-blue-50 py-10 md:py-6 px-4 rounded-lg shadow-md mx-auto max-w-6xl my-8 space-y-4 lg:space-y-0">
@@ -19,10 +19,13 @@ const RuteSection = () => {
         <p className="text-gray-600 text-sm sm:text-base">
           Click to explore exciting routes and destinations.
         </p>
-        <button className="flex items-center pb-2 gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full shadow transition-all">
+        <Link
+          to="/rute"
+          className="flex items-center pb-2 gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full shadow transition-all"
+        >
           Explore
           <FaArrowRight />
-        </button>
+        </Link>
       </div>
 
       {/* Ikon Lokasi Kanan */}
