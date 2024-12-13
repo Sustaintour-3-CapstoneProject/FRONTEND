@@ -4,15 +4,16 @@ import { FaCamera } from "react-icons/fa"; // Importing the camera icon from rea
 import ImageUploadModal from "./ImageUploadModal"; // Import the modal component
 import ChangePasswordModal from "./ChangePasswordModal"; // Import the change password modal
 
-export const ProfileForm = ({ 
-  profileData, 
-  setProfileData, 
-  isEditing, 
-  setIsEditing, 
-  saveChanges 
+export const ProfileForm = ({
+  profileData,
+  setProfileData,
+  isEditing,
+  setIsEditing,
+  saveChanges,
 }) => {
   const [showModal, setShowModal] = useState(false); // State to manage image upload modal visibility
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false); // State for change password modal
+  console.log(profileData); // Periksa apakah semua field sesuai
 
   const toggleModal = () => {
     setShowModal((prevState) => !prevState); // Toggle the image upload modal visibility
@@ -70,14 +71,14 @@ export const ProfileForm = ({
           {/* Image Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0 md:w-1/3">
             <img
-              src={profileData.image}
+              src={profileData.file || "/default-user.png"} // Fallback to default image if no image is uploaded
               alt="Profile"
               className="h-[274px] w-[274px] rounded-full object-cover mb-4"
             />
             {isEditing && (
               <>
-                <label 
-                  htmlFor="image-upload" 
+                <label
+                  htmlFor="image-upload"
                   className="cursor-pointer text-4xl text-gray-600 mt-4"
                   onClick={toggleModal}
                 >
@@ -95,7 +96,7 @@ export const ProfileForm = ({
                 <TextInput
                   id="name"
                   type="text"
-                  value={profileData.name}
+                  value={profileData.first_name}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -114,11 +115,11 @@ export const ProfileForm = ({
 
               {/* Phone */}
               <div className="col-span-2">
-                <Label htmlFor="phone" value="No Hp" />
+                <Label htmlFor="phone_number" value="phone_number" />
                 <TextInput
-                  id="phone"
+                  id="phone_number"
                   type="text"
-                  value={profileData.phone || ""}
+                  value={profileData.phone_number || ""}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -176,7 +177,7 @@ export const ProfileForm = ({
               {/* Password */}
               <div className="col-span-2">
                 <Label htmlFor="password" value="Password" />
-                < TextInput
+                <TextInput
                   id="password"
                   type="password"
                   value={profileData.password}
