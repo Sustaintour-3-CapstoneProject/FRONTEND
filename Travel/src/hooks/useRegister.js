@@ -12,6 +12,7 @@ const useRegister = () => {
   const { setUserId } = useAuthStore(); // Ambil fungsi untuk menyimpan user ID
 
   const handleRegister = async (values) => {
+    console.log("Data yang akan dikirim ke backend:", values);
     setIsProcessing(true);
     setErrorMessage("");
     setSuccessMessage("");

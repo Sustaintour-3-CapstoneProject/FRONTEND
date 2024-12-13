@@ -41,9 +41,11 @@ const RegisterForm = ({
       email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
     }),
-    onSubmit: handleRegister,
+    onSubmit: (values) => {
+      handleRegister(values); // Kirim data ke handleRegister
+    },
   });
-
+  console.log(formik.values);
   return (
     <form className="w-full" onSubmit={formik.handleSubmit}>
       {successMessage && (
