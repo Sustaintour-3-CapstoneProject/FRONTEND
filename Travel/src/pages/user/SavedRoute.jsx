@@ -9,18 +9,19 @@ const SavedRoute = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // State untuk loading
-  console.log(routes);
+
   const userId = useAuthStore((state) => state.auth?.id_user); // Ambil userId dari authStore
-  console.log(userId);
+
   // Fungsi untuk mengambil data dari API
   const fetchRoutes = async () => {
     try {
       setIsLoading(true);
       const response = await axiosInstance.get(`/route?user_id=${userId}`);
-      console.log(response);
-      setRoutes(response.data.data); // Asumsikan data dari API sesuai dengan format yang diperlukan
+      const fetchedRoutes = response.data.data ?? []; // Default ke array kosong jika null
+      setRoutes(fetchedRoutes);
     } catch (error) {
       console.error("Error fetching routes:", error);
+      setRoutes([]); // Set default ke array kosong jika ada error
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +42,6 @@ const SavedRoute = () => {
     try {
       if (selectedRoute) {
         await axiosInstance.delete(`/route/${selectedRoute.id}`); // Endpoint untuk menghapus route
-        console.log(`Route deleted: ${selectedRoute.name}`);
         setRoutes((prevRoutes) =>
           prevRoutes.filter((route) => route.id !== selectedRoute.id)
         );
@@ -61,30 +61,36 @@ const SavedRoute = () => {
 
       {isLoading ? (
         <p>Loading routes...</p>
+      ) : !routes.length ? ( // Periksa apakah routes kosong
+        <p className="text-gray-500">You have no saved routes yet.</p>
       ) : (
         <div className="space-y-4 w-full max-w-3xl">
-          {routes.map((route) => (
-            <div
-              key={route.id}
-              className="flex items-center justify-between px-4 py-3 bg-white border border-gray-300 shadow-md rounded-lg w-full"
-            >
-              <div className="flex-1 text-start">
-                <h5 className="text-md font-bold">
-                  {route.destinations[0].name || "Unnamed Route"}
-                </h5>
-                <p className="text-sm text-gray-500">
-                  Estimated costs: {route.cost}
-                </p>
-              </div>
+          {routes.map((route) => {
+            // Validasi untuk memastikan destinations ada dan berbentuk array
+            const destinationName =
+              route.destinations?.[0]?.name || "Unnamed Route";
 
-              <button
-                onClick={() => openDeleteAlert(route)}
-                className="text-red-500 hover:text-red-700"
+            return (
+              <div
+                key={route.id}
+                className="flex items-center justify-between px-4 py-3 bg-white border border-gray-300 shadow-md rounded-lg w-full"
               >
-                <HiTrash className="h-5 w-5" />
-              </button>
-            </div>
-          ))}
+                <div className="flex-1 text-start">
+                  <h5 className="text-md font-bold">{destinationName}</h5>
+                  <p className="text-sm text-gray-500">
+                    Estimated costs: {route.cost ?? "N/A"}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => openDeleteAlert(route)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  <HiTrash className="h-5 w-5" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -94,7 +100,7 @@ const SavedRoute = () => {
           isOpen={isAlertOpen}
           onClose={() => setIsAlertOpen(false)}
           onConfirm={handleDelete}
-          routeName={selectedRoute?.name}
+          routeName={selectedRoute?.name || "Unnamed Route"}
         />
       )}
     </div>

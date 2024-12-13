@@ -34,6 +34,7 @@ export const InsertUserDetail = () => {
     if (!editableUser) return;
     try {
       await axiosInstance.put(`/user/${auth.id_user}`, editableUser);
+      console.log(editableUser);
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Failed to update user:", error);
