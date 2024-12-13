@@ -50,10 +50,12 @@ export const handleChatSubmit = async ({
 
     // Gabungkan hasil rekomendasi
     const recommendations = [
-      ...relevantDestinations, // Berdasarkan kategori preferensi
-      ...otherDestinations, // Di luar kota dan kategori
+      ...relevantDestinations.slice(0, 3), // Batas 3 destinasi relevan
+      ...otherDestinations.slice(0, 3), // Batas 3 destinasi tidak relevan
     ];
+
     console.log("Recommendations:", recommendations);
+
     // Format data untuk prompt
     const recommendationsInfo = recommendations
       .map((destination) => {
@@ -101,7 +103,7 @@ Deskripsi: ${description}\n`;
 
   Pertanyaan Pengguna: "${prompt}"
 
-  Harap prioritaskan rekomendasi berdasarkan destinasi relevan yang disebutkan di atas. Jika tidak ada yang sesuai, saran lain yang relevan bisa diberikan.
+  Harap prioritaskan rekomendasi berdasarkan destinasi relevan yang disebutkan di atas. Jika tidak ada yang sesuai, saran lain yang relevan bisa diberikan dan jangan berikan jawaban selain pertanyaan yang terkait dengan destinasi.
 `;
 
     // Kirim prompt ke AI

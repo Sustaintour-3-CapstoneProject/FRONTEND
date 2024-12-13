@@ -22,7 +22,7 @@ const ConfirmationModal = ({
       </Modal.Body>
       <Modal.Footer>
         <div className="flex  gap-2 w-full">
-          <Button color="success" onClick={onConfirm}>
+          <Button color="customBlue" onClick={onConfirm}>
             OK
           </Button>
           <Button color="gray" onClick={onCancel}>

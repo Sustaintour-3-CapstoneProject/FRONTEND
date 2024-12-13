@@ -3,7 +3,8 @@ import axiosInstance from "../api/axiosInstance";
 export const fetchDestinations = async (
   query = "",
   sort = "",
-  category = ""
+  category = "",
+  cityId = null // Ganti dengan cityId
 ) => {
   try {
     const response = await axiosInstance.get("/destination", {
@@ -11,6 +12,7 @@ export const fetchDestinations = async (
         name: query,
         sort: sort,
         category: category,
+        cityId: cityId, // Kirim city.id ke API
       },
     });
     return response.data.destinations || [];
