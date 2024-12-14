@@ -69,7 +69,7 @@ export const ProfileForm = ({
           {/* Image Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0 md:w-1/3">
             <img
-              src={previewImage || `${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
+              src={previewImage || `/assests${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
               alt="Profile"
               className="h-[274px] w-[274px] rounded-full object-cover mb-4"
             />
@@ -120,7 +120,7 @@ export const ProfileForm = ({
                 <TextInput
                   id="username"
                   type="text"
-                  value={profileData.username}
+                  value={profileData.username || "password"}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -187,13 +187,17 @@ export const ProfileForm = ({
                 />
               </div>
 
-              <TextInput
-                id="password"
-                type="password"
-                value={profileData.password || "********"}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-              />
+              {/* Password */}
+              <div className="col-span-2">
+                <Label htmlFor="password" value="Password" />
+                <TextInput
+                  id="password"
+                  type="password"
+                  value={profileData.password}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                />
+              </div>
             </div>
           </div>
         </div>
