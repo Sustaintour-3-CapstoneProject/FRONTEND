@@ -8,34 +8,36 @@ import {
   useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+// Custom Icon
+const customIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 const MapComponent = ({ origin, destination }) => {
   const indonesiaBounds = [
-    [-11, 95], // Titik barat daya (bawah kiri)
-    [6, 141], // Titik timur laut (atas kanan)
+    [-11, 95], // Titik barat daya
+    [6, 141], // Titik timur laut
   ];
 
-  // Komponen untuk memperbarui zoom otomatis
   const SetViewBounds = ({ origin, destination }) => {
     const map = useMap();
-
     useEffect(() => {
       if (origin && destination) {
-        // Jika ada origin dan destination, atur tampilan agar lebih fokus
         const bounds = [origin.position, destination.position];
-        map.fitBounds(bounds, {
-          padding: [50, 50], // Padding untuk jarak antar marker
-          maxZoom: 12, // Maksimum zoom saat origin dan destination terlihat
-        });
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
       } else if (origin) {
-        // Jika hanya origin tersedia, fokus ke origin dengan zoom default
         map.setView(origin.position, 13);
       } else if (destination) {
-        // Jika hanya destination tersedia, fokus ke destination dengan zoom default
         map.setView(destination.position, 13);
       }
     }, [origin, destination, map]);
-
     return null;
   };
 
@@ -43,7 +45,6 @@ const MapComponent = ({ origin, destination }) => {
     <MapContainer
       bounds={indonesiaBounds}
       maxBounds={indonesiaBounds}
-      maxBoundsViscosity={1.0}
       minZoom={5}
       maxZoom={18}
       zoom={7}
@@ -56,7 +57,7 @@ const MapComponent = ({ origin, destination }) => {
 
       {/* Marker untuk origin */}
       {origin && (
-        <Marker position={origin.position}>
+        <Marker position={origin.position} icon={customIcon}>
           <Popup>
             <strong>{origin.name}</strong>
           </Popup>
@@ -65,14 +66,14 @@ const MapComponent = ({ origin, destination }) => {
 
       {/* Marker untuk destination */}
       {destination && (
-        <Marker position={destination.position}>
+        <Marker position={destination.position} icon={customIcon}>
           <Popup>
             <strong>{destination.name}</strong>
           </Popup>
         </Marker>
       )}
 
-      {/* Polyline antara origin dan destination */}
+      {/* Polyline */}
       {origin && destination && (
         <Polyline
           positions={[origin.position, destination.position]}
@@ -80,7 +81,6 @@ const MapComponent = ({ origin, destination }) => {
         />
       )}
 
-      {/* Komponen untuk mengatur zoom otomatis */}
       <SetViewBounds origin={origin} destination={destination} />
     </MapContainer>
   );
