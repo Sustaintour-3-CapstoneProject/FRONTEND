@@ -1,8 +1,6 @@
 import ReactMarkdown from "react-markdown";
-import useAuthStore from "../../../store/authStore";
 import WelcomeChat from "./WelcomeChat";
-const ChatWindow = ({ chatHistory, loading }) => {
-  const { auth } = useAuthStore();
+const ChatWindow = ({ chatHistory, loading, auth }) => {
   return (
     <div className="flex flex-col space-y-4 h-[560px] md:h-[500px] overflow-y-auto rounded-lg pt-0 p-4 mb-4 bg-white">
       {chatHistory.length === 0 && !loading ? (
@@ -16,7 +14,7 @@ const ChatWindow = ({ chatHistory, loading }) => {
                   {chat.parts[0].text}
                 </p>
                 <img
-                  src={auth.profileImage || "/default-user.png"}
+                  src={auth.file || "/default-user.png"}
                   alt={auth.username}
                   className="w-10 h-10 rounded-full"
                 />
