@@ -9,7 +9,7 @@ const useRegister = () => {
   const [successMessage, setSuccessMessage] = useState(""); // Pesan sukses
   const navigate = useNavigate();
 
-  const { setUserId } = useAuthStore(); // Ambil fungsi untuk menyimpan user ID
+  const { setRegisterAuth } = useAuthStore(); // Fungsi untuk menyimpan registerAuth
 
   const handleRegister = async (values) => {
     console.log("Data yang akan dikirim ke backend:", values);
@@ -24,9 +24,12 @@ const useRegister = () => {
       if (response.success) {
         setSuccessMessage(response.message); // Simpan pesan sukses
 
-        // Simpan user ID ke zustand store
-        if (response.data && response.data.id_user) {
-          setUserId(response.data.id_user);
+        // Simpan token dan user ID ke store Zustand khusus register
+        if (response.data && response.data.id_user && response.data.token) {
+          setRegisterAuth({
+            userId: response.data.id_user,
+            token: response.data.token,
+          });
         }
 
         setTimeout(() => {

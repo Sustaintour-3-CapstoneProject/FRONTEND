@@ -12,12 +12,14 @@ const NearByDestinations = () => {
   const [loading, setLoading] = useState(true); // Untuk menampilkan loader
   const [error, setError] = useState(null); // Untuk menangani error
 
-  const userCityId = useAuthStore((state) => state.auth.city); // Ambil ID city user
+  const userCity = useAuthStore((state) => state.auth.city); // Ambil ID city user
+  console.log(userCity);
+
   useEffect(() => {
     const loadDestinations = async () => {
       setLoading(true);
       try {
-        const data = await fetchNearbyDestinations(userCityId);
+        const data = await fetchNearbyDestinations(userCity);
         setDestinations(data);
         setError(null);
       } catch (err) {
@@ -28,7 +30,7 @@ const NearByDestinations = () => {
     };
 
     loadDestinations();
-  }, [userCityId]);
+  }, [userCity]);
 
   useEffect(() => {
     // Fungsi untuk menentukan mode mobile atau desktop
@@ -58,17 +60,16 @@ const NearByDestinations = () => {
     );
   };
 
-  const carouselItems = Array.from({ length: 5 }, (_, i) => {
-    const index = (startIndex + i) % destinations.length;
-    return destinations[index];
-  });
+  const displayedItems = isMobile
+    ? destinations
+    : destinations.slice(startIndex, startIndex + 5);
 
   return (
     <section className="py-10">
       <h2 className="text-2xl font-bold mb-6">Near By Destinations</h2>
       {loading ? (
         <div className="flex gap-2 md:gap-4">
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
             <div
               key={index}
               className={`flex-shrink-0 ${
@@ -88,7 +89,7 @@ const NearByDestinations = () => {
       ) : (
         <div className="relative flex items-center">
           {/* Tombol Previous */}
-          {!isMobile && (
+          {!isMobile && destinations.length > 5 && (
             <button
               onClick={prevItem}
               className="absolute top-1/2 -translate-y-1/2 -left-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
@@ -100,7 +101,7 @@ const NearByDestinations = () => {
 
           {/* Konten Carousel */}
           <div className="flex overflow-x-auto md:overflow-hidden gap-2 md:gap-4 w-full scrollbar-hide">
-            {(isMobile ? destinations : carouselItems).map((destination) => (
+            {displayedItems.map((destination) => (
               <div
                 key={destination.id}
                 className={`flex-shrink-0 ${
@@ -115,7 +116,7 @@ const NearByDestinations = () => {
           </div>
 
           {/* Tombol Next */}
-          {!isMobile && (
+          {!isMobile && destinations.length > 5 && (
             <button
               onClick={nextItem}
               className="absolute top-1/2 -translate-y-1/2 -right-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"

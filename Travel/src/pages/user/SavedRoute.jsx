@@ -11,7 +11,7 @@ const SavedRoute = () => {
   const [isLoading, setIsLoading] = useState(true); // State untuk loading
 
   const userId = useAuthStore((state) => state.auth?.id_user); // Ambil userId dari authStore
-
+  console.log(routes);
   // Fungsi untuk mengambil data dari API
   const fetchRoutes = async () => {
     try {

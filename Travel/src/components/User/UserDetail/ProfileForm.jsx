@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextInput, Radio, Label, Button } from "flowbite-react";
-import { FaCamera } from "react-icons/fa"; // Importing the camera icon from react-icons
-import ImageUploadModal from "./ImageUploadModal"; // Import the modal component
-import ChangePasswordModal from "./ChangePasswordModal"; // Import the change password modal
+import { FaCamera } from "react-icons/fa";
+import ImageUploadModal from "./ImageUploadModal";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 export const ProfileForm = ({
   profileData,
@@ -11,29 +11,27 @@ export const ProfileForm = ({
   setIsEditing,
   saveChanges,
 }) => {
-  const [showModal, setShowModal] = useState(false); // State to manage image upload modal visibility
-  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false); // State for change password modal
-  console.log(profileData); // Periksa apakah semua field sesuai
+  const [showModal, setShowModal] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null); // Untuk menyimpan URL gambar preview
 
   const toggleModal = () => {
-    setShowModal((prevState) => !prevState); // Toggle the image upload modal visibility
+    setShowModal((prevState) => !prevState);
   };
 
   const toggleChangePasswordModal = () => {
-    setShowChangePasswordModal((prevState) => !prevState); // Toggle the change password modal visibility
+    setShowChangePasswordModal((prevState) => !prevState);
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileData((prevState) => ({
-          ...prevState,
-          image: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
+      const imageUrl = URL.createObjectURL(file); // Buat URL untuk preview gambar
+      setPreviewImage(imageUrl); // Set preview gambar
+      setProfileData((prevState) => ({
+        ...prevState,
+        file: file, // Simpan file asli
+      }));
     }
   };
 
@@ -71,7 +69,7 @@ export const ProfileForm = ({
           {/* Image Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0 md:w-1/3">
             <img
-              src={profileData.file || "/default-user.png"} // Fallback to default image if no image is uploaded
+              src={previewImage || `/assests${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
               alt="Profile"
               className="h-[274px] w-[274px] rounded-full object-cover mb-4"
             />
@@ -80,10 +78,16 @@ export const ProfileForm = ({
                 <label
                   htmlFor="image-upload"
                   className="cursor-pointer text-4xl text-gray-600 mt-4"
-                  onClick={toggleModal}
                 >
                   <FaCamera />
                 </label>
+                <input
+                  type="file"
+                  id="image-upload"
+                  className="hidden"
+                  accept="image/png, image/jpeg"
+                  onChange={handleImageChange}
+                />
               </>
             )}
           </div>
@@ -96,11 +100,20 @@ export const ProfileForm = ({
                 <TextInput
                   id="name"
                   type="text"
-                  value={profileData.first_name}
-                  onChange={handleInputChange}
+                  value={`${profileData.first_name} ${profileData.last_name}`}
+                  onChange={(e) => {
+                    const [firstName, ...lastNameParts] =
+                      e.target.value.split(" ");
+                    setProfileData((prevData) => ({
+                      ...prevData,
+                      first_name: firstName || "",
+                      last_name: lastNameParts.join(" ") || "",
+                    }));
+                  }}
                   disabled={!isEditing}
                 />
               </div>
+
               {/* Username */}
               <div className="col-span-2">
                 <Label htmlFor="username" value="Username" />
@@ -196,7 +209,7 @@ export const ProfileForm = ({
               <Button
                 color="info"
                 className="w-full max-w-xs"
-                onClick={toggleChangePasswordModal} // Open change password modal
+                onClick={toggleChangePasswordModal}
               >
                 Change Password
               </Button>

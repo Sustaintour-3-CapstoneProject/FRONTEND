@@ -32,15 +32,39 @@ export const InsertUserDetail = () => {
   // Save user changes
   const saveChanges = async () => {
     if (!editableUser) return;
+
+    const formData = new FormData();
+
+    Object.keys(editableUser).forEach((key) => {
+      if (key === "file" && editableUser.file instanceof File) {
+        formData.append("file", editableUser.file); // Kirim file asli
+      } else {
+        formData.append(key, editableUser[key]);
+      }
+    });
+
     try {
-      await axiosInstance.put(`/user/${auth.id_user}`, editableUser);
-      console.log(editableUser);
+      const response = await axiosInstance.put(
+        `/user/${auth.id_user}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Profile updated successfully!", response.data);
       alert("Profile updated successfully!");
+      // Perbarui store auth
+      useAuthStore.getState().setAuth({
+        ...auth,
+        ...response.data.data, // Gabungkan data baru dengan data lama
+      });
     } catch (error) {
       console.error("Failed to update user:", error);
-      console.error("Error:", error.response?.data || error);
       alert("Failed to save changes");
     }
+    setIsEditing(false);
   };
 
   return (

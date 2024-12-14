@@ -74,7 +74,7 @@ const Rutes = () => {
       }
       setIsProcessing(true);
       try {
-        const destinationsData = await fetchDestinationsAPI(destination.id);
+        const destinationsData = await fetchDestinationsAPI(destination.name);
         setDestinations(destinationsData);
       } catch (error) {
         console.error("Error fetching destinations:", error);

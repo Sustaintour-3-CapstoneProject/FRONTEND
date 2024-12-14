@@ -18,13 +18,13 @@ const DestinationList = ({
   );
   console.log(paginatedDestinations);
   const toggleDestination = (dest) => {
-    if (selectedDestination === dest.id) {
+    if (selectedDestination === dest.name) {
       // Batalkan pilihan jika sama dengan yang sudah dipilih
       setSelectedDestination(null);
       handleSelectDestination(null); // Opsional: Beri tahu parent bahwa tidak ada pilihan
     } else {
       // Pilih destinasi baru
-      setSelectedDestination(dest.id);
+      setSelectedDestination(dest.name);
       handleSelectDestination(dest);
     }
   };
@@ -45,12 +45,12 @@ const DestinationList = ({
             <button
               onClick={() => toggleDestination(dest)}
               className={`px-4 py-2 rounded-md transition ${
-                selectedDestination === dest.id
+                selectedDestination === dest.name
                   ? "bg-red-500 text-white hover:bg-red-600"
                   : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
             >
-              {selectedDestination === dest.id ? "Cancel" : "Pilih"}
+              {selectedDestination === dest.name ? "Cancel" : "Pilih"}
             </button>
           </div>
         ))}

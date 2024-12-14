@@ -1,6 +1,10 @@
 import { Modal, Button, Label, FileInput } from "flowbite-react";
 
-export const ImageUploadModal = ({ showModal, toggleModal, handleImageChange }) => {
+export const ImageUploadModal = ({
+  showModal,
+  toggleModal,
+  handleImageChange,
+}) => {
   return (
     <Modal show={showModal} onClose={toggleModal}>
       <Modal.Header>Upload Photos</Modal.Header>
@@ -27,7 +31,8 @@ export const ImageUploadModal = ({ showModal, toggleModal, handleImageChange }) 
                 />
               </svg>
               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">Click to upload</span> or drag and drop
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -35,6 +40,7 @@ export const ImageUploadModal = ({ showModal, toggleModal, handleImageChange }) 
             </div>
             <FileInput
               id="dropzone-file"
+              type="file"
               accept="image/*"
               className="hidden"
               onChange={handleImageChange}

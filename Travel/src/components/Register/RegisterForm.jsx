@@ -145,7 +145,7 @@ const RegisterForm = ({
           Pilih Kota
         </option>
         {city.map((city) => (
-          <option key={city.id} value={city.id}>
+          <option key={city.name} value={city.name}>
             {city.name}
           </option>
         ))}
