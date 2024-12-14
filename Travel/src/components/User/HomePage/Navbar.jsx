@@ -48,7 +48,7 @@ const NavigationBar = () => {
               label={
                 <div className="flex items-center space-x-2 mr-2">
                   <Avatar
-                    img={user.profileImage || "/default-user.png"} // Fallback ke gambar default
+                    img={user.file || "/default-user.png"} // Fallback ke gambar default
                     rounded
                   />
                   <span className="text-sm font-medium text-gray-700">

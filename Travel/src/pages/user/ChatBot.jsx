@@ -46,7 +46,11 @@ function ChatBot() {
       <h1 className="text-2xl leading-5 font-bold text-center text-sky-600">
         Travel Wise
       </h1>
-      <ChatWindow chatHistory={chatHistory} loading={loading} />
+      <ChatWindow
+        chatHistory={chatHistory}
+        loading={loading}
+        auth={currentAuth}
+      />
 
       {error && (
         <Alert color="failure" className="mb-4">

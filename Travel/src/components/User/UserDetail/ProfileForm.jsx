@@ -69,7 +69,7 @@ export const ProfileForm = ({
           {/* Image Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0 md:w-1/3">
             <img
-              src={previewImage || `/assests${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
+              src={previewImage || `${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
               alt="Profile"
               className="h-[274px] w-[274px] rounded-full object-cover mb-4"
             />
@@ -120,7 +120,7 @@ export const ProfileForm = ({
                 <TextInput
                   id="username"
                   type="text"
-                  value={profileData.username}
+                  value={profileData.username || "password"}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -193,7 +193,7 @@ export const ProfileForm = ({
                 <TextInput
                   id="password"
                   type="password"
-                  value={profileData.password}
+                  value={profileData.password || "woiiiiiiii"}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
