@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchDestinations } from "../../../utils/apiUtils";
-import { fetchDestinationsAPI } from "../../../services/FetchDestinationRute"; // Fungsi untuk cityId
+import { fetchDestinationsAPI } from "../../../utils/apiUtils"; // Fungsi untuk cityId
 import DestinationCard from "../../common/DestinationCard";
 import SkeletonCard from "../../common/SkeletonCard";
 

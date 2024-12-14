@@ -4,11 +4,14 @@ import "leaflet/dist/leaflet.css";
 import { Button } from "flowbite-react";
 import AlertModal from "../../components/common/AlertModal";
 import ConfirmationModal from "../../components/common/ConfirmationModal";
-import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
+import {
+  HiExclamationCircle,
+  HiCheckCircle,
+  HiQuestionMarkCircle,
+} from "react-icons/hi";
 import useCalculateDistance from "../../hooks/useCalculateDistance";
 import CityDropdown from "../../components/User/Rute/CityDropdown";
-
-import { fetchDestinationsAPI } from "../../services/FetchDestinationRute";
+import { fetchDestinationsAPI } from "../../utils/apiUtils";
 import DestinationList from "../../components/User/Rute/DestinationList";
 import RouteSummary from "../../components/User/Rute/RouteSummary";
 import useAuthStore from "../../store/authStore";
@@ -91,13 +94,14 @@ const Rutes = () => {
     }
   }, [origin, destination]);
 
-  const handleSelectDestination = (dest) => {
-    if (!origin) {
-      setIsErrorModalOpen(true);
-      return;
+  const handleSelectDestination = (destination) => {
+    if (destination) {
+      setSelectedDestination(destination);
+      setTotalCost(destination.ticket_price); // Atur biaya sesuai destinasi
+    } else {
+      setSelectedDestination(null);
+      setTotalCost(0); // Set biaya ke 0 saat batal
     }
-    setSelectedDestination(dest);
-    setTotalCost(dest.ticket_price);
   };
   // Reset selected destination and related states when destination changes
   useEffect(() => {
@@ -231,19 +235,19 @@ const Rutes = () => {
       {/* Modals */}
       <AlertModal
         isOpen={isHowToUseModalOpen}
-        title="Tata Cara Menggunakan Fitur Rute"
+        title="How to Use the Route Feature"
         message={
           <div className="text-left text-sm md:text-base">
-            1. Pilih kota asal dari daftar yang tersedia.
+            1. Select the departure city from the available list.
             <br />
-            2. Pilih kota tujuan yang ingin Anda kunjungi.
+            2. Choose the destination city you want to visit.
             <br />
-            3. Pilih destinasi di kota tujuan dari daftar yang muncul.
+            3. Select the destination within the target city from the displayed
+            list.
             <br />
-            4. Klik tombol 'Save Rute' untuk menyimpan rencana rute Anda.
+            4. Click the 'Save Route' button to save your route plan.
             <br />
-            5. Anda dapat melihat total biaya dan jarak estimasi di bagian
-            bawah.
+            5. You can view the total estimated cost and distance at the bottom.
           </div>
         }
         onClose={closeHowToUseModal}
@@ -252,27 +256,30 @@ const Rutes = () => {
       <ConfirmationModal
         isOpen={isConfirmationOpen}
         onCancel={() => setIsConfirmationOpen(false)}
+        icon={
+          <HiQuestionMarkCircle className="text-gray-500 w-12 h-12 md:w-20 md:h-20" />
+        }
         onConfirm={handleConfirmSave}
-        message="Anda akan menyimpan rute ini, apakah Anda yakin?"
+        message="You are about to save this route. Are you sure?"
       />
 
       <AlertModal
         isOpen={isErrorModalOpen}
-        title="Validasi Gagal"
+        title="Validation Failed"
         icon={
           <HiExclamationCircle className="text-red-500 w-12 h-12 md:w-20 md:h-20" />
         }
-        message="Harap isi semua bidang: kota asal, kota tujuan, dan destinasi."
+        message="Please fill in all the fields: departure city, destination city, and the specific destination."
         onClose={() => setIsErrorModalOpen(false)}
       />
 
       <AlertModal
         isOpen={isSuccessModalOpen}
-        title="Sukses"
+        title="Success"
         icon={
           <HiCheckCircle className="text-green-500 w-12 h-12 md:w-20 md:h-20" />
         }
-        message="Rute Anda berhasil disimpan. Silakan cek data Anda!"
+        message="Your route has been successfully saved. Please check your data!"
         onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>
