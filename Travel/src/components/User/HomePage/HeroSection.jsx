@@ -4,20 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import SearchInput from "../../common/SearchInput";
 import { HiSearch } from "react-icons/hi";
 import useAuthStore from "../../../store/authStore";
+
 import axiosInstance from "../../../api/axiosInstance";
 
 const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const { auth } = useAuthStore(); // Ambil data autentikasi
+
+  const { auth } = useAuthStore(); // Data autentikasi
+  const { registerAuth } = useAuthStore(); // Data registrasi
+
+  const userId = auth?.id_user || registerAuth?.id_user; // Ambil user ID dari auth, jika kosong gunakan registerData
+  const username = auth?.username || registerAuth?.username || "User"; // Ambil username dengan fallback
   const [currentPlaceIndex, setCurrentPlaceIndex] = useState(0);
   const [places, setPlaces] = useState([]); // State untuk menyimpan data destinasi
 
   // Fungsi untuk mengambil data dari endpoint
   const fetchPlaces = async () => {
+    if (!userId) return; // Jika tidak ada ID, hentikan proses
+
     try {
       const response = await axiosInstance.get(
-        `/destination/personalized?user_id=${auth.id_user}`
+        `/destination/personalized?user_id=${userId}`
       );
       setPlaces(response.data.data || []); // Simpan data dari API ke state
     } catch (error) {
@@ -27,10 +35,9 @@ const HeroSection = () => {
 
   // Panggil fetchPlaces saat komponen mount
   useEffect(() => {
-    if (auth.id_user) {
-      fetchPlaces();
-    }
-  }, [auth.id_user]);
+    fetchPlaces();
+  }, [userId]);
+
   // Update tempat secara otomatis setiap 6 detik
   useEffect(() => {
     if (places.length > 0) {
@@ -43,7 +50,7 @@ const HeroSection = () => {
   }, [places]);
 
   const currentPlace = places[currentPlaceIndex]; // Dapatkan destinasi saat ini berdasarkan indeks
-  console.log(currentPlace);
+
   const handleSearch = () => {
     if (searchQuery.trim()) {
       navigate(`/destinasi?name=${encodeURIComponent(searchQuery)}`);
@@ -67,7 +74,7 @@ const HeroSection = () => {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
           {/* Judul */}
           <h1 className="text-lg md:text-4xl font-bold mb-4 text-center leading-tight">
-            Hi {auth?.username || "User"}
+            Hi {username}
             <br className="block " /> Let's find your next adventure!
           </h1>
           <div className="flex justify-center space-x-2">

@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import { Button } from "flowbite-react";
 
+import { Button } from "flowbite-react";
 import AlertModal from "../../components/common/AlertModal";
 import ConfirmationModal from "../../components/common/ConfirmationModal";
-import {
-  HiExclamationCircle,
-  HiCheckCircle,
-  HiQuestionMarkCircle,
-} from "react-icons/hi";
+import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
 import useCalculateDistance from "../../hooks/useCalculateDistance";
 import CityDropdown from "../../components/User/Rute/CityDropdown";
-// Ikon marker
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
+
 import { fetchDestinationsAPI } from "../../services/FetchDestinationRute";
 import DestinationList from "../../components/User/Rute/DestinationList";
 import RouteSummary from "../../components/User/Rute/RouteSummary";
@@ -28,8 +18,8 @@ import MapComponent from "../../components/User/Rute/Map";
 const Rutes = () => {
   const { distance, time, calculateDistance, setDistance, setTime } =
     useCalculateDistance();
-  const { auth } = useAuthStore();
-
+  const { auth, registerAuth } = useAuthStore(); // Ambil data auth dan registerAuth
+  const user = auth || registerAuth; // Gunakan registerAuth jika auth tidak ada
   const [cities, setCities] = useState([]); // Data kota dari API
   const [origin, setOrigin] = useState(null); // Kota Asal
   const [destination, setDestination] = useState(null); // Kota Tujuan
@@ -134,7 +124,7 @@ const Rutes = () => {
     setIsConfirmationOpen(false);
 
     const savedData = {
-      userID: auth.id_user,
+      userID: user.id_user,
       originCityName: origin.name,
       destinations: [selectedDestination.id],
       destinationCityName: destination.name,
@@ -241,19 +231,19 @@ const Rutes = () => {
       {/* Modals */}
       <AlertModal
         isOpen={isHowToUseModalOpen}
-        title="How to Use the Route Feature"
+        title="Tata Cara Menggunakan Fitur Rute"
         message={
           <div className="text-left text-sm md:text-base">
-            1. Select the origin city from the list provided.
+            1. Pilih kota asal dari daftar yang tersedia.
             <br />
-            2. Select the destination city you want to visit.
+            2. Pilih kota tujuan yang ingin Anda kunjungi.
             <br />
-            3. Select a destination in the destination city from the list that
-            appears.
+            3. Pilih destinasi di kota tujuan dari daftar yang muncul.
             <br />
-            4. Click the 'Save Route' button to save your route plan.
+            4. Klik tombol 'Save Rute' untuk menyimpan rencana rute Anda.
             <br />
-            5. You can see the total cost and estimated distance at the bottom.
+            5. Anda dapat melihat total biaya dan jarak estimasi di bagian
+            bawah.
           </div>
         }
         onClose={closeHowToUseModal}
@@ -263,15 +253,12 @@ const Rutes = () => {
         isOpen={isConfirmationOpen}
         onCancel={() => setIsConfirmationOpen(false)}
         onConfirm={handleConfirmSave}
-        icon={
-          <HiQuestionMarkCircle className="text-sky-500 w-12 h-12 md:w-20 md:h-20" />
-        }
-        message="Are You Sure To Save This Route?"
+        message="Anda akan menyimpan rute ini, apakah Anda yakin?"
       />
 
       <AlertModal
         isOpen={isErrorModalOpen}
-        title="Validasi Invalid"
+        title="Validasi Gagal"
         icon={
           <HiExclamationCircle className="text-red-500 w-12 h-12 md:w-20 md:h-20" />
         }
@@ -281,11 +268,11 @@ const Rutes = () => {
 
       <AlertModal
         isOpen={isSuccessModalOpen}
-        title="Success"
+        title="Sukses"
         icon={
           <HiCheckCircle className="text-green-500 w-12 h-12 md:w-20 md:h-20" />
         }
-        message="Your route has been successfully saved. Please check your data!"
+        message="Rute Anda berhasil disimpan. Silakan cek data Anda!"
         onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>

@@ -4,9 +4,12 @@ import { NavLink, useLocation, Link } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
 
 const NavigationBar = () => {
-  const { auth, clearAuth } = useAuthStore(); // Ambil data autentikasi dan fungsi logout
+  const { auth, registerAuth, clearAuth } = useAuthStore(); // Ambil data auth dan registerAuth
   const location = useLocation(); // Ambil lokasi saat ini
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Data pengguna
+  const user = auth || registerAuth; // Fallback ke registerAuth jika auth kosong
 
   // Pantau scroll
   useEffect(() => {
@@ -38,25 +41,25 @@ const NavigationBar = () => {
           />
         </Navbar.Brand>
         <div className="flex md:order-2 md:mr-12">
-          {auth ? (
+          {user ? (
             <Dropdown
               arrowIcon={false}
               inline
               label={
                 <div className="flex items-center space-x-2 mr-2">
                   <Avatar
-                    img={auth.profileImage || "/default-user.png"} // Fallback ke gambar default jika auth.profileImage kosong
+                    img={user.profileImage || "/default-user.png"} // Fallback ke gambar default
                     rounded
                   />
                   <span className="text-sm font-medium text-gray-700">
-                    Hi, {auth.first_name || "Traveler"}
+                    Hi, {user.first_name || "Traveler"}
                   </span>
                 </div>
               }
             >
               <Dropdown.Header>
                 <Link to="/profile" className="block text-sm">
-                  Pofile
+                  Profile
                 </Link>
               </Dropdown.Header>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>

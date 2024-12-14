@@ -23,14 +23,7 @@ const useRegister = () => {
 
       if (response.success) {
         setSuccessMessage(response.message); // Simpan pesan sukses
-
-        // Simpan token dan user ID ke store Zustand khusus register
-        if (response.data && response.data.id_user && response.data.token) {
-          setRegisterAuth({
-            userId: response.data.id_user,
-            token: response.data.token,
-          });
-        }
+        setRegisterAuth(response.data); // Simpan data user dan token ke store
 
         setTimeout(() => {
           navigate("/category"); // Redirect setelah 3 detik
