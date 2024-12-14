@@ -6,7 +6,7 @@ const Footers = () => (
     <Footer className=" bg-sky-100 py-8 flex flex-col " id="contact">
       {/* Flexbox untuk menjaga jarak antar kolom */}
       <div className="flex flex-col ">
-        <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-10 md:gap-18 px-4 ">
+        <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-10  ">
           {/* Kolom Logo dan Deskripsi */}
           <div className="flex flex-col w-full text-center   md:ml-20 md:text-left">
             <Footer.Brand
@@ -104,7 +104,7 @@ const Footers = () => (
           </div>
         </div>
         <FooterDivider />
-        <div className="flex flex-col text-center mx-auto md:text-left md:justify-start w-full md:mx-20 text-gray-500 ">
+        <div className="flex flex-col text-center mx-auto md:text-left md:justify-start w-full md:pl-10 text-gray-500 ">
           &copy; {new Date().getFullYear()} TripWise. All rights reserved.
         </div>
       </div>

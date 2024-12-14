@@ -11,19 +11,19 @@ import TitleAndInfoSkeleton from "../../components/User/DetailDestinasi/TitleAnd
 import DescriptionSkeleton from "../../components/User/DetailDestinasi/DescriptionSkeleton";
 import FacilitiesSkeleton from "../../components/User/DetailDestinasi/FacilitiesSkeleton";
 import VideoSectionSkeleton from "../../components/User/DetailDestinasi/VideoSectionSkeleton";
-import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file destinationUtils
+import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file
+import SimilarDestinations from "../../components/User/DetailDestinasi/SimilarDestination"; // Import komponen SimilarDestinations
 
 const DestinationDetail = () => {
   const { id } = useParams();
   const [destination, setDestination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  console.log(destination);
   useEffect(() => {
     const fetchDestination = async () => {
       try {
-        const data = await fetchDestinationById(id); // Gunakan fungsi dari utils
-        console.log(data);
+        const data = await fetchDestinationById(id); // Ambil detail destinasi
         setDestination(data);
       } catch (err) {
         setError(err.message);
@@ -38,15 +38,10 @@ const DestinationDetail = () => {
   if (loading) {
     return (
       <section className="py-10 px-6 mx-auto font-poppins space-y-10">
-        {/* Hero Image Skeleton */}
         <HeroImageSkeleton />
-        {/* Title and Info Skeleton */}
         <TitleAndInfoSkeleton />
-        {/* Description Skeleton */}
         <DescriptionSkeleton />
-        {/* Facilities Skeleton */}
         <FacilitiesSkeleton />
-        {/* Video Section Skeleton */}
         <VideoSectionSkeleton />
       </section>
     );
@@ -64,7 +59,7 @@ const DestinationDetail = () => {
   }
 
   return (
-    <section className="  py-10 px-6 mx-auto font-poppins">
+    <section className="py-10 px-6 mx-auto font-poppins">
       {/* Hero Image */}
       <HeroImageSection images={destination.images} />
       {/* Title and Info */}
@@ -75,6 +70,13 @@ const DestinationDetail = () => {
       <FacilitiesSection facilities={destination.facilities} />
       {/* Video Section */}
       <VideoSection videos={destination.video_contents} />
+
+      {/* Rekomendasi Destinasi Serupa */}
+      <SimilarDestinations
+        category={destination.category}
+        currentDestinationId={destination.id}
+        city={destination.city}
+      />
     </section>
   );
 };

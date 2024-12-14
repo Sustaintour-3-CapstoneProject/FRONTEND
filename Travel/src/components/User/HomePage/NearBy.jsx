@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import DestinationCard from "../../common/DestinationCard"; // Pastikan path ini sesuai dengan lokasi file
-import useAuthStore from "../../../store/authStore"; // Untuk mendapatkan data user
+import DestinationCard from "../../common/DestinationCard";
 import SkeletonCard from "../../common/SkeletonCard";
-import { fetchNearbyDestinations } from "../../../utils/apiUtils"; // Path disesuaikan
+import useAuthStore from "../../../store/authStore";
+import useNearbyStore from "../../../store/nearByStore";
+import { fetchNearbyDestinations } from "../../../utils/apiUtils";
 
 const NearByDestinations = () => {
-  const [destinations, setDestinations] = useState([]); // Data dari API
-  const [startIndex, setStartIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const [loading, setLoading] = useState(true); // Untuk menampilkan loader
-  const [error, setError] = useState(null); // Untuk menangani error
+  const userCityId = useAuthStore((state) => state.auth.city);
+  const { destinations, setDestinations } = useNearbyStore();
+
+  const [startIndex, setStartIndex] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const userCity = useAuthStore((state) => state.auth.city); // Ambil ID city user
   console.log(userCity);
@@ -33,18 +36,13 @@ const NearByDestinations = () => {
   }, [userCity]);
 
   useEffect(() => {
-    // Fungsi untuk menentukan mode mobile atau desktop
     const updateScreenSize = () => {
       setIsMobile(window.innerWidth < 640); // Mobile jika lebar layar < 640px
     };
 
-    // Panggil saat komponen pertama kali dimuat
     updateScreenSize();
-
-    // Update mode setiap kali ukuran layar berubah
     window.addEventListener("resize", updateScreenSize);
 
-    // Bersihkan event listener saat komponen di-unmount
     return () => {
       window.removeEventListener("resize", updateScreenSize);
     };
@@ -78,18 +76,21 @@ const NearByDestinations = () => {
                   : "sm:min-w-[250px] sm:max-w-[250px]"
               }`}
             >
-              <SkeletonCard /> {/* Komponen skeleton card */}
+              <SkeletonCard />
             </div>
           ))}
         </div>
       ) : error ? (
-        <div className="text-center text-red-500">{error}</div> // Pesan error jika gagal memuat data
+        <div className="text-center text-red-500">{error}</div>
       ) : destinations.length === 0 ? (
-        <div className="text-center">No destinations found.</div> // Jika data kosong
+        <div className="text-center">No destinations found.</div>
       ) : (
         <div className="relative flex items-center">
+
           {/* Tombol Previous */}
           {!isMobile && destinations.length > 5 && (
+
+
             <button
               onClick={prevItem}
               className="absolute top-1/2 -translate-y-1/2 -left-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"
@@ -98,8 +99,6 @@ const NearByDestinations = () => {
               <FaChevronLeft size={20} />
             </button>
           )}
-
-          {/* Konten Carousel */}
           <div className="flex overflow-x-auto md:overflow-hidden gap-2 md:gap-4 w-full scrollbar-hide">
             {displayedItems.map((destination) => (
               <div
@@ -117,6 +116,7 @@ const NearByDestinations = () => {
 
           {/* Tombol Next */}
           {!isMobile && destinations.length > 5 && (
+
             <button
               onClick={nextItem}
               className="absolute top-1/2 -translate-y-1/2 -right-14 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-800"

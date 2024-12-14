@@ -5,7 +5,11 @@ import { Button } from "flowbite-react";
 
 import AlertModal from "../../components/common/AlertModal";
 import ConfirmationModal from "../../components/common/ConfirmationModal";
-import { HiExclamationCircle, HiCheckCircle } from "react-icons/hi";
+import {
+  HiExclamationCircle,
+  HiCheckCircle,
+  HiQuestionMarkCircle,
+} from "react-icons/hi";
 import useCalculateDistance from "../../hooks/useCalculateDistance";
 import CityDropdown from "../../components/User/Rute/CityDropdown";
 // Ikon marker
@@ -237,19 +241,19 @@ const Rutes = () => {
       {/* Modals */}
       <AlertModal
         isOpen={isHowToUseModalOpen}
-        title="Tata Cara Menggunakan Fitur Rute"
+        title="How to Use the Route Feature"
         message={
           <div className="text-left text-sm md:text-base">
-            1. Pilih kota asal dari daftar yang tersedia.
+            1. Select the origin city from the list provided.
             <br />
-            2. Pilih kota tujuan yang ingin Anda kunjungi.
+            2. Select the destination city you want to visit.
             <br />
-            3. Pilih destinasi di kota tujuan dari daftar yang muncul.
+            3. Select a destination in the destination city from the list that
+            appears.
             <br />
-            4. Klik tombol 'Save Rute' untuk menyimpan rencana rute Anda.
+            4. Click the 'Save Route' button to save your route plan.
             <br />
-            5. Anda dapat melihat total biaya dan jarak estimasi di bagian
-            bawah.
+            5. You can see the total cost and estimated distance at the bottom.
           </div>
         }
         onClose={closeHowToUseModal}
@@ -259,12 +263,15 @@ const Rutes = () => {
         isOpen={isConfirmationOpen}
         onCancel={() => setIsConfirmationOpen(false)}
         onConfirm={handleConfirmSave}
-        message="Anda akan menyimpan rute ini, apakah Anda yakin?"
+        icon={
+          <HiQuestionMarkCircle className="text-sky-500 w-12 h-12 md:w-20 md:h-20" />
+        }
+        message="Are You Sure To Save This Route?"
       />
 
       <AlertModal
         isOpen={isErrorModalOpen}
-        title="Validasi Gagal"
+        title="Validasi Invalid"
         icon={
           <HiExclamationCircle className="text-red-500 w-12 h-12 md:w-20 md:h-20" />
         }
@@ -274,11 +281,11 @@ const Rutes = () => {
 
       <AlertModal
         isOpen={isSuccessModalOpen}
-        title="Sukses"
+        title="Success"
         icon={
           <HiCheckCircle className="text-green-500 w-12 h-12 md:w-20 md:h-20" />
         }
-        message="Rute Anda berhasil disimpan. Silakan cek data Anda!"
+        message="Your route has been successfully saved. Please check your data!"
         onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>

@@ -17,10 +17,10 @@ const RouteSummary = ({
       {/* Jarak */}
       <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
         <HiMap size={20} />
-        <p className="text-lg font-medium">Distance : </p>
+        <p className="text-md font-medium">Distance : </p>
         {origin && destination && (
-          <span className="text-lg font-medium">
-            {distance ? `${Math.round(Number(distance))} KM` : "Menghitung..."}
+          <span className="text-md font-medium">
+            {distance ? `${Math.round(Number(distance))} KM` : "Calculate..."}
           </span>
         )}
       </div>
@@ -28,10 +28,10 @@ const RouteSummary = ({
       {/* Waktu */}
       <div className="flex items-center space-x-1 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
         <HiClock size={20} />
-        <p className="text-lg font-medium">Time: </p>
+        <p className="text-md font-medium">Time: </p>
         {origin && destination && (
-          <span className="text-lg font-medium">
-            {time ? time : "Menghitung..."}
+          <span className="text-md font-medium">
+            {time ? time : "Calculate..."}
           </span>
         )}
       </div>
@@ -39,7 +39,7 @@ const RouteSummary = ({
       {/* Total Biaya */}
       <div className="flex items-center space-x-2 border-2 border-sky-500 p-2 rounded-lg text-sky-800 shadow-lg shadow-sky-300/50 hover:shadow-sky-500/70 transition-shadow duration-300 w-full max-w-xs justify-center">
         <HiCurrencyDollar size={20} />
-        <span className="text-lg font-medium">
+        <span className="text-md font-medium">
           Rp. {totalCost.toLocaleString()}
         </span>
       </div>
@@ -47,7 +47,7 @@ const RouteSummary = ({
       {/* Tombol Simpan */}
       <div className="flex flex-col items-center w-full space-y-3 pt-8 ">
         <Button
-          className="py-1 w-full max-w-xs md:w-52"
+          className=" w-full max-w-xs md:w-52"
           color="customBlue"
           onClick={handleSave}
           isProcessing={isProcessing}
