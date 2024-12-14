@@ -22,19 +22,27 @@ const categories = [
 const CategoryPage = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState(null); // State untuk melacak kategori aktif
-  const { userId } = useAuthStore(); // Ambil userId dari store
+  const { registerAuth } = useAuthStore(); // Ambil userId dari store
 
   const postCategoryToBackend = async (categoryName) => {
-    if (!userId) {
-      alert("User ID is missing. Please log in again.");
+    if (!registerAuth || !registerAuth.token) {
+      alert("Token is missing. Please log in again.");
       return;
     }
 
     try {
-      const response = await axiosInstance.post("/user/category", {
-        UserID: userId, // Gunakan userId dari store
-        category: [categoryName],
-      });
+      const response = await axiosInstance.post(
+        "/user/category",
+        {
+          UserID: registerAuth.userId, // Kirim userId dari store
+          category: [categoryName], // Kirim kategori yang dipilih
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${registerAuth.token}`, // Tambahkan token di header
+          },
+        }
+      );
 
       console.log("Category posted successfully:", response.data);
       // Setelah berhasil, navigasi ke halaman login
@@ -122,7 +130,7 @@ const CategoryPage = () => {
         className="my-10 px-16 sm:px-32 py-1"
         onClick={handleReadyClick}
       >
-        <span className="w-40"> I'm Ready to Explore!</span>
+        <span className="w-44"> I'm Ready to Explore!</span>
       </Button>
     </div>
   );
