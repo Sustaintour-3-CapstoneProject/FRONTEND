@@ -4,6 +4,8 @@ import { Button } from "flowbite-react"; // Import button dari Flowbite
 import { FaArrowLeft } from "react-icons/fa";
 import axiosInstance from "../../api/axiosInstance"; // Pastikan path benar
 import useAuthStore from "../../store/authStore";
+
+// Data kategori
 const categories = [
   {
     name: "Nature",
@@ -21,10 +23,11 @@ const categories = [
 
 const CategoryPage = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState(null); // State untuk melacak kategori aktif
+  const [selectedCategories, setSelectedCategories] = useState([]); // State kategori yang dipilih
   const { registerAuth } = useAuthStore(); // Ambil userId dari store
 
-  const postCategoryToBackend = async (categoryName) => {
+  // Fungsi untuk mengirim data kategori ke backend
+  const postCategoryToBackend = async () => {
     if (!registerAuth || !registerAuth.token) {
       alert("Token is missing. Please log in again.");
       return;
@@ -34,44 +37,47 @@ const CategoryPage = () => {
       const response = await axiosInstance.post(
         "/user/category",
         {
-          UserID: registerAuth.userId, // Kirim userId dari store
-          category: [categoryName], // Kirim kategori yang dipilih
+          UserID: registerAuth.userId,
+          category: selectedCategories,
         },
         {
           headers: {
-            Authorization: `Bearer ${registerAuth.token}`, // Tambahkan token di header
+            Authorization: `Bearer ${registerAuth.token}`,
           },
         }
       );
 
-      console.log("Category posted successfully:", response.data);
-      // Setelah berhasil, navigasi ke halaman login
+      console.log("Categories posted successfully:", response.data);
       navigate("/login");
     } catch (error) {
-      console.error("Error posting category:", error);
-      alert("Failed to save category. Please try again.");
+      console.error("Error posting categories:", error);
+      alert("Failed to save categories. Please try again.");
     }
   };
 
+  // Fungsi memilih kategori (maksimal 3)
   const handleCategorySelect = (category) => {
-    if (selectedCategory === category.name) {
-      setSelectedCategory(null);
-    } else {
-      setSelectedCategory(category.name);
-    }
+    setSelectedCategories((prev) => {
+      if (prev.includes(category.name)) {
+        return prev.filter((item) => item !== category.name);
+      } else if (prev.length < 3) {
+        return [...prev, category.name];
+      }
+      return prev;
+    });
   };
 
+  // Tombol "I'm Ready"
   const handleReadyClick = () => {
-    if (!selectedCategory) {
-      alert("Please select a category first!");
+    if (selectedCategories.length === 0) {
+      alert("Please select at least one category!");
       return;
     }
-
-    postCategoryToBackend(selectedCategory);
+    postCategoryToBackend();
   };
 
   return (
-    <div className="min-h-screen bg-white px-6 sm:px-10 flex flex-col items-center">
+    <div className="min-h-screen my-4 bg-white px-6 sm:px-10 flex flex-col items-center">
       {/* Header */}
       <div className="flex items-center justify-between w-full max-w-full mt-6">
         <button
@@ -97,10 +103,10 @@ const CategoryPage = () => {
           <div
             key={category.name}
             onClick={() => handleCategorySelect(category)}
-            className={`relative cursor-pointer group rounded-lg overflow-hidden transition ease-in-out duration-150 ${
-              selectedCategory === category.name
+            className={`relative cursor-pointer group rounded-lg overflow-hidden transition ease-in-out duration-150 hover:shadow-lg ${
+              selectedCategories.includes(category.name)
                 ? "bg-black bg-opacity-50"
-                : "hover:shadow-lg"
+                : ""
             }`}
           >
             <img
@@ -109,11 +115,11 @@ const CategoryPage = () => {
               className="w-full h-40 sm:h-96 object-cover object-center"
             />
             <div
-              className={`absolute inset-0 bg-black ${
-                selectedCategory === category.name
-                  ? "bg-opacity-50"
-                  : "bg-opacity-25 group-hover:bg-opacity-50"
-              } transition-opacity flex items-center justify-center`}
+              className={`absolute inset-0 flex items-center justify-center transition-opacity ${
+                selectedCategories.includes(category.name)
+                  ? "bg-black bg-opacity-50"
+                  : "bg-transparent"
+              }`}
             >
               <h2 className="text-white text-lg sm:text-2xl font-poppins font-semibold">
                 {category.name.toUpperCase()}
@@ -124,14 +130,16 @@ const CategoryPage = () => {
       </div>
 
       {/* Ready Button */}
-      <Button
-        color="customBlue"
-        size="lg"
-        className="my-10 px-16 sm:px-32 py-1"
-        onClick={handleReadyClick}
-      >
-        <span className="w-44"> I'm Ready to Explore!</span>
-      </Button>
+      <div className="flex justify-center mt-10">
+        <Button
+          color="customBlue"
+          size="lg"
+          className="px-16 sm:px-32 py-1"
+          onClick={handleReadyClick}
+        >
+          <span className="w-44">I'm Ready to Explore!</span>
+        </Button>
+      </div>
     </div>
   );
 };

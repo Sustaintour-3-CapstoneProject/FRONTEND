@@ -12,7 +12,7 @@ const HeroImageSection = ({ images }) => {
               key={index}
               src={image.url}
               alt={`Slide ${index + 1}`}
-              className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"
+              className="rounded-lg shadow-lg w-full h-full object-cover object-center"
               onError={(e) => {
                 e.target.src = "https://placehold.co/650x500/gray/FefcFFc/png";
                 e.target.alt = "Placeholder Image";
