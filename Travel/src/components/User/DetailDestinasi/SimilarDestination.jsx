@@ -14,7 +14,7 @@ const SimilarDestinations = ({ category, city, currentDestinationId }) => {
       setLoading(true);
       try {
         // Fetch berdasarkan cityId
-        const cityDestinations = await fetchDestinationsAPI(city?.id);
+        const cityDestinations = await fetchDestinationsAPI(city?.name);
 
         // Fetch berdasarkan category
         const categoryDestinations = await fetchDestinations("", "", category);
@@ -35,7 +35,7 @@ const SimilarDestinations = ({ category, city, currentDestinationId }) => {
       }
     };
 
-    if (category && city?.id) {
+    if (category && city?.name) {
       fetchSimilarDestinations();
     }
   }, [category, city, currentDestinationId]);

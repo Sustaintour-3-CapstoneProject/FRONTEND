@@ -6,9 +6,10 @@ const TitleAndInfoSection = ({ destination }) => {
     <div className="mt-6">
       <h1 className="text-3xl font-bold text-sky-800">{destination.name}</h1>
       <div className="flex items-center text-gray-800 mt-2">
-        <HiLocationMarker size={24} className="mr-2 " />
-        <p>{destination.address}</p>
+        <HiLocationMarker size={24} className="mr-2" />
+        <p className="w-full truncate">{destination.address}</p>
       </div>
+
       <div className="flex items-center mt-2 text-gray-800">
         <HiClock size={24} className="mr-2 " />
         <p>{destination.operational_hours}</p>
