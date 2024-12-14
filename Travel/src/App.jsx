@@ -28,8 +28,8 @@ function App() {
           <Route path="/login" element={<LoginUser />} />
           <Route path="/video" element={<VideoTable />} />
           <Route path="/" element={<LandingLayout />}>
-            <Route index element={<LandingPage />} />
             <Route path="/category" element={<CategoryPage />} />
+            <Route index element={<LandingPage />} />
           </Route>
           {/* Routes untuk Home Layout */}
           <Route element={<ProtectedRoute />}>

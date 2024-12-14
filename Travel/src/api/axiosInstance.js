@@ -8,15 +8,18 @@ const axiosInstance = axios.create({
   },
 });
 
-// Interceptor untuk menambahkan token secara otomatis jika ada
+// Interceptor untuk menambahkan token secara otomatis
 axiosInstance.interceptors.request.use(
   (config) => {
-    const auth = useAuthStore.getState().auth;
-    if (auth && auth.token) {
-      config.headers.Authorization = `Bearer ${auth.token}`;
+    const state = useAuthStore.getState();
+    const token = state.auth?.token || state.registerAuth?.token; // Fallback token
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     } else {
       console.log("Tidak ada token yang tersedia");
     }
+
     return config;
   },
   (error) => Promise.reject(error)

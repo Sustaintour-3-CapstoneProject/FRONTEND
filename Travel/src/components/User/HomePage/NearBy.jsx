@@ -7,9 +7,10 @@ import useNearbyStore from "../../../store/nearByStore";
 import { fetchNearbyDestinations } from "../../../utils/apiUtils";
 
 const NearByDestinations = () => {
-  const userCity = useAuthStore((state) => state.auth.city);
+  const { auth } = useAuthStore(); // Data autentikasi
+  const { registerAuth } = useAuthStore(); // Data registrasi
   const { destinations, setDestinations } = useNearbyStore();
-
+  const userCity = auth?.city || registerAuth?.city; // Ambil username dengan fallback
   const [startIndex, setStartIndex] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);

@@ -4,21 +4,29 @@ import axiosInstance from "../../api/axiosInstance"; // Gunakan instance axios y
 import useAuthStore from "../../store/authStore"; // Import auth store
 
 export const InsertUserDetail = () => {
-  const { auth } = useAuthStore(); // Ambil userId dari auth store
+  const { auth, registerAuth, setAuth } = useAuthStore(); // Ambil state auth dan registerAuth dari store
   const [editableUser, setEditableUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // Mode editing diaktifkan secara default
   const [loading, setLoading] = useState(true);
+  const userId = auth?.id_user || registerAuth?.id_user; // Prioritaskan auth, fallback ke registerAuth
   console.log(editableUser);
-  // Fetch user detail on mount
+  // Fetch user detail saat komponen pertama kali dimount
   useEffect(() => {
-    if (!auth) return; // Jika userId tidak ada, hentikan proses
-
     const loadUser = async () => {
+      if (!auth && !registerAuth) {
+        setLoading(false); // Jika kedua state tidak ada, hentikan loading
+        return;
+      }
+
       setLoading(true);
       try {
-        // Fetch user by ID from backend
-        const response = await axiosInstance.get(`/user/${auth.id_user}`);
+        const response = await axiosInstance.get(`/user/${userId}`);
         setEditableUser(response.data.data);
+
+        // Jika menggunakan registerAuth, perbarui auth dengan data yang didapat
+        if (!auth && registerAuth) {
+          setAuth(response.data.data); // Simpan data ke auth
+        }
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
@@ -27,7 +35,7 @@ export const InsertUserDetail = () => {
     };
 
     loadUser();
-  }, [auth.id_user]);
+  }, [auth, registerAuth, setAuth]);
 
   // Save user changes
   const saveChanges = async () => {
@@ -44,15 +52,11 @@ export const InsertUserDetail = () => {
     });
 
     try {
-      const response = await axiosInstance.put(
-        `/user/${auth.id_user}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axiosInstance.put(`/user/${userId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("Profile updated successfully!", response.data);
       alert("Profile updated successfully!");
       // Perbarui store auth
@@ -67,6 +71,7 @@ export const InsertUserDetail = () => {
     setIsEditing(false);
   };
 
+  // Render
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -82,6 +87,7 @@ export const InsertUserDetail = () => {
           />
         </>
       )}
+      {!loading && !editableUser && <p>No user data available.</p>}
     </div>
   );
 };

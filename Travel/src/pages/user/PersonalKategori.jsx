@@ -25,19 +25,22 @@ const CategoryPage = () => {
   const navigate = useNavigate();
   const [selectedCategories, setSelectedCategories] = useState([]); // State kategori yang dipilih
   const { registerAuth } = useAuthStore(); // Ambil userId dari store
-
+  console.log(registerAuth);
   // Fungsi untuk mengirim data kategori ke backend
+  const [loading, setLoading] = useState(false);
+
   const postCategoryToBackend = async () => {
     if (!registerAuth || !registerAuth.token) {
       alert("Token is missing. Please log in again.");
       return;
     }
 
+    setLoading(true); // Start loading
     try {
       const response = await axiosInstance.post(
         "/user/category",
         {
-          UserID: registerAuth.userId,
+          UserID: registerAuth.id_user,
           category: selectedCategories,
         },
         {
@@ -48,10 +51,12 @@ const CategoryPage = () => {
       );
 
       console.log("Categories posted successfully:", response.data);
-      navigate("/login");
+      navigate("/home"); // Redirect on success
     } catch (error) {
       console.error("Error posting categories:", error);
       alert("Failed to save categories. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
