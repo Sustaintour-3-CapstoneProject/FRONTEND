@@ -8,7 +8,7 @@ const Footers = () => (
       <div className="flex flex-col ">
         <div className="flex flex-col  md:flex-row items-start justify-between mx-auto gap-10  ">
           {/* Kolom Logo dan Deskripsi */}
-          <div className="flex flex-col w-full text-center   md:ml-10 md:text-left">
+          <div className="flex flex-col w-full text-center   md:ml-20 md:text-left">
             <Footer.Brand
               href="#"
               src="/logo2.png" // Ganti dengan URL logo Anda
@@ -104,7 +104,7 @@ const Footers = () => (
           </div>
         </div>
         <FooterDivider />
-        <div className="flex flex-col text-center mx-auto md:text-left md:justify-start w-full md:mx-10 text-gray-500 ">
+        <div className="flex flex-col text-center mx-auto md:text-left md:justify-start w-full md:pl-10 text-gray-500 ">
           &copy; {new Date().getFullYear()} TripWise. All rights reserved.
         </div>
       </div>

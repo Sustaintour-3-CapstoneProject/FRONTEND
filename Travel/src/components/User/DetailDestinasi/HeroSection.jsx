@@ -23,7 +23,7 @@ const HeroImageSection = ({ images }) => {
           <img
             src="https://placehold.co/650x500/gray/FefcFFc/png"
             alt="Placeholder"
-            className="rounded-lg shadow-lg w-full h-full object-cover object-center md:object-fill"
+            className="rounded-lg shadow-lg w-full h-full object-cover object-center "
           />
         )}
       </Carousel>

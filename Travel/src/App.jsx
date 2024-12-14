@@ -13,7 +13,10 @@ import ChatBot from "./pages/user/ChatBot";
 import NotFoundPageUser from "./pages/user/NotFoundUser";
 import NotFoundPage from "./pages/NotFound";
 import Rutes from "./pages/user/Rute";
-
+import VideoTable from "./pages/user/VideoTable";
+import ProfileLayout from "./layouts/ProfileLayout";
+import InsertUserDetail from "./pages/user/InsertUserDetail";
+import SavedRoute from "./pages/user/SavedRoute";
 // import ChatAISection from "./pages/user/ChatBot";
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
           {/* Routes untuk Landing Layout */}
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<LoginUser />} />
+          <Route path="/video" element={<VideoTable />} />
           <Route path="/" element={<LandingLayout />}>
             <Route index element={<LandingPage />} />
             <Route path="/category" element={<CategoryPage />} />
@@ -36,6 +40,10 @@ function App() {
               <Route path="/chatbot" element={<ChatBot />} />
               <Route path="*" element={<NotFoundPageUser />} />
               <Route path="/rute" element={<Rutes />} />
+            </Route>
+            <Route element={<ProfileLayout />}>
+              <Route path="/profile" element={<InsertUserDetail />} />
+              <Route path="/profile/Route" element={<SavedRoute />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

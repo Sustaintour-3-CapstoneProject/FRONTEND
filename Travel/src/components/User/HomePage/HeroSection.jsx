@@ -83,7 +83,7 @@ const HeroSection = () => {
             <FaMapMarkerAlt className="text-white mr-2 text-sm md:text-base" />
             {currentPlace ? (
               <Link to={`/${currentPlace.id || ""}`}>
-                <span className="text-xs md:text-sm lg:text-base">
+                <span className="text-xs md:text-sm lg:text-base line-clamp-1">
                   {currentPlace?.address || "Address not available"}
                 </span>
               </Link>

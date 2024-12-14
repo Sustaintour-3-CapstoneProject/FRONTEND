@@ -11,9 +11,11 @@ import {
   MdOutlineLocalGroceryStore,
   MdOutlineDirectionsBoat,
 } from "react-icons/md";
+import { HiInformationCircle } from "react-icons/hi";
 
 const facilityIcons = {
-  Parking: FaParking,
+  "Parking Area": FaParking,
+  "Information Center": HiInformationCircle,
   Toilets: FaToilet,
   Restroom: FaRestroom,
   "Souvenir Shops": MdOutlineLocalGroceryStore,
