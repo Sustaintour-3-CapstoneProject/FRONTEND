@@ -23,7 +23,8 @@ const VideoSection = () => {
             }
             return null; // Jika tidak ada video, kembalikan null
           })
-          .filter(Boolean); // Hapus nilai null dari array
+          .filter(Boolean) // Hapus nilai null dari array
+          .slice(0, 5); // Ambil hanya 5 video teratas
 
         setVideos(filteredVideos); // Set array video terfilter ke state
       } catch (error) {
@@ -42,12 +43,8 @@ const VideoSection = () => {
       [index]: !prevState[index],
     }));
   };
-  if (isLoading)
-    return (
-      <>
-        <PopularSkeleton />
-      </>
-    );
+
+  if (isLoading) return <PopularSkeleton />;
   if (!videos || videos.length === 0) {
     return <p className="text-gray-500 mt-4">No videos available.</p>;
   }
@@ -55,7 +52,7 @@ const VideoSection = () => {
   return (
     <div className="mt-6">
       <h2 className="font-bold text-2xl text-gray-900 my-4">
-        Popular Destinastions
+        Popular Destinations
       </h2>
       <div className="flex space-x-5 overflow-x-auto">
         {videos.map((videoData, index) => {
