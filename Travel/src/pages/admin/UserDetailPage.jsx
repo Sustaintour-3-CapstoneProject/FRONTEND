@@ -16,7 +16,7 @@ const UserDetailPage = () => {
     { key: "route", label: "Destination Route" },
     { key: "distance", label: "Destination KM Distance" },
   ];
-  console.log(userDetail)
+  console.log(userDetail);
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -128,7 +128,6 @@ const UserDetailPage = () => {
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </div>
