@@ -30,35 +30,40 @@ const UserDetailPage = () => {
         setLoading(false);
       }
     };
-  
-    const fetchUserRoutes = async () => {
-      try {
-        const response = await axiosInstance.get(`/route?user_id=${id}`);
-        const processedRoutes = response.data.data.map((route) => ({
-          ...route,
-          route: route.destinations?.map((dest) => dest.name).join(", ") || "No destinations",
-        }));
-        setRoutes(processedRoutes); // Simpan data ke state
-        setLoadingRoutes(false);
-      } catch (error) {
-        console.error("Error fetching user routes:", error);
-        setLoadingRoutes(false);
-      }
-    };
-  
+
     fetchUserDetail();
+  }, [id]);
+  const fetchUserRoutes = async () => {
+    try {
+      const response = await axiosInstance.get(`/route?user_id=${id}`);
+      const processedRoutes =
+        response.data.data?.map((route) => ({
+          ...route,
+          route:
+            route.destinations?.map((dest) => dest.name).join(", ") ||
+            "No destinations",
+        })) || [];
+      setRoutes(processedRoutes); // Simpan data ke state
+      setLoadingRoutes(false);
+    } catch (error) {
+      console.error("Error fetching user routes:", error);
+      setRoutes([]); // Atur state ke array kosong jika terjadi error
+      setLoadingRoutes(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUserRoutes();
   }, [id]);
-  
   const handleDelete = async (item) => {
     if (item) {
       try {
         // Mengambil ID dari data destinasi
-        const url = `//route/${item}`; // Endpoint DELETE
+        const url = `/route/${item}`; // Endpoint DELETE
         await axiosInstance.delete(url); // Menghapus data ke server
 
         // Perbarui daftar destinasi setelah berhasil dihapus
-        fetchUserData();
+        fetchUserRoutes();
         alert("Destinasi berhasil dihapus!");
       } catch (error) {
         console.error("Gagal menghapus destinasi:", error);
@@ -159,12 +164,11 @@ const UserDetailPage = () => {
           </div>
         </div>
       </div>
-      <PlainCard title="User Routes" description="View routes associated with this user" />
-      <ReusableTable
-        columns={columns}
-        data={routes}
-        onDelete={handleDelete}
+      <PlainCard
+        title="User Routes"
+        description="View routes associated with this user"
       />
+      <ReusableTable columns={columns} data={routes} onDelete={handleDelete} />
     </div>
   );
 };
