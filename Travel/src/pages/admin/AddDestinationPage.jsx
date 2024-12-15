@@ -95,8 +95,8 @@ const AddDestinationPage = () => {
   const availableFacilities = [
     "Toilets",
     "Parking Area",
-    "Food Stalls",
-    "Souvenir Shops",
+    "Dining Area",
+    "Information Center",
   ];
   const availableCities = ["Jakarta", "Bandung", "Surabaya", "Yogyakarta"];
   const availableCategories = ["Nature", "Culture", "Ecotourism"];

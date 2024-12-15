@@ -24,7 +24,9 @@ const UserPage = () => {
     try {
       const response = await axiosInstance.get("/user");
       console.log("API Response:", response.data);
-      const users = Array.isArray(response.data?.data) ? response.data.data : [];
+      const users = Array.isArray(response.data?.data)
+        ? response.data.data
+        : [];
       setUserData(users);
       setLoading(false);
     } catch (error) {
