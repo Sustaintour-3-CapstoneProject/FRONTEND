@@ -220,7 +220,7 @@ export const ProfileForm = ({
           <div className="flex gap-4">
             <Button
               onClick={toggleEditMode}
-              color="blue"
+              color="customBlue"
               className="w-full max-w-xs"
             >
               {isEditing ? "Save" : "Edit Profile"}

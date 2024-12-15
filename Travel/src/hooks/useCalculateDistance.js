@@ -20,11 +20,11 @@ const useCalculateDistance = () => {
       const minutes = Math.floor((durationInSeconds % 3600) / 60); // Menit
 
       setDistance(distanceInKm.toFixed(2));
-      setTime(`${hours} jam ${minutes} menit`);
+      setTime(`${hours} hours ${minutes} minutes`);
     } catch (error) {
       console.error("Error fetching distance:", error);
       setDistance(0);
-      setTime("0 jam 0 menit");
+      setTime("0 hours 0 minutes");
     }
   };
 

@@ -8,6 +8,7 @@ import {
   HiExclamationCircle,
   HiCheckCircle,
   HiQuestionMarkCircle,
+  HiRefresh,
 } from "react-icons/hi";
 import useCalculateDistance from "../../hooks/useCalculateDistance";
 import CityDropdown from "../../components/User/Rute/CityDropdown";
@@ -191,12 +192,9 @@ const Rutes = () => {
           onChange={setDestination}
           className="w-full md:w-[45%]" /* Responsive width */
         />
-        <Button
-          onClick={handleRefresh}
-          color="failure"
-          className="w-32 md:w-32"
-        >
-          Refresh
+        <Button onClick={handleRefresh} color="customBlue">
+          Refresh Chat
+          <HiRefresh className="ml-3 h-6 w-5" />
         </Button>
       </div>
 
