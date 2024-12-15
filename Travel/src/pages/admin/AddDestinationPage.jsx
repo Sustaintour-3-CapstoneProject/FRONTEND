@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Label, Button, Select } from "flowbite-react"; // Tambahkan Select
+import { Checkbox, Label, Button, Select } from "flowbite-react";
 import PlainCard from "../../components/Admin/PlainCard";
 import LabelInput from "../../components/Admin/LabelInput";
 import axiosInstance from "../../api/axiosInstance";
@@ -14,11 +14,10 @@ const AddDestinationPage = () => {
     address: "",
     operational_hours: "",
     ticket_price: "",
-    category: "Nature", // Default value
+    category: "Nature",
     description: "",
     facilities: [],
     imageUrls: ["", "", ""],
-    video_contents: [],
   });
 
   const handleInputChange = (e) => {
@@ -33,8 +32,8 @@ const AddDestinationPage = () => {
     setFormData((prev) => ({
       ...prev,
       facilities: prev.facilities.includes(facility)
-        ? prev.facilities.filter((f) => f !== facility) // Hapus fasilitas jika sudah ada
-        : [...prev.facilities, facility], // Tambahkan fasilitas jika belum ada
+        ? prev.facilities.filter((f) => f !== facility)
+        : [...prev.facilities, facility],
     }));
   };
 
@@ -99,20 +98,20 @@ const AddDestinationPage = () => {
     "Food Stalls",
     "Souvenir Shops",
   ];
-
   const availableCities = ["Jakarta", "Bandung", "Surabaya", "Yogyakarta"];
   const availableCategories = ["Nature", "Culture", "Ecotourism"];
+  const placeholderImage =
+    "https://via.placeholder.com/300x200?text=Image+Preview";
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="p-6 bg-gray-100">
       <PlainCard
-        className="py-2"
         title="Add Destination"
         description="Add Destination Details"
       />
-      <div className="flex flex-col md:flex-row gap-5 my-5 bg-white rounded-3xl shadow-lg p-6">
-        {/* Gambar Preview dengan Input URL */}
-        <div className="flex flex-col gap-6 w-1/2">
+      <div className="flex flex-col md:flex-row gap-6 mt-6 bg-white shadow-lg rounded-3xl p-6">
+        {/* Image Previews */}
+        <div className="flex flex-col gap-4 w-full md:w-1/2">
           {[0, 1, 2].map((index) => (
             <div key={index} className="space-y-2">
               <LabelInput
@@ -123,13 +122,13 @@ const AddDestinationPage = () => {
                 onChange={(e) => handleImageUrlChange(index, e.target.value)}
                 placeholder="Paste image URL here"
               />
-              {formData.imageUrls[index] && (
-                <div className="relative">
-                  <img
-                    src={formData.imageUrls[index]}
-                    alt={`Preview ${index + 1}`}
-                    className="h-48 w-full object-cover rounded-lg border"
-                  />
+              <div className="relative">
+                <img
+                  src={formData.imageUrls[index] || placeholderImage}
+                  alt={`Preview ${index + 1}`}
+                  className="h-48 w-full object-cover rounded-lg border"
+                />
+                {formData.imageUrls[index] && (
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(index)}
@@ -137,26 +136,22 @@ const AddDestinationPage = () => {
                   >
                     ✕
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Form Input */}
+        {/* Form Fields */}
         <div className="w-full space-y-6">
-          <div className="w-full flex flex-row gap-6">
-            <LabelInput
-              label="Destination Name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="w-full flex flex-row gap-6">
-            {/* Select City */}
+          <LabelInput
+            label="Destination Name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleInputChange}
+          />
+          <div className="flex flex-row gap-6">
             <div className="w-full">
               <Label htmlFor="city">City</Label>
               <Select
@@ -172,8 +167,6 @@ const AddDestinationPage = () => {
                 ))}
               </Select>
             </div>
-
-            {/* Select Category */}
             <div className="w-full">
               <Label htmlFor="category">Category</Label>
               <Select
@@ -190,7 +183,6 @@ const AddDestinationPage = () => {
               </Select>
             </div>
           </div>
-
           <LabelInput
             label="Operating Hours"
             name="operational_hours"
@@ -200,30 +192,29 @@ const AddDestinationPage = () => {
             placeholder="e.g., 08:00 - 17:00"
           />
           <LabelInput
-            label="Entrance Ticket Price"
+            label="Ticket Price"
             name="ticket_price"
             type="text"
             value={formData.ticket_price}
             onChange={handleInputChange}
-            placeholder="Price in local currency"
           />
           <LabelInput
-            label="Destination Address"
+            label="Address"
             name="address"
             type="text"
             value={formData.address}
             onChange={handleInputChange}
           />
           <LabelInput
-            label="Destination Description"
+            label="Description"
             name="description"
             type="text"
             value={formData.description}
             onChange={handleInputChange}
           />
           <div>
-            <h2 className="text-xl font-semibold mb-2">Facilities</h2>
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-1">
+            <h2 className="text-lg font-semibold mb-2">Facilities</h2>
+            <div className="grid grid-cols-2 gap-2">
               {availableFacilities.map((facility, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <Checkbox
@@ -231,16 +222,14 @@ const AddDestinationPage = () => {
                     checked={formData.facilities.includes(facility)}
                     onChange={() => handleFacilityChange(facility)}
                   />
-                  <Label htmlFor={`facility-${index}`} className="text-base">
-                    {facility}
-                  </Label>
+                  <Label htmlFor={`facility-${index}`}>{facility}</Label>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-end space-x-4 mt-6">
         <Button color="gray" onClick={handleBack}>
           Kembali
         </Button>
