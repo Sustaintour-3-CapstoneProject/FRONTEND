@@ -16,42 +16,37 @@ const DestinationPage = () => {
   ];
 
   const [destinations, setDestinations] = useState([]);
-
-  const fetchDestinations = async (searchQuery = "") => {
-    try {
-      const url = searchQuery
-        ? `/destination?name=${searchQuery}`
-        : "/destination";
-      const response = await axiosInstance.get(url);
-      const data = response.data.destinations;
-      setDestinations(data);
-    } catch (error) {
-      console.error("Error fetching destinations:", error);
-    }
-  };
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchDestinations();
   }, []);
 
-  const handleSearch = (query) => {
-    fetchDestinations(query);
+  const fetchDestinations = async (name = "") => {
+    try {
+      const response = await axiosInstance.get("/destination", {
+        params: { name },
+      });
+
+      const data = response.data.destinations;
+      setDestinations(data);
+    } catch (error) {
+      console.error(error);
+      setDestinations([]);
+    }
+  };
+
+  const handleSearch = (search) => {
+    setSearchTerm(search);
+    fetchDestinations(search);
   };
 
   const handleDelete = async (item) => {
-    if (item) {
-      try {
-        // Mengambil ID dari data destinasi
-        const url = `/destination/${item}`; // Endpoint DELETE
-        await axiosInstance.delete(url); // Menghapus data ke server
-
-        // Perbarui daftar destinasi setelah berhasil dihapus
-        fetchDestinations();
-        alert("Destinasi berhasil dihapus!");
-      } catch (error) {
-        console.error("Gagal menghapus destinasi:", error);
-        alert("Terjadi kesalahan saat menghapus destinasi.");
-      }
+    try {
+      await axiosInstance.delete(`/destination/${item.id}`);
+      fetchDestinations(searchTerm);
+    } catch (error) {
+      console.error("Error deleting destination:", error);
     }
   };
 
@@ -70,22 +65,25 @@ const DestinationPage = () => {
           <SearchCard
             topic="Destination"
             create
-            className="flex-grow"
-            link="/admin/destination/create"
+            addText="Add Destination"
+            link="/dashboard/destination/add-destination"
             onSearch={handleSearch}
+            placeholder="Search Destination by Name"
           />
         </div>
       </div>
+
       <div className="my-5">
         {destinations && destinations.length > 0 ? (
           <ReusableTable
             columns={column}
             data={destinations}
             onDelete={handleDelete}
+            route="destination"
           />
         ) : (
           <div className="bg-white w-full flex items-center justify-center">
-            <h1 className="text-center">Data tidak ada hiks</h1>
+            <h1 className="text-center">Data tidak ada</h1>
           </div>
         )}
       </div>

@@ -28,40 +28,6 @@ const AddContentPage = () => {
 
   const navigate = useNavigate();
 
-  const addImageLink = () => {
-    if (formData.link_images.length < 3) {
-      setFormData((prev) => ({
-        ...prev,
-        link_images: [...prev.link_images, ""],
-      }));
-
-      setPreviews((prev) => ({
-        ...prev,
-        images: [...prev.images, ""],
-      }));
-    }
-  };
-
-  const removeImageLink = (index) => {
-    setFormData((prev) => {
-      const newLinkImages = [...prev.link_images];
-      newLinkImages.splice(index, 1);
-      return {
-        ...prev,
-        link_images: newLinkImages,
-      };
-    });
-
-    setPreviews((prev) => {
-      const newPreviews = [...prev.images];
-      newPreviews.splice(index, 1);
-      return {
-        ...prev,
-        images: newPreviews,
-      };
-    });
-  };
-
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -148,6 +114,30 @@ const AddContentPage = () => {
     }
   };
 
+  const extractTikTokVideoId = (url) => {
+    const patterns = [
+      /\/video\/(\d+)/,
+      /@[\w.]+\/video\/(\d+)/,
+      /v\/(\d+)/,
+      /tiktok\.com\/.*\/video\/(\d+)/,
+    ];
+
+    for (let pattern of patterns) {
+      const match = url.match(pattern);
+      if (match) return match[1];
+    }
+
+    return null;
+  };
+
+  const getTikTokEmbedUrl = (url) => {
+    if (url.includes("tiktok.com")) {
+      const videoId = extractTikTokVideoId(url);
+      return videoId ? `https://www.tiktok.com/embed/v2/${videoId}` : url;
+    }
+    return url;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -162,7 +152,6 @@ const AddContentPage = () => {
 
     const payload = {
       destinationID: parseInt(formData.destinationId),
-      image: filteredImageLinks,
       video_contents: [
         {
           title: formData.video_contents.title,
@@ -175,7 +164,7 @@ const AddContentPage = () => {
     try {
       console.log(payload);
       const response = await axiosInstance.post("/destination/assets", payload);
-      navigate("/admin/content");
+      navigate("/dashboard/content");
     } catch (error) {
       console.error(
         "Error adding content:",
@@ -198,62 +187,31 @@ const AddContentPage = () => {
       />
       <div className="flex md:flex-row flex-col my-5 gap-5 bg-white rounded-3xl shadow-lg p-6 w-full">
         <div className="lg:w-2/5 w-full px-5">
-          <div className="grid grid-cols-1 gap-4">
-            {formData.link_images.map((link, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <div className="flex-grow">
-                  <LabelInput
-                    label={`Link Image ${index + 1}`}
-                    name={`link_images[${index}]`}
-                    type="text"
-                    value={link}
-                    onChange={handleInputChange}
-                  />
+          {previews.video && (
+            <div className="border rounded-lg overflow-hidden shadow-md">
+              <iframe
+                width="100%"
+                height="600"
+                src={getTikTokEmbedUrl(previews.video)}
+                title="TikTok Video Preview"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+              {previews.video && (
+                <div className="p-3 bg-gray-100 text-center">
+                  <p className="text-sm text-gray-600 truncate">
+                    {previews.video}
+                  </p>
                 </div>
-                {formData.link_images.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeImageLink(index)}
-                    className="text-red-500 hover:text-red-700 mt-6"
-                  >
-                    <FaTrash />
-                  </button>
-                )}
-              </div>
-            ))}
-
-            {formData.link_images.length < 3 && (
-              <button
-                type="button"
-                onClick={addImageLink}
-                className="flex items-center text-blue-500 hover:text-blue-700 mt-2"
-              >
-                <FaPlus className="mr-2" /> Tambah Link Gambar
-              </button>
-            )}
-
-            {/* Preview Gambar */}
-            <div className="grid grid-cols-3 gap-2 mt-4">
-              {previews.images.map(
-                (preview, index) =>
-                  preview && (
-                    <div
-                      key={index}
-                      className="border rounded-lg overflow-hidden"
-                    >
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-24 object-cover"
-                        onError={(e) => {
-                          e.target.src = "/placeholder-image.png";
-                        }}
-                      />
-                    </div>
-                  )
               )}
             </div>
-          </div>
+          )}
+          {!previews.video && (
+            <div className="border-2 border-dashed border-gray-300 rounded-lg h-[500px] flex items-center justify-center">
+              <p className="text-gray-500">Video Preview</p>
+            </div>
+          )}
         </div>
         <div className="space-y-6 w-full px-4">
           <SelectInput
