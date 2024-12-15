@@ -23,32 +23,47 @@ const ContentPage = () => {
   ];
 
   const [content, setContent] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const response = await axiosInstance.get("/destination");
-        const data = response.data.destinations;
-        console.log(data);
-        setContent(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchContent();
   }, []);
 
-  const handleDelete = (item) => {
-    console.log("Menghapus:", item);
+  const fetchContent = async (name = "") => {
+    try {
+      const response = await axiosInstance.get("/destination", {
+        params: { name },
+      });
+
+      const data = response.data.destinations;
+      setContent(data);
+    } catch (error) {
+      console.error(error);
+      setContent([]);
+    }
   };
+
+  const handleSearch = (search) => {
+    setSearchTerm(search);
+    fetchContent(search);
+  };
+
+  const handleDelete = async (item) => {
+    try {
+      await axiosInstance.delete(`/destination/${item.id}`);
+      fetchContent(searchTerm);
+    } catch (error) {
+      console.error("Error deleting destination:", error);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-full md:w-1/2 flex">
           <Card
             title="Total Content"
-            totalData={25}
+            totalData={content ? content.length : 0}
             icon={<FaPlay className="text-3xl" />}
             className="flex-grow"
           />
@@ -59,6 +74,7 @@ const ContentPage = () => {
             create
             className="flex-grow"
             link="/admin/content/create"
+            onSearch={handleSearch}
           />
         </div>
       </div>

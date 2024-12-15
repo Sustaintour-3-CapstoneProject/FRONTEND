@@ -1,98 +1,20 @@
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Checkbox, Label } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Label, Button, Select } from "flowbite-react"; // Tambahkan Select
+
 import PlainCard from "../../components/Admin/PlainCard";
+import Dropzone from "../../components/Admin/Dropzone";
 import LabelInput from "../../components/Admin/LabelInput";
 import axiosInstance from "../../api/axiosInstance";
 
-const AddDestinationPage = () => {
+const DetailDestination = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    city: "Jakarta",
-    position: null,
-    address: "",
-    operational_hours: "",
-    ticket_price: "",
-    category: "Nature", // Default value
-    description: "",
-    facilities: [],
-    imageUrls: ["", "", ""],
-    video_contents: [],
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleFacilityChange = (facility) => {
-    setFormData((prev) => ({
-      ...prev,
-      facilities: prev.facilities.includes(facility)
-        ? prev.facilities.filter((f) => f !== facility) // Hapus fasilitas jika sudah ada
-        : [...prev.facilities, facility], // Tambahkan fasilitas jika belum ada
-    }));
-  };
-
-  const handleImageUrlChange = (index, url) => {
-    const newImageUrls = [...formData.imageUrls];
-    newImageUrls[index] = url;
-    setFormData((prev) => ({
-      ...prev,
-      imageUrls: newImageUrls,
-    }));
-  };
-
-  const handleRemoveImage = (index) => {
-    const newImageUrls = [...formData.imageUrls];
-    newImageUrls[index] = "";
-    setFormData((prev) => ({
-      ...prev,
-      imageUrls: newImageUrls,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const requiredFields = ["name", "address", "category", "description"];
-    const missingFields = requiredFields.filter((field) => !formData[field]);
-
-    if (missingFields.length > 0) {
-      alert(`Harap isi field wajib: ${missingFields.join(", ")}`);
-      return;
-    }
-
-    const payload = {
-      name: formData.name,
-      city: formData.city,
-      address: formData.address,
-      category: formData.category,
-      description: formData.description,
-      ticket_price: Number(formData.ticket_price) || 0,
-      facilities: formData.facilities.join(", "),
-      operational_hours: formData.operational_hours || "",
-      image: formData.imageUrls.filter((url) => url),
-    };
-
-    try {
-      console.log(payload);
-      const response = await axiosInstance.post("/destination", payload);
-      navigate("/admin/destination");
-    } catch (error) {
-      console.error("Submission error", error.response?.data);
-      alert(error.response?.data?.message || "Gagal menambahkan destinasi");
-    }
-  };
-
-  const handleBack = () => {
-    navigate(-1);
-  };
-
+  const [data, setData] = useState({});
+  const [city, setCity] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({});
   const availableFacilities = [
     "Toilets",
     "Parking Area",
@@ -100,138 +22,167 @@ const AddDestinationPage = () => {
     "Souvenir Shops",
   ];
 
-  const availableCities = ["Jakarta", "Bandung", "Surabaya", "Yogyakarta"];
-  const availableCategories = ["Nature", "Culture", "Ecotourism"];
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(`/destination/${id}`);
+        const destinationData = response.data.destination;
+        setData(destinationData);
+        setCity(destinationData.city);
+        setEditedData({
+          ...destinationData,
+          facilities: new Set(destinationData.facilities || []),
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  const handleEditChange = (field, value) => {
+    setEditedData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleFacilityChange = (facility) => {
+    setEditedData((prev) => {
+      const updatedFacilities = new Set(prev.facilities);
+      if (updatedFacilities.has(facility)) {
+        updatedFacilities.delete(facility);
+      } else {
+        updatedFacilities.add(facility);
+      }
+      return { ...prev, facilities: updatedFacilities };
+    });
+  };
+
+  const handleSave = async () => {
+    try {
+      const updatedData = {
+        ...editedData,
+        facilities: Array.from(editedData.facilities),
+      };
+      await axiosInstance.put(`/destination/${id}`, updatedData);
+      setData(updatedData);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Failed to save changes:", error);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <PlainCard
         className="py-2"
-        title="Add Destination"
-        description="Add Destination Details"
+        title="Detail Destination"
+        description="View and Edit Destination Details"
       />
       <div className="flex flex-col md:flex-row gap-5 my-5 bg-white rounded-3xl shadow-lg p-6">
-        {/* Gambar Preview dengan Input URL */}
         <div className="flex flex-col gap-6 w-1/2">
-          {[0, 1, 2].map((index) => (
-            <div key={index} className="space-y-2">
+          {data.images?.map((image, index) =>
+            isEditing ? (
               <LabelInput
-                label={`Image URL ${index + 1}`}
-                name={`image-url-${index}`}
+                key={index}
+                label={`Image Link ${index + 1}`}
+                labelValue={`image-${index}`}
                 type="text"
-                value={formData.imageUrls[index]}
-                onChange={(e) => handleImageUrlChange(index, e.target.value)}
-                placeholder="Paste image URL here"
+                value={editedData.images[index]?.url || ""}
+                onChange={(e) => {
+                  const updatedImages = [...editedData.images];
+                  updatedImages[index].url = e.target.value;
+                  handleEditChange("images", updatedImages);
+                }}
               />
-              {formData.imageUrls[index] && (
-                <div className="relative">
-                  <img
-                    src={formData.imageUrls[index]}
-                    alt={`Preview ${index + 1}`}
-                    className="h-48 w-full object-cover rounded-lg border"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+            ) : (
+              <img
+                key={index}
+                src={image.url}
+                alt={`Destination image ${index + 1}`}
+                className="w-full h-64"
+              />
+            )
+          )}
         </div>
-
-        {/* Form Input */}
         <div className="w-full space-y-6">
           <div className="w-full flex flex-row gap-6">
             <LabelInput
               label="Destination Name"
-              name="name"
+              labelValue="destination"
               type="text"
-              value={formData.name}
-              onChange={handleInputChange}
+              value={isEditing ? editedData.name : data.name}
+              onChange={(e) => handleEditChange("name", e.target.value)}
+              disabled={!isEditing}
+            />
+            <LabelInput
+              label="Category"
+              labelValue="category"
+              type="text"
+              value={isEditing ? editedData.category : data.category}
+              onChange={(e) => handleEditChange("category", e.target.value)}
+              disabled={!isEditing}
             />
           </div>
-
           <div className="w-full flex flex-row gap-6">
-            {/* Select City */}
-            <div className="w-full">
-              <Label htmlFor="city">City</Label>
-              <Select
-                id="city"
-                name="city"
-                value={formData.city}
-                onChange={handleInputChange}
-              >
-                {availableCities.map((city, index) => (
-                  <option key={index} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            {/* Select Category */}
-            <div className="w-full">
-              <Label htmlFor="category">Category</Label>
-              <Select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleInputChange}
-              >
-                {availableCategories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </Select>
-            </div>
+            <LabelInput
+              label="Operating Hours"
+              labelValue="operational_hours"
+              type="text"
+              value={
+                isEditing
+                  ? editedData.operational_hours
+                  : data.operational_hours
+              }
+              onChange={(e) =>
+                handleEditChange("operational_hours", e.target.value)
+              }
+              disabled={!isEditing}
+            />
+            <LabelInput
+              label="Entrance Ticket Price"
+              labelValue="ticket_price"
+              type="text"
+              value={isEditing ? editedData.ticket_price : data.ticket_price}
+              onChange={(e) => handleEditChange("ticket_price", e.target.value)}
+              disabled={!isEditing}
+            />
           </div>
-
-          <LabelInput
-            label="Operating Hours"
-            name="operational_hours"
-            type="text"
-            value={formData.operational_hours}
-            onChange={handleInputChange}
-            placeholder="e.g., 08:00 - 17:00"
-          />
-          <LabelInput
-            label="Entrance Ticket Price"
-            name="ticket_price"
-            type="text"
-            value={formData.ticket_price}
-            onChange={handleInputChange}
-            placeholder="Price in local currency"
-          />
-          <LabelInput
-            label="Destination Address"
-            name="address"
-            type="text"
-            value={formData.address}
-            onChange={handleInputChange}
-          />
-          <LabelInput
-            label="Destination Description"
-            name="description"
-            type="text"
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-          <div>
+          <div className="w-full flex flex-row gap-6">
+            <LabelInput
+              label="Destination Address"
+              labelValue="address"
+              type="text"
+              value={isEditing ? editedData.address : data.address}
+              onChange={(e) => handleEditChange("address", e.target.value)}
+              disabled={!isEditing}
+            />
+            <LabelInput
+              label="Destination Description"
+              labelValue="description"
+              type="text"
+              value={isEditing ? editedData.description : data.description}
+              onChange={(e) => handleEditChange("description", e.target.value)}
+              disabled={!isEditing}
+            />
+          </div>
+          <div className="w-full">
             <h2 className="text-xl font-semibold mb-2">Facilities</h2>
             <div className="grid md:grid-cols-2 grid-cols-1 gap-1">
-              {availableFacilities.map((facility, index) => (
-                <div key={index} className="flex items-center gap-2">
+              {availableFacilities.map((facility) => (
+                <div className="space-x-3" key={facility}>
                   <Checkbox
-                    id={`facility-${index}`}
-                    checked={formData.facilities.includes(facility)}
+                    id={`facility-${facility}`}
+                    checked={editedData.facilities?.has(facility)}
                     onChange={() => handleFacilityChange(facility)}
+                    disabled={!isEditing}
                   />
-                  <Label htmlFor={`facility-${index}`} className="text-base">
+                  <Label htmlFor={`facility-${facility}`} className="text-base">
                     {facility}
                   </Label>
                 </div>
@@ -241,15 +192,30 @@ const AddDestinationPage = () => {
         </div>
       </div>
       <div className="flex justify-end space-x-4">
-        <Button color="gray" onClick={handleBack}>
-          Kembali
-        </Button>
-        <Button type="submit" color="blue">
-          Simpan
-        </Button>
+        {isEditing ? (
+          <button
+            onClick={handleSave}
+            className="text-white py-2 px-4 rounded-lg bg-green-500"
+          >
+            Save
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsEditing(true)}
+            className="text-white py-2 px-4 rounded-lg bg-yellow-500"
+          >
+            Edit
+          </button>
+        )}
+        <button
+          onClick={handleBack}
+          className="text-white py-2 px-4 rounded-lg bg-blue-500"
+        >
+          Back
+        </button>
       </div>
-    </form>
+    </div>
   );
 };
 
-export default AddDestinationPage;
+export default DetailDestination;
