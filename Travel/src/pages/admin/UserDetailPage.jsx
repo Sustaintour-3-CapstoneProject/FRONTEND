@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
 import { Avatar, Label, TextInput } from "flowbite-react";
 import PlainCard from "../../components/Admin/PlainCard";
 import ReusableTable from "../../components/Admin/ReusableTable";
+import axiosInstance from "../../api/axiosInstance"; // Pastikan path sesuai struktur proyek Anda
 
 const UserDetailPage = () => {
   const { id } = useParams();
+  const [userDetail, setUserDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     { key: "startingCity", label: "Starting City" },
@@ -14,43 +16,35 @@ const UserDetailPage = () => {
     { key: "route", label: "Destination Route" },
     { key: "distance", label: "Destination KM Distance" },
   ];
+  console.log(userDetail)
 
-  const data = [
-    {
-      startingCity: "Serang",
-      destination: "Yogyakarta",
-      route: "Borobudur Temple",
-      distance: "619 KM",
-    },
-    {
-      startingCity: "Serang",
-      destination: "Jakarta",
-      route: "Dufan",
-      distance: "90 KM",
-    },
-    {
-      startingCity: "Serang",
-      destination: "Bandung",
-      route: "White Crater",
-      distance: "179 KM",
-    },
-    {
-      startingCity: "Serang",
-      destination: "Malang",
-      route: "Museum Angkut",
-      distance: "858 KM",
-    },
-    {
-      startingCity: "Serang",
-      destination: "Jakarta",
-      route: "Indonesian Mini Park",
-      distance: "95 KM",
-    },
-  ];
+  useEffect(() => {
+    const fetchUserDetail = async () => {
+      try {
+        const response = await axiosInstance.get(`/user/${id}`);
+        console.log("User Detail Response:", response.data);
+        setUserDetail(response.data.data); // Simpan data ke state
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user detail:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserDetail();
+  }, [id]);
 
   const handleDelete = (item) => {
     console.log("Menghapus:", item);
   };
+
+  if (loading) {
+    return <p>Loading user details...</p>;
+  }
+
+  if (!userDetail) {
+    return <p>User not found.</p>;
+  }
 
   return (
     <div className="space-y-5 h-full w-full">
@@ -59,7 +53,7 @@ const UserDetailPage = () => {
         <div className="p-4">
           <div className="flex flex-col md:flex-row gap-6">
             <Avatar
-              img=""
+              img={userDetail.file || ""}
               alt="Logo Profile"
               rounded
               className="text-4xl"
@@ -75,8 +69,8 @@ const UserDetailPage = () => {
                     className="w-full"
                     id="username"
                     type="text"
-                    placeholder="John Cena"
-                    required
+                    value={userDetail.username || ""}
+                    readOnly
                   />
                 </div>
                 <div className="w-full">
@@ -87,8 +81,8 @@ const UserDetailPage = () => {
                     className="w-full"
                     id="email"
                     type="email"
-                    placeholder="name@flowbite.com"
-                    required
+                    value={userDetail.email || ""}
+                    readOnly
                   />
                 </div>
               </div>
@@ -101,8 +95,8 @@ const UserDetailPage = () => {
                     className="w-full"
                     id="phoneNumber"
                     type="number"
-                    placeholder="0881231238"
-                    required
+                    value={userDetail.phone_number || ""}
+                    readOnly
                   />
                 </div>
                 <div className="w-full">
@@ -113,8 +107,8 @@ const UserDetailPage = () => {
                     className="w-full"
                     id="city"
                     type="text"
-                    placeholder="Serang"
-                    required
+                    value={userDetail.city || ""}
+                    readOnly
                   />
                 </div>
               </div>
@@ -127,21 +121,14 @@ const UserDetailPage = () => {
                     className="w-full"
                     id="gender"
                     type="text"
-                    placeholder="Male"
-                    required
+                    value={userDetail.gender || ""}
+                    readOnly
                   />
                 </div>
               </div>
             </form>
           </div>
 
-          <div className="my-7">
-            <ReusableTable
-              columns={columns}
-              data={data}
-              onDelete={handleDelete}
-            />
-          </div>
         </div>
       </div>
     </div>
