@@ -6,6 +6,7 @@ import {
   HiMap,
   HiLogout,
 } from "react-icons/hi";
+import useAuthStore from "../../store/authStore";
 
 export const NavSidebar = () => {
   return (
@@ -15,7 +16,7 @@ export const NavSidebar = () => {
           <div className="flex-grow">
             <Sidebar.ItemGroup className="space-y-4">
               <Sidebar.Item
-                href="/admin"
+                href="/dashboard"
                 className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
               >
                 <div className="flex flex-row items-center gap-3">
@@ -24,7 +25,7 @@ export const NavSidebar = () => {
                 </div>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/admin/user"
+                href="/dashboard/user"
                 className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
               >
                 <div className="flex flex-row items-center gap-3">
@@ -33,7 +34,7 @@ export const NavSidebar = () => {
                 </div>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/admin/content"
+                href="/dashboard/content"
                 className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
               >
                 <div className="flex flex-row items-center gap-3">
@@ -42,7 +43,7 @@ export const NavSidebar = () => {
                 </div>
               </Sidebar.Item>
               <Sidebar.Item
-                href="/admin/destination"
+                href="/dashboard/destination"
                 className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
               >
                 <div className="flex flex-row items-center gap-3">
@@ -57,6 +58,9 @@ export const NavSidebar = () => {
             <Sidebar.Item
               href="/"
               className="text-[#DC2626] hover:text-white hover:bg-[#DC2626] font-bold py-3"
+              onClick={() => {
+                useAuthStore.getState().clearAuth(); // Membersihkan data autentikasi
+              }}
             >
               <div className="flex flex-row items-center gap-3">
                 <HiLogout className="text-2xl" />

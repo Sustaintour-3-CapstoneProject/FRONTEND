@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SearchCard from "../../components/Admin/SearchCard";
 import Card from "../../components/Admin/Card";
 import ReusableTable from "../../components/Admin/ReusableTable";
-import { FaUserFriends, FaUser , FaUserMinus } from "react-icons/fa";
+import { FaUserFriends, FaUser, FaUserMinus } from "react-icons/fa";
 import axiosInstance from "../../api/axiosInstance";
 
 const UserPage = () => {
@@ -23,7 +23,10 @@ const UserPage = () => {
   const fetchUserData = async () => {
     try {
       const response = await axiosInstance.get("/user");
-      const users = Array.isArray(response.data?.data) ? response.data.data : [];
+      console.log("API Response:", response.data);
+      const users = Array.isArray(response.data?.data)
+        ? response.data.data
+        : [];
       setUserData(users);
       setLoading(false);
     } catch (error) {
@@ -35,22 +38,33 @@ const UserPage = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
-
-  const handleRowClick = (id) => {
-    navigate(`/user/${id}`);
+  const handleRowClick = (user) => {
+    console.log(user);
+    if (user?.id) {
+      navigate(`/dashboard/user/detail/${user.id}`);
+    } else {
+      alert("User ID tidak valid.");
+      console.error("Invalid user ID:", user);
+    }
   };
 
   const handleDelete = async (item) => {
-    if (item) {
-      try {
-        const url = `/user/${item}`;
-        await axiosInstance.delete(url);
-        fetchUserData();
-        alert("User  berhasil dihapus!");
-      } catch (error) {
-        console.error("Gagal menghapus user:", error);
-        alert("Terjadi kesalahan saat menghapus user.");
-      }
+    if (!item) {
+      alert("ID tidak valid");
+      return;
+    }
+    try {
+      const url = `/user/${item.id}`;
+      console.log("Deleting user with ID:", item);
+      await axiosInstance.delete(url);
+      fetchUserData();
+      alert("User berhasil dihapus!");
+    } catch (error) {
+      console.error(
+        "Gagal menghapus user:",
+        error.response?.data || error.message
+      );
+      alert("Terjadi kesalahan saat menghapus user.");
     }
   };
 
@@ -60,7 +74,7 @@ const UserPage = () => {
   };
 
   // Filter user data based on search term
-  const filteredUserData = userData.filter(user =>
+  const filteredUserData = userData.filter((user) =>
     user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -76,7 +90,7 @@ const UserPage = () => {
         <Card
           title="User Aktif"
           totalData={filteredUserData.filter((user) => !user.isActive).length}
-          icon={<FaUser  className="text-3xl" />}
+          icon={<FaUser className="text-3xl" />}
         />
         <Card
           title="User Nonaktif"
@@ -91,6 +105,8 @@ const UserPage = () => {
           columns={columns}
           data={filteredUserData}
           onDelete={handleDelete}
+          onRowClick={handleRowClick}
+          route="user"
         />
       )}
     </div>

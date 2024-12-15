@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 
 import PlainCard from "../../components/Admin/PlainCard";
 import SelectInput from "../../components/Admin/SelectInput";
 import LabelInput from "../../components/Admin/LabelInput";
-
 import { Button } from "flowbite-react";
 
 const DetailContentPage = () => {
   const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+
+  const [data, setData] = useState(null);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
 
   const handleBack = () => {
     navigate(-1);
   };
+  const queryParams = new URLSearchParams(location.search);
+  const urlFromQuery = queryParams.get("videoUrl");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/destination/${id}`);
-        const data = response.data.destination;
-        console.log(data);
-        setData(data);
+        const destinationData = response.data.destination;
+        setData(destinationData);
+
+        if (urlFromQuery) {
+          setSelectedVideoUrl(decodeURIComponent(urlFromQuery));
+        } else if (destinationData.video_contents?.length > 0) {
+          setSelectedVideoUrl(destinationData.video_contents[0].url);
+        }
       } catch (error) {
         console.error(error);
-      } finally {
       }
     };
+
     fetchData();
-  }, []);
-
-  const [selectedVideo, setSelectedVideo] = useState(null);
-
-  const openVideoModal = (videoUrl) => {
-    setSelectedVideo(videoUrl);
-  };
-
-  const closeVideoModal = () => {
-    setSelectedVideo(null);
-  };
+  }, [id, urlFromQuery]);
 
   const extractTikTokVideoId = (url) => {
     const patterns = [/\/video\/(\d+)/, /@[\w.]+\/video\/(\d+)/, /v\/(\d+)/];
@@ -61,27 +60,28 @@ const DetailContentPage = () => {
     return url;
   };
 
+  if (!data) return <div>Loading...</div>;
+
   return (
     <div>
       <PlainCard
         className="py-2"
-        title="Add Content"
-        description="Add Content Details"
+        title="Content Details"
+        description="View Content Details"
       />
       <div className="flex md:flex-row flex-col my-5 gap-5 bg-white rounded-3xl shadow-lg p-6 w-full">
-        <div className="w-2/5 px-5 space-y-6">
-          {data.video_contents?.map((video, index) => (
+        <div className="lg:w-2/5 w-full px-5 space-y-6">
+          {selectedVideoUrl && (
             <iframe
-              key={video.id}
               width="100%"
               height="600"
-              src={getTikTokEmbedUrl(video.url)}
+              src={getTikTokEmbedUrl(selectedVideoUrl)}
               title="Video Preview"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-          ))}
+          )}
         </div>
         <div className="space-y-6 w-full px-4">
           <SelectInput
@@ -102,15 +102,18 @@ const DetailContentPage = () => {
             type="description"
             value={data.description}
           />
-          {data.video_contents?.map((video, index) => (
-            <LabelInput
-              key={video.id}
-              label="Link Content"
-              name="link_content"
-              type="text"
-              value={video.url}
-            />
-          ))}
+
+          {selectedVideoUrl && (
+            <div className="cursor-pointer p-2 rounded">
+              <LabelInput
+                label="Link Content"
+                name="link_content"
+                type="text"
+                value={selectedVideoUrl}
+                readOnly
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex justify-end space-x-4">

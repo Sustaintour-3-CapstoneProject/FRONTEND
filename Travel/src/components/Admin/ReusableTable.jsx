@@ -7,8 +7,10 @@ import TruncatedText from "./TruncatedText";
 
 const ReusableTable = ({
   columns,
+  route = "user",
   data,
   onDelete,
+  onRowClick,
   actionColumn = true,
   itemsPerPage = 8,
   truncateConfig = {
@@ -42,13 +44,19 @@ const ReusableTable = ({
   };
 
   const handleRowClick = (item) => {
-    if (item.id) {
-      navigate(`detail/${item.id}`);
+    // Jika ada prop onRowClick, gunakan itu
+    if (onRowClick) {
+      onRowClick(item);
+    }
+    // Jika tidak, gunakan navigasi default
+    else if (item.id) {
+      navigate(`${route}-details/${item.id}`);
     }
   };
+
   const handleDeleteConfirm = () => {
-    if (selectedItem && selectedItem.id) {
-      onDelete(selectedItem.id); // Kirim hanya ID
+    if (selectedItem) {
+      onDelete(selectedItem);
       setOpenModal(false);
       setSelectedItem(null);
     }
@@ -91,7 +99,7 @@ const ReusableTable = ({
             {currentItems.map((item, rowIndex) => (
               <Table.Row
                 key={rowIndex}
-                onClick={() => handleRowClick(item)}
+                onClick={() => handleRowClick(item, route)}
                 className="bg-white hover:bg-blue-50 cursor-pointer"
               >
                 {/* Render sel berdasarkan kolom */}
@@ -106,11 +114,14 @@ const ReusableTable = ({
 
                 {/* Kolom Aksi Opsional */}
                 {actionColumn && (
-                  <Table.Cell className="flex space-x-2">
+                  <Table.Cell
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex space-x-2"
+                  >
                     {onDelete && (
                       <button
                         onClick={(e) => {
-                          e.stopPropagation(); // Mencegah redirect ke detail
+                          e.stopPropagation();
                           handleDeleteClick(item);
                         }}
                         className="text-red-500 hover:text-red-700"

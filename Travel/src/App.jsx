@@ -58,25 +58,35 @@ function App() {
           </Route>
           <Route path="*" element={<NotFoundPage />} />
           {/* Routes untuk Admin Layout */}
+          {/* Routes untuk Admin Layout */}
           <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<OverviewPage />} />
-            <Route path="/admin/user" element={<UserPage />} />
-            <Route path="/admin/user/detail/:id" element={<UserDetailPage />} />
-            <Route path="/admin/destination" element={<DestinationPage />} />
+            <Route path="/dashboard" element={<OverviewPage />} />
+            <Route path="/dashboard/user" element={<UserPage />} />
             <Route
-              path="/admin/destination/detail/:id"
+              path="/dashboard/user/detail/:id"
+              element={<UserDetailPage />}
+            />
+            <Route
+              path="/dashboard/destination"
+              element={<DestinationPage />}
+            />
+            <Route
+              path="/dashboard/destination/destination-details/:id"
               element={<DetailDestination />}
             />
             <Route
-              path="/admin/destination/create"
+              path="/dashboard/destination/add-destination"
               element={<AddDestinationPage />}
             />
-            <Route path="/admin/content" element={<ContentPage />} />
+            <Route path="/dashboard/content" element={<ContentPage />} />
             <Route
-              path="/admin/content/detail/:id"
+              path="/dashboard/content/content-details/:id"
               element={<DetailContentPage />}
             />
-            <Route path="/admin/content/create" element={<AddContentPage />} />
+            <Route
+              path="/dashboard/content/add-content"
+              element={<AddContentPage />}
+            />
           </Route>
         </Routes>
       </Router>

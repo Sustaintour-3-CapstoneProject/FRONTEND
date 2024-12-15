@@ -59,7 +59,7 @@ const UserDetailPage = () => {
     if (item) {
       try {
         // Mengambil ID dari data destinasi
-        const url = `/route/${item}`; // Endpoint DELETE
+        const url = `/route/${item.id}`; // Endpoint DELETE
         await axiosInstance.delete(url); // Menghapus data ke server
 
         // Perbarui daftar destinasi setelah berhasil dihapus
