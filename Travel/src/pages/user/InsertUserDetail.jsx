@@ -7,7 +7,7 @@ import { Spinner } from "flowbite-react"; // Import Spinner from Flowbite
 
 export const InsertUserDetail = () => {
   const { auth, registerAuth, setAuth } = useAuthStore(); // Get auth and registerAuth state from store
-  const [editableUser , setEditableUser ] = useState(null);
+  const [editableUser, setEditableUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false); // Editing mode is enabled by default
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
@@ -17,7 +17,7 @@ export const InsertUserDetail = () => {
 
   // Fetch user detail when the component first mounts
   useEffect(() => {
-    const loadUser  = async () => {
+    const loadUser = async () => {
       if (!userId) {
         setLoading(false); // Stop loading if userId is not available
         return;
@@ -28,7 +28,7 @@ export const InsertUserDetail = () => {
         const response = await axiosInstance.get(`/user/${userId}`);
         const userData = response.data.data;
 
-        setEditableUser (userData); // Set local user data
+        setEditableUser(userData); // Set local user data
         setAuth(userData); // Sync with global auth state
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -37,49 +37,49 @@ export const InsertUserDetail = () => {
       }
     };
 
-    loadUser ();
+    loadUser();
   }, [userId, setAuth]);
 
   const saveChanges = async () => {
-    if (!editableUser ) return;
+    if (!editableUser) return;
 
     const formData = new FormData();
 
-    Object.keys(editableUser ).forEach((key) => {
-      if (key === "file" && editableUser .file instanceof File) {
-        formData.append("file", editableUser .file); // Send the original file
+    Object.keys(editableUser).forEach((key) => {
+      if (key === "file" && editableUser.file instanceof File) {
+        formData.append("file", editableUser.file);
       } else {
-        formData.append(key, editableUser [key]);
+        formData.append(key, editableUser[key]);
       }
     });
 
     try {
-      const response = await axiosInstance.put(`/user/${userId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      // Update data ke server
+      await axiosInstance.put(`/user/${userId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
+      console.log("Profile updated successfully!");
+
+      // Fetch data terbaru setelah update berhasil
+      const response = await axiosInstance.get(`/user/${userId}`);
       const updatedData = response.data.data;
 
-      console.log("Profile updated successfully!", updatedData);
+      console.log("Fetched updated user data:", updatedData);
+
+      // Update store dan state lokal
+      setAuth(updatedData);
+      setEditableUser(updatedData);
+
       setModalTitle("Success");
       setModalMessage("Profile updated successfully!");
-      setIsModalOpen(true); // Open the modal
-
-      // Update global and local state by calling setAuth
-      setAuth((prevAuth) => ({
-        ...prevAuth,
-        ...updatedData, // Ensure this includes the new file URL
-      }));
-      setEditableUser (updatedData);
-
+      setIsModalOpen(true);
       setIsEditing(false);
     } catch (error) {
       console.error("Failed to update user:", error);
       setModalTitle("Error");
       setModalMessage("Failed to save changes");
-      setIsModalOpen(true); // Open the modal
+      setIsModalOpen(true);
     }
   };
 
@@ -92,11 +92,11 @@ export const InsertUserDetail = () => {
         </div>
       ) : (
         <>
-          {!editableUser  && <p>No user data available.</p>}
-          {editableUser  && (
+          {!editableUser && <p>No user data available.</p>}
+          {editableUser && (
             <ProfileForm
-              profileData={editableUser }
-              setProfileData={setEditableUser }
+              profileData={editableUser}
+              setProfileData={setEditableUser}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
               saveChanges={saveChanges}
@@ -104,12 +104,12 @@ export const InsertUserDetail = () => {
           )}
         </>
       )}
-      
+
       {/* Alert Modal */}
       <AlertModal
         isOpen={isModalOpen}
         title={modalTitle}
- message={modalMessage}
+        message={modalMessage}
         onClose={() => setIsModalOpen(false)} // Close the modal
       />
     </div>

@@ -55,7 +55,7 @@ const SearchCard = ({
           {create && (
             <Link
               to={link}
-              className="flex items-center gap-3 cursor-pointer border border-[#D4D4D4] h-full w-60  px-4 py-2 rounded-lg text-[#0EA5E9]"
+              className="flex items-center gap-3 cursor-pointer border border-[#D4D4D4] h-full w-[250px]  px-4 py-2 rounded-lg text-[#0EA5E9]"
             >
               <FaPlus /> {addText}
             </Link>
