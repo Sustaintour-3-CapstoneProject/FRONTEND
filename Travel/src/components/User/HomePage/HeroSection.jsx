@@ -43,7 +43,7 @@ const HeroSection = () => {
     if (places.length > 0) {
       const interval = setInterval(() => {
         setCurrentPlaceIndex((prevIndex) => (prevIndex + 1) % places.length); // Loop data
-      }, 6000);
+      }, 8000);
 
       return () => clearInterval(interval); // Bersihkan interval saat komponen di-unmount
     }

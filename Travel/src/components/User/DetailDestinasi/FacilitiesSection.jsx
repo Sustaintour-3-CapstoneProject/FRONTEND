@@ -27,7 +27,7 @@ const facilityIcons = {
   Bars: MdRestaurantMenu,
   "Hiking Trails": FaHiking,
   Boats: MdOutlineDirectionsBoat,
-  "Dining Area": MdOutlineDining,
+  "Dining Area": MdOutlineDining,
   "Worship Place": FaPlaceOfWorship,
 };
 

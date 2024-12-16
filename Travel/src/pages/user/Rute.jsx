@@ -172,12 +172,14 @@ const Rutes = () => {
 
   return (
     <div className="flex flex-col items-center my-10 rounded-lg space-y-4 bg-gray-100 min-h-screen pb-10 font-poppins">
-      <h1 className="text-lg md:text-2xl font-bold text-center">
-        Planning Route
-      </h1>
+      <div className="w-full px-5 py-4">
+        <h1 className="text-xl md:text-2xl font-bold font-serif text-sky-800">
+          Planning Route
+        </h1>
+      </div>
 
       {/* Dropdown dan tombol Refresh */}
-      <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-3 py-3 w-full px-5">
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-3  w-full px-5">
         <CityDropdown
           label="Enter Your Location"
           options={cities}
