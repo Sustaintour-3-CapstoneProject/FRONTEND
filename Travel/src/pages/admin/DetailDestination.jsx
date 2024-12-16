@@ -176,23 +176,6 @@ const DetailDestination = () => {
         description={isEditing ? "Edit Destination" : "View Destination"}
       />
 
-      <div className="flex justify-end mb-4">
-        {isEditing ? (
-          <div className="flex flex-row gap-4">
-            <Button color="failure" onClick={handleEditToggle}>
-              <FaTimes className="mr-2" /> Cancel
-            </Button>
-            <Button color="success" onClick={handleSave}>
-              <FaSave className="mr-2" /> Save
-            </Button>
-          </div>
-        ) : (
-          <Button onClick={handleEditToggle}>
-            <FaEdit className="mr-2" /> Edit
-          </Button>
-        )}
-      </div>
-
       <div className="flex flex-col md:flex-row gap-5 my-5 bg-white rounded-3xl shadow-lg p-6">
         <div className="flex flex-col gap-6 w-1/2">
           {isEditing ? (
@@ -317,13 +300,40 @@ const DetailDestination = () => {
         </div>
       </div>
 
-      <div className="flex justify-end">
-        <button
+      <div className="flex justify-end items-center space-x-3 mb-4">
+        {isEditing ? (
+          <div className="flex flex-row gap-4">
+            <Button
+              color="failure"
+              onClick={handleEditToggle}
+              className="flex items-center justify-center px-4  text-base min-w-[100px]"
+            >
+              <FaTimes size={17} className="mr-1" /> Cancel
+            </Button>
+            <Button
+              color="success"
+              onClick={handleSave}
+              className="flex items-center justify-center px-4  text-base min-w-[100px]"
+            >
+              <FaSave size={17} className="mr-1" /> Save
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={handleEditToggle}
+            className="flex items-center justify-center px-4 text-base min-w-[100px]"
+          >
+            <FaEdit size={17} className="mr-1" /> Edit
+          </Button>
+        )}
+
+        <Button
           onClick={handleBack}
-          className="text-white py-2 px-4 rounded-lg bg-[#0EA5E9]"
+          className="flex items-center justify-center px-4  text-base min-w-[100px]"
+          color="customBlue"
         >
           Kembali
-        </button>
+        </Button>
       </div>
     </div>
   );
