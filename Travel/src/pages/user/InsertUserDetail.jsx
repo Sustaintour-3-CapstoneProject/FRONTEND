@@ -35,7 +35,6 @@ export const InsertUserDetail = () => {
     loadUser();
   }, [userId, setAuth]);
 
-  // Save user changes
   const saveChanges = async () => {
     if (!editableUser) return;
 
@@ -61,16 +60,18 @@ export const InsertUserDetail = () => {
       console.log("Profile updated successfully!", updatedData);
       alert("Profile updated successfully!");
 
-      // Update state global auth
-      setAuth(updatedData);
-
-      // Update state lokal
+      // Update state global dan lokal dengan memanggil setAuth
+      setAuth((prevAuth) => ({
+        ...prevAuth,
+        ...updatedData, // Pastikan ini termasuk URL file baru
+      }));
       setEditableUser(updatedData);
+
+      setIsEditing(false);
     } catch (error) {
       console.error("Failed to update user:", error);
       alert("Failed to save changes");
     }
-    setIsEditing(false);
   };
 
   // Render

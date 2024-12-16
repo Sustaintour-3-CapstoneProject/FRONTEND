@@ -186,19 +186,6 @@ export const ProfileForm = ({
                   disabled={!isEditing}
                 />
               </div>
-
-              {/* Password */}
-              <div className="col-span-2">
-                <Label htmlFor="password" value="Password" />
-                <TextInput
-                  id="password"
-                  type="password"
-                  value={profileData.password}
-                  placeholder="********"
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
-                />
-              </div>
             </div>
           </div>
         </div>
