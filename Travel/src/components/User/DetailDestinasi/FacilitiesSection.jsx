@@ -5,11 +5,13 @@ import {
   FaHiking,
   FaSwimmer,
   FaToilet,
+  FaPlaceOfWorship,
 } from "react-icons/fa";
 import {
   MdRestaurantMenu,
   MdOutlineLocalGroceryStore,
   MdOutlineDirectionsBoat,
+  MdOutlineDining,
 } from "react-icons/md";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -25,6 +27,8 @@ const facilityIcons = {
   Bars: MdRestaurantMenu,
   "Hiking Trails": FaHiking,
   Boats: MdOutlineDirectionsBoat,
+  "Dining Area": MdOutlineDining,
+  "Worship Place": FaPlaceOfWorship,
 };
 
 const FacilitiesSection = ({ facilities }) => {

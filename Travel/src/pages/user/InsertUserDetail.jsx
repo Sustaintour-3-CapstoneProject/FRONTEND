@@ -13,20 +13,18 @@ export const InsertUserDetail = () => {
   // Fetch user detail saat komponen pertama kali dimount
   useEffect(() => {
     const loadUser = async () => {
-      if (!auth && !registerAuth) {
-        setLoading(false); // Jika kedua state tidak ada, hentikan loading
+      if (!userId) {
+        setLoading(false); // Jika userId tidak ada, hentikan loading
         return;
       }
 
       setLoading(true);
       try {
         const response = await axiosInstance.get(`/user/${userId}`);
-        setEditableUser(response.data.data);
+        const userData = response.data.data;
 
-        // Jika menggunakan registerAuth, perbarui auth dengan data yang didapat
-        if (!auth && registerAuth) {
-          setAuth(response.data.data); // Simpan data ke auth
-        }
+        setEditableUser(userData); // Set data user lokal
+        setAuth(userData); // Sinkronkan dengan state global auth
       } catch (error) {
         console.error("Failed to fetch user:", error);
       } finally {
@@ -35,7 +33,7 @@ export const InsertUserDetail = () => {
     };
 
     loadUser();
-  }, [auth, registerAuth, setAuth]);
+  }, [userId, setAuth]);
 
   // Save user changes
   const saveChanges = async () => {
@@ -57,13 +55,17 @@ export const InsertUserDetail = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Profile updated successfully!", response.data);
+
+      const updatedData = response.data.data;
+
+      console.log("Profile updated successfully!", updatedData);
       alert("Profile updated successfully!");
-      // Perbarui store auth
-      useAuthStore.getState().setAuth({
-        ...auth,
-        ...response.data.data, // Gabungkan data baru dengan data lama
-      });
+
+      // Update state global auth
+      setAuth(updatedData);
+
+      // Update state lokal
+      setEditableUser(updatedData);
     } catch (error) {
       console.error("Failed to update user:", error);
       alert("Failed to save changes");

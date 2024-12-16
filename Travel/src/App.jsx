@@ -17,7 +17,17 @@ import VideoTable from "./pages/user/VideoTable";
 import ProfileLayout from "./layouts/ProfileLayout";
 import InsertUserDetail from "./pages/user/InsertUserDetail";
 import SavedRoute from "./pages/user/SavedRoute";
-// import ChatAISection from "./pages/user/ChatBot";
+import AdminLayout from "./layouts/AdminLayout";
+import OverviewPage from "./pages/admin/OverviewPage";
+import UserPage from "./pages/admin/UserPage";
+import UserDetailPage from "./pages/admin/UserDetailPage";
+import DestinationPage from "./pages/admin/DestinationPage";
+import DetailDestination from "./pages/admin/DetailDestination";
+import AddDestinationPage from "./pages/admin/AddDestinationPage";
+import ContentPage from "./pages/admin/ContentPage";
+import DetailContentPage from "./pages/admin/DetailContentPage";
+import AddContentPage from "./pages/admin/AddContentPage";
+
 function App() {
   return (
     <div className="App">
@@ -47,6 +57,37 @@ function App() {
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
+          {/* Routes untuk Admin Layout */}
+          {/* Routes untuk Admin Layout */}
+          <Route element={<AdminLayout />}>
+            <Route path="/dashboard" element={<OverviewPage />} />
+            <Route path="/dashboard/user" element={<UserPage />} />
+            <Route
+              path="/dashboard/user/detail/:id"
+              element={<UserDetailPage />}
+            />
+            <Route
+              path="/dashboard/destination"
+              element={<DestinationPage />}
+            />
+            <Route
+              path="/dashboard/destination/destination-details/:id"
+              element={<DetailDestination />}
+            />
+            <Route
+              path="/dashboard/destination/add-destination"
+              element={<AddDestinationPage />}
+            />
+            <Route path="/dashboard/content" element={<ContentPage />} />
+            <Route
+              path="/dashboard/content/content-details/:id"
+              element={<DetailContentPage />}
+            />
+            <Route
+              path="/dashboard/content/add-content"
+              element={<AddContentPage />}
+            />
+          </Route>
         </Routes>
       </Router>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { Navbar, Button, Dropdown, Avatar } from "flowbite-react";
 import { NavLink, useLocation, Link } from "react-router-dom";
 import useAuthStore from "../../../store/authStore";
@@ -10,7 +10,7 @@ const NavigationBar = () => {
 
   // Data pengguna
   const user = auth || registerAuth; // Fallback ke registerAuth jika auth kosong
-
+  console.log(user);
   // Pantau scroll
   useEffect(() => {
     const handleScroll = () => {

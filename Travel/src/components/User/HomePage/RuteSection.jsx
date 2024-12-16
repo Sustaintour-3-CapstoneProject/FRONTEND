@@ -21,7 +21,7 @@ const RuteSection = () => {
         </p>
         <Link
           to="/rute"
-          className="flex items-center pb-2 gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full shadow transition-all"
+          className="flex items-center pb-2 gap-2 bg-sky-600 hover:bg-sky-700 text-white font-medium py-2 px-4 sm:px-6 rounded-full shadow transition-all"
         >
           Explore
           <FaArrowRight />

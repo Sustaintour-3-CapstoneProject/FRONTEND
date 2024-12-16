@@ -16,6 +16,7 @@ const SortButton = ({ onSort }) => {
       >
         <option value="">Sort By</option>
         <option value="oldest">Oldest</option> {/* Menambahkan opsi Oldest */}
+        <option value="newest">Newest</option> {/* Menambahkan opsi Oldest */}
       </select>
     </div>
   );

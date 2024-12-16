@@ -120,7 +120,7 @@ export const ProfileForm = ({
                 <TextInput
                   id="username"
                   type="text"
-                  value={profileData.username || "password"}
+                  value={profileData.username}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -193,7 +193,8 @@ export const ProfileForm = ({
                 <TextInput
                   id="password"
                   type="password"
-                  value={profileData.password || "woiiiiiiii"}
+                  value={profileData.password}
+                  placeholder="********"
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />
@@ -219,7 +220,7 @@ export const ProfileForm = ({
           <div className="flex gap-4">
             <Button
               onClick={toggleEditMode}
-              color="blue"
+              color="customBlue"
               className="w-full max-w-xs"
             >
               {isEditing ? "Save" : "Edit Profile"}
