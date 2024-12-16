@@ -7,10 +7,18 @@ const FilterButton = ({ onFilter }) => {
   const togglePopup = () => setIsOpen(!isOpen);
   const closePopup = () => setIsOpen(false);
 
-  const handleFilter = (category) => {
-    onFilter(category); // Kirim kategori ke parent
+  const handleFilter = (categoryValue) => {
+    onFilter(categoryValue); // Kirim value ke parent
     setIsOpen(false); // Tutup pop-up
   };
+
+  // Array objek dengan label dan value
+  const filterCategories = [
+    { label: "No Filter", value: "" },
+    { label: "Nature", value: "nature" },
+    { label: "Culture & Historical", value: "culture" },
+    { label: "EcoTourism", value: "ecotourism" },
+  ];
 
   return (
     <div className="relative">
@@ -21,6 +29,7 @@ const FilterButton = ({ onFilter }) => {
         <FaFilter className="text-sm md:text-base text-white" />
       </button>
 
+      {/* Overlay untuk menutup popup */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
@@ -28,24 +37,18 @@ const FilterButton = ({ onFilter }) => {
         ></div>
       )}
 
+      {/* Pop-up Filter */}
       {isOpen && (
         <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md z-50">
           <ul className="py-2">
-            {/* Opsi untuk tidak memfilter */}
-            <li
-              className="px-4 py-2 hover:bg-sky-100 cursor-pointer"
-              onClick={() => handleFilter("")}
-            >
-              No Filter
-            </li>
-            {/* Opsi kategori filter */}
-            {["nature", "culture", "ecotourism"].map((category) => (
+            {/* Mapping data filter */}
+            {filterCategories.map((category) => (
               <li
-                key={category}
+                key={category.value}
                 className="px-4 py-2 hover:bg-sky-100 cursor-pointer"
-                onClick={() => handleFilter(category)}
+                onClick={() => handleFilter(category.value)}
               >
-                {category}
+                {category.label}
               </li>
             ))}
           </ul>

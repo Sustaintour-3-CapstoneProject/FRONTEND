@@ -64,6 +64,11 @@ const DestinationDetail = () => {
       <HeroImageSection images={destination.images} />
       {/* Title and Info */}
       <TitleAndInfoSection destination={destination} />
+      <div className="flex mt-5">
+        <div className="bg-sky-500 text-white rounded-full py-2 px-6">
+          {destination.category}
+        </div>
+      </div>
       {/* Description */}
       <DescriptionSection description={destination.description} />
       {/* Facilities Section */}
