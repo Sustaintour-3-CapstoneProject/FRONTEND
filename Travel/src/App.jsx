@@ -17,6 +17,7 @@ import VideoTable from "./pages/user/VideoTable";
 import ProfileLayout from "./layouts/ProfileLayout";
 import InsertUserDetail from "./pages/user/InsertUserDetail";
 import SavedRoute from "./pages/user/SavedRoute";
+import DynamicProfilePage from "./components/User/UserDetail/DynamicProfilePage";
 import AdminLayout from "./layouts/AdminLayout";
 import OverviewPage from "./pages/admin/OverviewPage";
 import UserPage from "./pages/admin/UserPage";
@@ -53,7 +54,7 @@ function App() {
             </Route>
             <Route element={<ProfileLayout />}>
               <Route path="/profile" element={<InsertUserDetail />} />
-              <Route path="/profile/Route" element={<SavedRoute />} />
+              <Route path="/profile/:section" element={<DynamicProfilePage/>} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
