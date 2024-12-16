@@ -27,7 +27,7 @@ const useLogin = () => {
         const userRole = response.data.role;
         setTimeout(() => {
           if (userRole === "admin") {
-            navigate("/admin");
+            navigate("/dashboard");
           } else if (userRole === "user") {
             navigate("/home");
           } else {
