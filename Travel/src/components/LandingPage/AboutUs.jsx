@@ -16,7 +16,7 @@ const AboutUs = () => (
           />
         </div>
 
-        <p className="text-gray-700 text-base leading-6 text-justify max-w-[630px] w-full">
+        <p className="text-gray-600 text-base leading-6 text-justify max-w-[630px] w-full">
           TripWise empowers travelers with access to sustainable destination
           guides, personalized routes, cultural exchanges, and environmental
           education. Our platform is dedicated to inspiring conscious
@@ -24,9 +24,7 @@ const AboutUs = () => (
           experiences that enrich your journey and promote sustainability. With
           TripWise, you can uncover hidden gems, support local communities, and
           embrace eco-friendly practices, ensuring that every adventure
-          contributes to a better future for our planet. Together, let’s
-          redefine travel—explore the world with purpose, create lasting
-          memories, and make every trip a positive impact.
+          contributes to a better future for our planet.
         </p>
         <Button color="customBlue" className="mt-8 w-44" size="lg">
           Let's Go Explore!
@@ -38,7 +36,7 @@ const AboutUs = () => (
         <img
           src="/LandingPage/AboutUs.jpg"
           alt="About TripWise"
-          className="rounded-lg shadow-md max-w-[650px] w-full h-[410px] object-center"
+          className="rounded-lg shadow-md max-w-[700px] w-full h-[380px] object-center"
         />
       </div>
     </div>

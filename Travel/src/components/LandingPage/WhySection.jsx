@@ -17,7 +17,7 @@ const WhySection = () => (
         <img
           src="/LandingPage/TripWise.jpg" // Ganti dengan path gambar yang sesuai
           alt="Why TripWise"
-          className="rounded-lg shadow-md w-full  lg:max-w-[650px] h-[410px] "
+          className="rounded-lg shadow-md w-full  lg:max-w-[700px] h-[380px] "
         />
       </div>
 
@@ -33,7 +33,7 @@ const WhySection = () => (
         </p>
 
         {/* List menggunakan Flowbite */}
-        <div className="flex flex-col lg:flex-row space-y-3 md:space-y-0 md:space-x-9 ">
+        <div className="flex flex-col lg:flex-row space-y-3 md:space-y-0 md:space-x-8 ">
           <List className="space-y-3 ">
             <List.Item
               icon={() => (
