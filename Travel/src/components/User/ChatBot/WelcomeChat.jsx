@@ -7,7 +7,7 @@ const WelcomeChat = () => {
       <div className="flex flex-col items-center">
         <img src="/Chat/chatbot.jpg" alt="chatbot" className="w-20 h-20" />
         <span className="text-sm font-medium text-gray-700">
-          Hi, {auth.first_name || "Traveler"}
+          Hi, {auth.username || "Traveler"}
         </span>
         <p className="text-center text-gray-500">
           Silahkan kirim pertanyaan tentang destinasi!
