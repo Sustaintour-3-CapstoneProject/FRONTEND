@@ -1,13 +1,14 @@
 import React from "react";
 import useAuthStore from "../../../store/authStore";
 const WelcomeChat = () => {
-  const { auth } = useAuthStore();
+  const { auth, registerAuth } = useAuthStore();
+  const user = auth || registerAuth;
   return (
     <>
       <div className="flex flex-col items-center">
         <img src="/Chat/chatbot.jpg" alt="chatbot" className="w-20 h-20" />
         <span className="text-sm font-medium text-gray-700">
-          Hi, {auth.first_name || "Traveler"}
+          Hi, {user.first_name || "Traveler"}
         </span>
         <p className="text-center text-gray-500">
           Silahkan kirim pertanyaan tentang destinasi!
