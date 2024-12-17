@@ -36,7 +36,7 @@ const AboutUs = () => (
       {/* Bagian Gambar (tetap berdampingan dengan teks pada desktop) */}
       <div className="hidden lg:flex justify-center">
         <img
-          src="/LandingPage/TripWise.jpg"
+          src="/LandingPage/AboutUs.jpg"
           alt="About TripWise"
           className="rounded-lg shadow-md max-w-[650px] w-full h-[410px] object-center"
         />
