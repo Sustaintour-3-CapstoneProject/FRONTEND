@@ -47,10 +47,10 @@ const DestinationList = ({
               className={`px-4 py-2 rounded-md transition ${
                 selectedDestination === dest.name
                   ? "bg-red-500 text-white hover:bg-red-600"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
+                  : "bg-sky-500 text-white hover:bg-sky-600"
               }`}
             >
-              {selectedDestination === dest.name ? "Cancel" : "Pilih"}
+              {selectedDestination === dest.name ? "Cancel" : "Choose"}
             </button>
           </div>
         ))}
