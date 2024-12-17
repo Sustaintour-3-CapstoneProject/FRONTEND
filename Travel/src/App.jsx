@@ -13,7 +13,6 @@ import ChatBot from "./pages/user/ChatBot";
 import NotFoundPageUser from "./pages/user/NotFoundUser";
 import NotFoundPage from "./pages/NotFound";
 import Rutes from "./pages/user/Rute";
-import VideoTable from "./pages/user/VideoTable";
 import ProfileLayout from "./layouts/ProfileLayout";
 import InsertUserDetail from "./pages/user/InsertUserDetail";
 import SavedRoute from "./pages/user/SavedRoute";
@@ -35,9 +34,9 @@ function App() {
       <Router>
         <Routes>
           {/* Routes untuk Landing Layout */}
+          <Route path="*" element={<NotFoundPage />} />
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/login" element={<LoginUser />} />
-          <Route path="/video" element={<VideoTable />} />
           <Route path="/" element={<LandingLayout />}>
             <Route path="/category" element={<CategoryPage />} />
             <Route index element={<LandingPage />} />
@@ -54,7 +53,10 @@ function App() {
             </Route>
             <Route element={<ProfileLayout />}>
               <Route path="/profile" element={<InsertUserDetail />} />
-              <Route path="/profile/:section" element={<DynamicProfilePage/>} />
+              <Route
+                path="/profile/:section"
+                element={<DynamicProfilePage />}
+              />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

@@ -13,6 +13,7 @@ import FacilitiesSkeleton from "../../components/User/DetailDestinasi/Facilities
 import VideoSectionSkeleton from "../../components/User/DetailDestinasi/VideoSectionSkeleton";
 import { fetchDestinationById } from "../../utils/apiUtils"; // Sesuaikan dengan lokasi file
 import SimilarDestinations from "../../components/User/DetailDestinasi/SimilarDestination"; // Import komponen SimilarDestinations
+import NotFoundPageUser from "./NotFoundUser";
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -49,14 +50,7 @@ const DestinationDetail = () => {
   }
 
   if (error || !destination) {
-    return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-red-600">
-          Destination not found!
-        </h2>
-        {error && <p className="text-gray-600 mt-2">{error}</p>}
-      </div>
-    );
+    return <NotFoundPageUser />;
   }
 
   return (

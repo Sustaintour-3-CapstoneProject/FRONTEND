@@ -115,9 +115,16 @@ export default function Destination() {
                 />
               ))
             ) : (
-              <p className="col-span-full text-center">
-                No destinations found.
-              </p>
+              <div className="flex flex-col items-center justify-center col-span-full">
+                <img
+                  src="/notfound.svg"
+                  title="Not Found"
+                  className="w-60 h-60"
+                />
+                <p className="text-center mt-4 text-lg font-semibold">
+                  No destinations found.
+                </p>
+              </div>
             )}
           </div>
         )}

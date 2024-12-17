@@ -49,3 +49,17 @@ export const fetchDestinationsAPI = async (cityId) => {
   console.log(response);
   return response.data.destinations || [];
 };
+
+export const postCategories = async (userID, categories, token) => {
+  try {
+    const response = await axiosInstance.post(
+      "/user/category",
+      { UserID: userID, category: categories },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return response.data; // Mengembalikan data dari response
+  } catch (error) {
+    console.error("Error posting categories:", error);
+    throw error; // Lempar error agar bisa ditangkap di komponen
+  }
+};

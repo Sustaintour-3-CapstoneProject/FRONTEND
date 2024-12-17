@@ -7,11 +7,7 @@ const NotFoundPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-sky-500">
-      <img
-        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/404/404-error.svg"
-        alt="404 Not Found"
-        className="w-64 h-64"
-      />
+      <img src="/notfound.svg" alt="404 Not Found" className="w-64 h-64" />
       <h1 className="text-5xl font-bold mt-8">Page Not Found</h1>
       <p className="text-lg mt-4 text-gray-500">
         Oops! The page you are looking for does not exist.
