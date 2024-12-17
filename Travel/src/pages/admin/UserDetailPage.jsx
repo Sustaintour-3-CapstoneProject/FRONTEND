@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Avatar, Label, TextInput } from "flowbite-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Avatar, Label, TextInput, Button } from "flowbite-react";
 import PlainCard from "../../components/Admin/PlainCard";
 import ReusableTable from "../../components/Admin/ReusableTable";
 import axiosInstance from "../../api/axiosInstance"; // Pastikan path sesuai struktur proyek Anda
@@ -11,7 +11,7 @@ const UserDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState([]); // State for routes
   const [loadingRoutes, setLoadingRoutes] = useState(true); // State for loading routes
-
+  const navigate = useNavigate();
   const columns = [
     { key: "originCityName", label: "Starting City" },
     { key: "destinationCityName", label: "City of Destination" },
@@ -71,7 +71,9 @@ const UserDetailPage = () => {
       }
     }
   };
-
+  const handleBack = () => {
+    navigate(-1);
+  };
   if (loading || loadingRoutes) {
     return <p>Loading user details...</p>;
   }
@@ -169,6 +171,11 @@ const UserDetailPage = () => {
         description="View routes associated with this user"
       />
       <ReusableTable columns={columns} data={routes} onDelete={handleDelete} />
+      <div className="flex justify-end space-x-4">
+        <Button color="customBlue" onClick={handleBack}>
+          Kembali
+        </Button>
+      </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const RegisterUser = () => {
     <div className="min-h-screen relative">
       <div
         className="absolute inset-0 bg-cover bg-bottom sm:bg-center"
-        style={{ backgroundImage: "url('/LandingPage/Hero-Section.jpg')" }}
+        style={{ backgroundImage: "url('/login.jpg')" }}
       ></div>
 
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen justify-end md:justify-end">

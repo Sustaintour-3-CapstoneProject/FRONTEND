@@ -33,7 +33,7 @@ const WhySection = () => (
         </p>
 
         {/* List menggunakan Flowbite */}
-        <div className="flex flex-col lg:flex-row space-y-3 md:space-y-0 md:space-x-8 ">
+        <div className="flex flex-col lg:flex-row space-y-3 md:space-y-0 md:space-x-7 ">
           <List className="space-y-3 ">
             <List.Item
               icon={() => (

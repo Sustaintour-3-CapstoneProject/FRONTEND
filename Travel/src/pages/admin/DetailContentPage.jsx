@@ -117,7 +117,7 @@ const DetailContentPage = () => {
         </div>
       </div>
       <div className="flex justify-end space-x-4">
-        <Button color="blue" onClick={handleBack}>
+        <Button color="customBlue" onClick={handleBack}>
           Kembali
         </Button>
       </div>
