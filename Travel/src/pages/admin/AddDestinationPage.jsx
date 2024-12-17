@@ -104,7 +104,7 @@ const AddDestinationPage = () => {
     try {
       console.log(payload);
       const response = await axiosInstance.post("/destination", payload);
-      navigate("/admin/destination");
+      navigate("/dashboard/destination");
     } catch (error) {
       console.error("Submission error", error.response?.data);
       alert(error.response?.data?.message || "Gagal menambahkan destinasi");
@@ -118,7 +118,7 @@ const AddDestinationPage = () => {
   const availableFacilities = [
     "Toilets",
     "Parking Area",
-    "Dining Area",
+    "Dining Area",
     "Information Center",
   ];
 
