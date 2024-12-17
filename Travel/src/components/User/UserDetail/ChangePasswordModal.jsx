@@ -137,7 +137,7 @@ export const ChangePasswordModal = ({ showModal, toggleModal }) => {
       <Modal.Footer>
         <Button
           onClick={handleSubmit}
-          className="bg-blue-500 hover:bg-blue-600 text-white"
+          className="bg-sky-500 hover:bg-sky-600 text-white"
           disabled={loading}
         >
           {loading ? "Saving..." : "Save"}

@@ -228,13 +228,12 @@ export const ProfileForm = ({
         <div className="mt-4 flex justify-between">
           <div className="flex gap-4">
             {isEditing && (
-              <Button
-                color="info"
-                className="w-full max-w-xs"
+              <button
                 onClick={toggleChangePasswordModal}
+                className="w-full max-w-xs border-2 border-sky-600 text-sky-600 rounded-lg py-2 px-4 hover:bg-sky-600 hover:text-white transition-colors duration-300"
               >
                 Change Password
-              </Button>
+              </button>
             )}
           </div>
 

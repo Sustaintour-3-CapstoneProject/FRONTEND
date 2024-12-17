@@ -319,22 +319,22 @@ const DetailDestination = () => {
             </Button>
           </div>
         ) : (
-          <Button
+          <button
             onClick={handleEditToggle}
-            className="flex items-center justify-center px-4 text-base min-w-[100px] bg-sky-700"
-            color="customBlue"
+            className="flex items-center justify-center py-2 px-4 text-base min-w-[100px] border-2 border-sky-500 rounded-lg text-sky-600 hover:shadow-sky-300 hover:shadow-md "
           >
             <FaEdit size={17} className="mr-1" /> Edit
+          </button>
+        )}
+        {!isEditing && (
+          <Button
+            onClick={handleBack}
+            className="flex items-center justify-center py-1 px-4 text-base min-w-[100px]"
+            color="customBlue"
+          >
+            Back
           </Button>
         )}
-
-        <Button
-          onClick={handleBack}
-          className="flex items-center justify-center px-4  text-base min-w-[100px]"
-          color="customBlue"
-        >
-          Kembali
-        </Button>
       </div>
     </div>
   );
