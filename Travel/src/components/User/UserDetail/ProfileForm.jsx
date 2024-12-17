@@ -13,7 +13,8 @@ export const ProfileForm = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null); // Untuk menyimpan URL gambar preview
+  const [previewImage, setPreviewImage] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const toggleModal = () => {
     setShowModal((prevState) => !prevState);
@@ -26,12 +27,13 @@ export const ProfileForm = ({
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file); // Buat URL untuk preview gambar
-      setPreviewImage(imageUrl); // Set preview gambar
+      const imageUrl = URL.createObjectURL(file); // Create URL for image preview
+      setPreviewImage(imageUrl); // Set image preview
       setProfileData((prevState) => ({
         ...prevState,
-        file: file, // Simpan file asli
+        file: file, // Save the original file
       }));
+      toggleModal(); // Close the modal after selecting an image
     }
   };
 
@@ -50,9 +52,40 @@ export const ProfileForm = ({
     }));
   };
 
+  // Validate form inputs before saving
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!profileData.first_name) {
+      newErrors.name = "First name is required";
+    }
+
+    if (!profileData.username) {
+      newErrors.username = "Username is required";
+    }
+
+    if (!profileData.phone_number || !/^\d+$/.test(profileData.phone_number)) {
+      newErrors.phone_number = "Valid phone number is required";
+    }
+
+    if (
+      !profileData.email ||
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(profileData.email)
+    ) {
+      newErrors.email = "Valid email is required";
+    }
+
+    setErrors(newErrors);
+
+    // If no errors, return true, otherwise false
+    return Object.keys(newErrors).length === 0;
+  };
+
   const toggleEditMode = () => {
     if (isEditing) {
-      saveChanges();
+      if (validateForm()) {
+        saveChanges(); // Only save changes if validation passes
+      }
     } else {
       setIsEditing(true);
     }
@@ -69,25 +102,18 @@ export const ProfileForm = ({
           {/* Image Section */}
           <div className="flex flex-col items-center justify-center mb-8 md:mb-0 md:w-1/3">
             <img
-              src={previewImage || `${profileData.file}`} // Gunakan preview jika ada, fallback ke file default
+              src={previewImage || `${profileData.file}`} // Use preview if available, fallback to the default file
               alt="Profile"
               className="h-[274px] w-[274px] rounded-full object-cover mb-4"
             />
             {isEditing && (
               <>
                 <label
-                  htmlFor="image-upload"
+                  onClick={toggleModal} // Open the modal when clicked
                   className="cursor-pointer text-4xl text-gray-600 mt-4"
                 >
                   <FaCamera />
                 </label>
-                <input
-                  type="file"
-                  id="image-upload"
-                  className="hidden"
-                  accept="image/png, image/jpeg"
-                  onChange={handleImageChange}
-                />
               </>
             )}
           </div>
@@ -111,6 +137,8 @@ export const ProfileForm = ({
                     }));
                   }}
                   disabled={!isEditing}
+                  color={errors.name ? "failure" : undefined} // Highlight error field
+                  helperText={errors.name} // Show error message
                 />
               </div>
 
@@ -123,18 +151,22 @@ export const ProfileForm = ({
                   value={profileData.username}
                   onChange={handleInputChange}
                   disabled={!isEditing}
+                  color={errors.username ? "failure" : undefined}
+                  helperText={errors.username}
                 />
               </div>
 
               {/* Phone */}
               <div className="col-span-2">
-                <Label htmlFor="phone_number" value="phone_number" />
+                <Label htmlFor="phone_number" value="Phone Number" />
                 <TextInput
                   id="phone_number"
                   type="text"
                   value={profileData.phone_number || ""}
                   onChange={handleInputChange}
                   disabled={!isEditing}
+                  color={errors.phone_number ? "failure" : undefined}
+                  helperText={errors.phone_number}
                 />
               </div>
 
@@ -147,6 +179,8 @@ export const ProfileForm = ({
                   value={profileData.email}
                   onChange={handleInputChange}
                   disabled={!isEditing}
+                  color={errors.email ? "failure" : undefined}
+                  helperText={errors.email}
                 />
               </div>
 
@@ -182,19 +216,6 @@ export const ProfileForm = ({
                   id="city"
                   type="text"
                   value={profileData.city}
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
-                />
-              </div>
-
-              {/* Password */}
-              <div className="col-span-2">
-                <Label htmlFor="password" value="Password" />
-                <TextInput
-                  id="password"
-                  type="password"
-                  value={profileData.password}
-                  placeholder="********"
                   onChange={handleInputChange}
                   disabled={!isEditing}
                 />

@@ -18,7 +18,7 @@ const HeaderProfile = () => {
       </Navbar.Brand>
       <div className="flex flex-row gap-3 items-center">
         <div className="hidden md:block">
-          <p className="text-xl text-gray-400">{pageTitle}</p>
+        <p className="text-xl text-[#0C4A6E] font-bold">{pageTitle}</p>
         </div>
       </div>
     </Navbar>

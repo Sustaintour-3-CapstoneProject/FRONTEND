@@ -10,7 +10,7 @@ const AboutUs = () => (
         {/* Gambar hanya muncul di bawah judul untuk mobile */}
         <div className="block lg:hidden mb-6">
           <img
-            src="/LandingPage/TripWise.jpg"
+            src="/LandingPage/AboutUs.jpg"
             alt="About TripWise"
             className="rounded-lg shadow-md max-w-full h-auto object-cover"
           />

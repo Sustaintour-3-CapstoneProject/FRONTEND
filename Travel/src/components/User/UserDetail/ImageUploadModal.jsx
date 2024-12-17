@@ -5,18 +5,38 @@ export const ImageUploadModal = ({
   toggleModal,
   handleImageChange,
 }) => {
+  // Tangani event drag over dan drop
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleImageChange({ target: { files } });
+    }
+  };
+
   return (
     <Modal show={showModal} onClose={toggleModal}>
       <Modal.Header>Upload Photos</Modal.Header>
       <Modal.Body>
-        <div className="flex w-full items-center justify-center">
+        <div
+          className="flex w-full items-center justify-center"
+          onDragOver={handleDragOver} // Menambahkan event handler untuk drag over
+          onDrop={handleDrop} // Menambahkan event handler untuk drop
+        >
           <Label
             htmlFor="dropzone-file"
             className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex flex-col items-center justify-center pb-6 pt-5">
               <svg
-                className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+                className="mb-4 h-12 w-12 text-gray-500 dark:text-gray-400" // Ukuran ikon diperbesar
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -46,6 +66,7 @@ export const ImageUploadModal = ({
               onChange={handleImageChange}
             />
           </Label>
+
         </div>
       </Modal.Body>
       <Modal.Footer>
