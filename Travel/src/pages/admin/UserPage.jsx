@@ -81,7 +81,7 @@ const UserPage = () => {
   return (
     <div>
       <SearchCard topic="User " onSearch={handleSearch} />
-      <div className="flex flex-col md:flex-row w-full gap-5 my-5 md:h-32">
+      <div className="flex flex-col md:flex-row w-full gap-5 my-5 md:h-44">
         <Card
           title="Total User"
           totalData={filteredUserData.length}

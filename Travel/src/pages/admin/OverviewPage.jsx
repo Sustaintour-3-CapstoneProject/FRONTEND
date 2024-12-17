@@ -7,7 +7,11 @@ import { HiUser, HiMap, HiPlay } from "react-icons/hi";
 import { Spinner } from "flowbite-react";
 
 const OverviewPage = () => {
-  const [stats, setStats] = useState({ totalUser: 0, totalDestination: 0, totalContent: 0 });
+  const [stats, setStats] = useState({
+    totalUser: 0,
+    totalDestination: 0,
+    totalContent: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
