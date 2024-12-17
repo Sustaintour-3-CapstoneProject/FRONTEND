@@ -40,6 +40,7 @@ const DestinationDetail = () => {
       <section className="py-10 px-6 mx-auto font-poppins space-y-10">
         <HeroImageSkeleton />
         <TitleAndInfoSkeleton />
+        <div className="py-5  w-24 rounded-full bg-gray-300 animate-pulse"></div>
         <DescriptionSkeleton />
         <FacilitiesSkeleton />
         <VideoSectionSkeleton />
@@ -65,7 +66,7 @@ const DestinationDetail = () => {
       {/* Title and Info */}
       <TitleAndInfoSection destination={destination} />
       <div className="flex mt-5">
-        <div className="bg-sky-500 text-white rounded-full py-2 px-6">
+        <div className="bg-sky-500 text-white rounded-full py-2 px-6 transform transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-200 ">
           {destination.category}
         </div>
       </div>
