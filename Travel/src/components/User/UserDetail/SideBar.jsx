@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Sidebar } from "flowbite-react";
-import {
-  HiUser,
-  HiLogout,
-  HiHeart,
-  HiMenu,
-} from "react-icons/hi";
+import { HiUser, HiLogout, HiHeart, HiMenu } from "react-icons/hi";
+import useAuthStore from "../../../store/authStore";
+import { useLocation } from "react-router-dom"; // Untuk cek URL aktif
 
 const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State untuk sidebar di layar kecil
+  const location = useLocation(); // Menangkap lokasi URL
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen); // Fungsi untuk toggle sidebar
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen); // Fungsi toggle sidebar
+
+  // Fungsi untuk menentukan apakah halaman saat ini adalah active
+  const isActive = (path) => location.pathname === path;
 
   return (
     <>
@@ -29,7 +30,11 @@ const SideBar = () => {
               <Sidebar.ItemGroup className="space-y-4">
                 <Sidebar.Item
                   href="/profile"
-                  className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
+                  className={`${
+                    isActive("/profile")
+                      ? "bg-[#0EA5E9] text-white"
+                      : "text-[#0EA5E9]"
+                  } hover:bg-[#0EA5E9] hover:text-white font-bold py-3`}
                 >
                   <div className="flex flex-row items-center gap-3">
                     <HiUser className="text-2xl" />
@@ -38,7 +43,11 @@ const SideBar = () => {
                 </Sidebar.Item>
                 <Sidebar.Item
                   href="/profile/Route"
-                  className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
+                  className={`${
+                    isActive("/profile/Route")
+                      ? "bg-[#0EA5E9] text-white"
+                      : "text-[#0EA5E9]"
+                  } hover:bg-[#0EA5E9] hover:text-white font-bold py-3`}
                 >
                   <div className="flex flex-row items-center gap-3">
                     <HiHeart className="text-2xl" />
@@ -51,7 +60,10 @@ const SideBar = () => {
             <Sidebar.ItemGroup className="mt-auto">
               <Sidebar.Item
                 href="/"
-                className="text-[#DC2626] hover:text-white hover:bg-[#DC2626] font-bold py-3"
+                className="text-[#DC2626] hover:bg-[#DC2626] hover:text-white font-bold py-3"
+                onClick={() => {
+                  useAuthStore.getState().clearAuth();
+                }}
               >
                 <div className="flex flex-row items-center gap-3">
                   <HiLogout className="text-2xl" />
@@ -74,7 +86,7 @@ const SideBar = () => {
           className={`w-64 h-full bg-white shadow-xl transition-transform transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
-          onClick={(e) => e.stopPropagation()} // Mencegah sidebar menutup saat diklik
+          onClick={(e) => e.stopPropagation()}
         >
           <Sidebar className="flex-grow">
             <Sidebar.Items className="h-full flex flex-col">
@@ -82,7 +94,11 @@ const SideBar = () => {
                 <Sidebar.ItemGroup className="space-y-4">
                   <Sidebar.Item
                     href="/profile"
-                    className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
+                    className={`${
+                      isActive("/profile")
+                        ? "bg-[#0EA5E9] text-white"
+                        : "text-[#0EA5E9]"
+                    } hover:bg-[#0EA5E9] hover:text-white font-bold py-3`}
                   >
                     <div className="flex flex-row items-center gap-3">
                       <HiUser className="text-2xl" />
@@ -91,7 +107,11 @@ const SideBar = () => {
                   </Sidebar.Item>
                   <Sidebar.Item
                     href="/profile/Route"
-                    className="text-[#0EA5E9] hover:text-white hover:bg-[#0EA5E9] font-bold py-3"
+                    className={`${
+                      isActive("/profile/Route")
+                        ? "bg-[#0EA5E9] text-white"
+                        : "text-[#0EA5E9]"
+                    } hover:bg-[#0EA5E9] hover:text-white font-bold py-3`}
                   >
                     <div className="flex flex-row items-center gap-3">
                       <HiHeart className="text-2xl" />
@@ -104,7 +124,7 @@ const SideBar = () => {
               <Sidebar.ItemGroup className="mt-auto">
                 <Sidebar.Item
                   href="/"
-                  className="text-[#DC2626] hover:text-white hover:bg-[#DC2626] font-bold py-3"
+                  className="text-[#DC2626] hover:bg-[#DC2626] hover:text-white font-bold py-3"
                 >
                   <div className="flex flex-row items-center gap-3">
                     <HiLogout className="text-2xl" />
