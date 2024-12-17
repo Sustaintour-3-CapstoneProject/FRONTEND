@@ -311,7 +311,7 @@ const DetailDestination = () => {
               <FaTimes size={17} className="mr-1" /> Cancel
             </Button>
             <Button
-              color="success"
+              color="customBlue"
               onClick={handleSave}
               className="flex items-center justify-center px-4  text-base min-w-[100px]"
             >
@@ -321,7 +321,8 @@ const DetailDestination = () => {
         ) : (
           <Button
             onClick={handleEditToggle}
-            className="flex items-center justify-center px-4 text-base min-w-[100px]"
+            className="flex items-center justify-center px-4 text-base min-w-[100px] bg-sky-700"
+            color="customBlue"
           >
             <FaEdit size={17} className="mr-1" /> Edit
           </Button>

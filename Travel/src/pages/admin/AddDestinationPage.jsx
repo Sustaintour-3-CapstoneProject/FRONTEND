@@ -281,7 +281,7 @@ const AddDestinationPage = () => {
         <Button color="gray" onClick={handleBack}>
           Kembali
         </Button>
-        <Button type="submit" color="blue">
+        <Button type="submit" color="customBlue">
           Simpan
         </Button>
       </div>
