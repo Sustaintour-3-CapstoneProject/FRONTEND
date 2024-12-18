@@ -20,12 +20,12 @@ const Login = () => {
               successMessage={successMessage}
             />
             <p className="text-sm mt-4 text-center">
-              Belum punya akun?{" "}
+              Dont have an account?{" "}
               <Link
                 to="/register"
                 className="text-blue-500 hover:underline font-semibold"
               >
-                Daftar Sekarang
+                Register Now
               </Link>
             </p>
           </div>

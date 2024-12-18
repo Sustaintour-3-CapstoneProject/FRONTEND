@@ -102,11 +102,11 @@ const LoginForm = ({ handleLogin, isProcessing, error, successMessage }) => {
             onChange={formik.handleChange}
           />
           <label htmlFor="remember" className="text-sm ml-2 cursor-pointer">
-            Ingat Saya
+            Remember me
           </label>
         </div>
         <a href="#" className="text-sm text-blue-500 hover:underline">
-          Lupa Password?
+          Forgot Password?
         </a>
       </div>
 

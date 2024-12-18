@@ -226,7 +226,7 @@ const RegisterForm = ({
       </Button>
 
       <p className="text-sm mt-3">
-        Sudah punya akun?{" "}
+        Already have an account?{" "}
         <Link
           to="/login"
           className="text-blue-500 hover:underline font-semibold"
