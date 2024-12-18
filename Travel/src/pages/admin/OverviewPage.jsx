@@ -46,23 +46,23 @@ const OverviewPage = () => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:flex-row w-full gap-5 my-5">
+          <div className="flex flex-col md:flex-row w-full gap-5 my-5 md:h-44">
             <Card
               title="Total User"
               totalData={stats.totalUser}
-              icon={<HiUser className="text-2xl" />}
+              icon={<HiUser size={30} />}
               className="flex-grow"
             />
             <Card
               title="Total Destination"
               totalData={stats.totalDestination}
-              icon={<HiMap className="text-2xl" />}
+              icon={<HiMap size={30} />}
               className="flex-grow"
             />
             <Card
               title="Total Content"
               totalData={stats.totalContent}
-              icon={<HiPlay className="text-2xl" />}
+              icon={<HiPlay size={30} />}
               className="flex-grow"
             />
           </div>
