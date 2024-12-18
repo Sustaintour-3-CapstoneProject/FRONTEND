@@ -13,7 +13,7 @@ import axiosInstance from "../../api/axiosInstance";
 const availableFacilities = [
   "Toilets",
   "Parking Area",
-  "Dining Area",
+  "Dining Area",
   "Information Center",
 ];
 
