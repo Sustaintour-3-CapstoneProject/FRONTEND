@@ -173,7 +173,7 @@ const UserDetailPage = () => {
       <ReusableTable columns={columns} data={routes} onDelete={handleDelete} />
       <div className="flex justify-end space-x-4">
         <Button color="customBlue" onClick={handleBack}>
-          Kembali
+          Back
         </Button>
       </div>
     </div>
