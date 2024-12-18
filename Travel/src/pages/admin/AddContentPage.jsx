@@ -261,10 +261,10 @@ const AddContentPage = () => {
       </div>
       <div className="flex justify-end space-x-4">
         <Button color="gray" onClick={handleBack}>
-          Kembali
+          Back
         </Button>
         <Button type="submit" color="customBlue">
-          Simpan
+          Save
         </Button>
       </div>
     </form>
