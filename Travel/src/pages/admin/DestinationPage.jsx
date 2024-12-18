@@ -68,7 +68,7 @@ const DestinationPage = () => {
             addText="Add Destination"
             link="/dashboard/destination/add-destination"
             onSearch={handleSearch}
-            placeholder="Search Destination by Name"
+            placeholder="Search"
           />
         </div>
       </div>
